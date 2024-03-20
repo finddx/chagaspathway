@@ -10,8 +10,18 @@
 mod_results_ui <- function(id){
   ns <- NS(id)
   tagList(
-    plotOutput(ns("scatterplot")),
-    selectInput("population2", label=HTML("<b> Population </b>"), choices=c("General", "Women of childbearing age", "Children"), multiple=FALSE, selected=NULL, width = "100%")
+
+    fluidRow(
+      column(width=8, offset=2,
+             plotOutput(ns("scatterplot")),
+             plotOutput(ns("scatterplot2")),
+             uiOutput(ns("user_output"))
+      )
+    ),
+
+
+
+
 
   )
 }
@@ -19,7 +29,7 @@ mod_results_ui <- function(id){
 #' results Server Functions
 #'
 #' @noRd
-mod_results_server <- function(id, model1_vars){
+mod_results_server <- function(id, model1_vars, advance_settins_vars){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -41,46 +51,32 @@ mod_results_server <- function(id, model1_vars){
 
 
 
-    # observeEvent(input$calculate1, {
-      # print(paste0(input$model_type, input$test_type))
-
-
-
-
     observeEvent(model1_vars$calculate(), {
       # print("Button clicked")
+      # req(input$calculate)
+
       output$scatterplot <- renderPlot({
         plot_scatter <- ggplot(mapping = aes(x=model1_vars$sensitivity(), y=model1_vars$specificity())) +
                  geom_point() +
           labs(x = "Sensitivity", y = "Specificity", title = "Scatter Plot")
 
         return(plot_scatter)
-      }
-      )
+      })
+
+      output$scatterplot2 <- renderPlot({
+        plot_scatter <- ggplot(mapping = aes(x=model1_vars$sensitivity(), y=model1_vars$specificity())) +
+          geom_point() +
+          labs(x = "Sensitivity", y = "Specificity", title = "Scatter Plot")
+
+        return(plot_scatter)
+      })
+
+      output$user_output <- renderText({ paste0("<b>Result :</b>", model1_vars$sensitivity(), " ", model1_vars$specificity())})
+
     })
 
 
-      # plot2_obj <- reactive({
-      #   p <- ggplot(mapping = aes(x=model1_vars$sensitivity(), y=model1_vars$specificity())) +
-      #   # p <- ggplot(mapping = aes(x=10, y=20)) +
-      #     geom_point()
-      #   return(p)
-      # })
-      #
-      # # observeEvent(input$calculate1, {
-      #
-      #   print("Button clicked")
-      # output$scatterplot <- renderPlot({
-      #   plot2_obj()
-      # })
 
-
-    # })
   })
 }
 
-## To be copied in the UI
-# mod_results_ui("results_1")
-
-## To be copied in the server
-# mod_results_server("results_1")

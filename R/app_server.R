@@ -24,17 +24,19 @@ app_server <- function(input, output, session) {
   mod_user_data_server("user_data")
   mod_pathways_data_server("pathways_data")
 
-  # execute plot variable selection modules
+  #ADVANCE SETTINGS PER SCENARIO OR GENERAL???
+  output$collapse_settings <- renderUI({
+  bsCollapse(open="Advance Settings",
+             bsCollapsePanel(title="Advance Settings", mod_advance_data_ui("advance_data"), style="info")
+  )
+  })
+
+
+  advance_settins_vars <- mod_advance_data_server("advance_data")
   model1_vars <- mod_scenarios_data_server("scenarios_data_1")
-  # plot2vars <- callModule(varselect_mod_server, "plot2_vars")
 
-  # execute scatterplot module
-  # res <- callModule(scatterplot_mod_server,
-  #                   "plots",
-  #                   dataset = ames,
-  #                   model1_vars = model1_vars)
 
-  mod_results_server("results", model1_vars=model1_vars)
+  mod_results_server("results", model1_vars=model1_vars, advance_settins_vars=advance_settins_vars)
 
   # mod_scenarios_data_server("scenarios_data_2")
   # mod_scenarios_data_server("scenarios_data_3")

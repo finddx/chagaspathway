@@ -10,7 +10,8 @@
 mod_user_data_ui <- function(id){
   ns <- NS(id)
   tagList(
-    textInput("name", label=HTML("<b> User name </b>"), value="Please put your name"),
+    textInput(ns("name"), label=HTML("<b> User name </b>"),  width = "100%"),
+    uiOutput(ns("date"))
 
   )
 }
@@ -22,9 +23,9 @@ mod_user_data_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    # user_name <- input$name
-    # date(format="%Y")
-    # date <- format(Sys.time(), "%b %e %Y")
+    current_date <- format(Sys.Date(), "%b %d %Y")
+    output$date <- renderText({ paste0("<b>Date: </b>", current_date)})
+
   })
 }
 
