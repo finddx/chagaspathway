@@ -17,11 +17,7 @@ mod_results_ui <- function(id){
              plotOutput(ns("scatterplot2")),
              uiOutput(ns("user_output"))
       )
-    ),
-
-
-
-
+    )
 
   )
 }
@@ -29,7 +25,7 @@ mod_results_ui <- function(id){
 #' results Server Functions
 #'
 #' @noRd
-mod_results_server <- function(id, model1_vars, advance_settins_vars){
+mod_results_server <- function(id, scenario1_vars, scenario2_vars, scenario3_vars, advance_settins_vars){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -51,12 +47,12 @@ mod_results_server <- function(id, model1_vars, advance_settins_vars){
 
 
 
-    observeEvent(model1_vars$calculate(), {
+    observeEvent(scenario1_vars$calculate(), {
       # print("Button clicked")
       # req(input$calculate)
 
       output$scatterplot <- renderPlot({
-        plot_scatter <- ggplot(mapping = aes(x=model1_vars$sensitivity(), y=model1_vars$specificity())) +
+        plot_scatter <- ggplot(mapping = aes(x=scenario1_vars$sensitivity(), y=scenario1_vars$specificity())) +
                  geom_point() +
           labs(x = "Sensitivity", y = "Specificity", title = "Scatter Plot")
 
@@ -64,14 +60,14 @@ mod_results_server <- function(id, model1_vars, advance_settins_vars){
       })
 
       output$scatterplot2 <- renderPlot({
-        plot_scatter <- ggplot(mapping = aes(x=model1_vars$sensitivity(), y=model1_vars$specificity())) +
+        plot_scatter <- ggplot(mapping = aes(x=scenario1_vars$sensitivity(), y=scenario1_vars$specificity())) +
           geom_point() +
           labs(x = "Sensitivity", y = "Specificity", title = "Scatter Plot")
 
         return(plot_scatter)
       })
 
-      output$user_output <- renderText({ paste0("<b>Result :</b>", model1_vars$sensitivity(), " ", model1_vars$specificity())})
+      output$user_output <- renderText({ paste0("<b>Result :</b>", scenario1_vars$sensitivity(), " ", scenario1_vars$specificity())})
 
     })
 

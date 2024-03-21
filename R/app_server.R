@@ -8,18 +8,64 @@
 
 #' @noRd
 app_server <- function(input, output, session) {
-  # Your application server logic
 
+  displayed_scenarios <- reactiveVal(c("scenario1"))
+
+  #Add a new scenario (up tp 3)
   observeEvent(input$add_scenario, {
-    current_scenario <- as.numeric(isolate(input$current_scenario))
-    if (current_scenario < 3) {
-      next_scenario <- current_scenario + 1
-      updateTextInput(session, "current_scenario", value = next_scenario)
-      show_scenario_id <- paste0("#scenarios_data_", next_scenario)
-      runjs(paste0('$("#scenarios_data_', next_scenario, '").show();'))
+    if (length(displayed_scenarios()) < 3){
+      current_scenario <- paste0("scenario", length(displayed_scenarios()) + 1)
+      displayed_scenarios(c(displayed_scenarios(), current_scenario))
     }
   })
 
+  #Generate UI elements for a scenario
+  generate_scenario_ui <- function(scenario_id) {
+    if (scenario_id %in% displayed_scenarios()) {
+      scenario_number <- as.numeric(gsub("\\D", "", scenario_id))
+      tagList(
+          column(width=4, id=paste0("scenarios_data_", gsub("\\D", "", scenario_id)),
+                 h4(paste("Scenario", scenario_number)),
+                 mod_scenarios_data_ui(paste("scenarios_data_", scenario_number, sep = ""))
+          )
+      )
+    }
+  }
+
+  #Render scenarios
+  output$scenarios <- renderUI({
+    scenario_list <- lapply(displayed_scenarios(), generate_scenario_ui)
+    fluidRow(do.call(tagList, scenario_list))
+  })
+
+
+  #
+  # output$scenario1 <- renderUI({
+  #   if ("scenario1" %in% displayed_scenarios()) {
+  #     tagList(
+  #       h3("Scenario 1"),
+  #       mod_scenarios_data_ui("scenarios_data_1")
+  #     )
+  #   }
+  # })
+  #
+  # output$scenario2 <- renderUI({
+  #   if ("scenario2" %in% displayed_scenarios()) {
+  #     tagList(
+  #       h3("Scenario 2"),
+  #       mod_scenarios_data_ui("scenarios_data_2")
+  #     )
+  #   }
+  # })
+  #
+  # output$scenario3 <- renderUI({
+  #   if ("scenario3" %in% displayed_scenarios()) {
+  #     tagList(
+  #       h3("Scenario 3"),
+  #       mod_scenarios_data_ui("scenarios_data_3")
+  #     )
+  #   }
+  # })
 
   mod_user_data_server("user_data")
   mod_pathways_data_server("pathways_data")
@@ -33,13 +79,13 @@ app_server <- function(input, output, session) {
 
 
   advance_settins_vars <- mod_advance_data_server("advance_data")
-  model1_vars <- mod_scenarios_data_server("scenarios_data_1")
+  scenario1_vars <- mod_scenarios_data_server("scenarios_data_1")
+  scenario2_vars <-mod_scenarios_data_server("scenarios_data_2")
+  scenario3_vars <-mod_scenarios_data_server("scenarios_data_3")
 
 
-  mod_results_server("results", model1_vars=model1_vars, advance_settins_vars=advance_settins_vars)
+  mod_results_server("results", scenario1_vars=scenario1_vars, scenario2_vars=scenario2_vars, scenario3_vars=scenario3_vars, advance_settins_vars=advance_settins_vars)
 
-  # mod_scenarios_data_server("scenarios_data_2")
-  # mod_scenarios_data_server("scenarios_data_3")
 
 
 }
