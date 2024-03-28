@@ -10,8 +10,10 @@
 mod_user_data_ui <- function(id){
   ns <- NS(id)
   tagList(
-    textInput(ns("name"), label=HTML("<b> User name </b>"),  width = "100%"),
-    uiOutput(ns("date"))
+    fluidRow(
+      column(3, textInput(ns("name"), label=HTML("<b> User name </b>"),  width = "100%")),
+      column(3, uiOutput(ns("date")))
+    )
 
   )
 }

@@ -5,6 +5,7 @@
 #' @import shiny
 #' @importFrom ggplot2 ggplot geom_point
 #' @importFrom shinyjs runjs
+#' @importFrom shinyBS bsCollapse bsCollapsePanel
 
 #' @noRd
 app_server <- function(input, output, session) {
@@ -68,23 +69,33 @@ app_server <- function(input, output, session) {
   # })
 
   mod_user_data_server("user_data")
-  mod_pathways_data_server("pathways_data")
+
 
   #ADVANCE SETTINGS PER SCENARIO OR GENERAL???
   output$collapse_settings <- renderUI({
-  bsCollapse(open="Advance Settings",
-             bsCollapsePanel(title="Advance Settings", mod_advance_data_ui("advance_data"), style="info")
+
+  bsCollapse(id="Advance settings",
+             open=NULL,
+             bsCollapsePanel("Advance settings", mod_advance_data_ui("advance_data"), style="info")
   )
+
   })
 
 
+  pathways <- mod_pathways_data_server("pathways_data")
   advance_settins_vars <- mod_advance_data_server("advance_data")
   scenario1_vars <- mod_scenarios_data_server("scenarios_data_1")
   scenario2_vars <-mod_scenarios_data_server("scenarios_data_2")
   scenario3_vars <-mod_scenarios_data_server("scenarios_data_3")
 
 
-  mod_results_server("results", scenario1_vars=scenario1_vars, scenario2_vars=scenario2_vars, scenario3_vars=scenario3_vars, advance_settins_vars=advance_settins_vars)
+  event_calculate <- eventReactive(input$calculate, {
+    input$calculate
+  })
+
+
+  mod_results_server("results", event_calculate=event_calculate,  pathways=pathways, scenario1_vars=scenario1_vars, scenario2_vars=scenario2_vars, scenario3_vars=scenario3_vars, advance_settins_vars=advance_settins_vars)
+
 
 
 

@@ -20,6 +20,7 @@ app_ui <- function(request) {
     # Leave this function for adding external resources
     golem_add_external_resources(),
     page_navbar(
+    theme = "find_theme.css",
       # theme = bs_theme(bootswatch = "materia") |>
         # bs_add_rules(
         #   # sass::sass_file("www/style.scss")
@@ -36,8 +37,6 @@ app_ui <- function(request) {
         br(),
         h3(strong("Introduction")),
         p("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis volutpat justo. Phasellus dignissim, metus vitae malesuada faucibus, odio lorem varius arcu, nec efficitur libero tortor vel mi. Maecenas euismod ligula eget erat malesuada, vel pharetra dui consequat. Integer auctor eleifend velit, vel condimentum nulla vestibulum et. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque lacinia enim ac velit rhoncus, a pellentesque nulla mattis. Donec sit amet sapien quis lorem fermentum tempor. Duis posuere lectus vitae velit ultrices, eget consequat odio consequat. Vivamus ut ipsum ac neque fringilla iaculis. Sed non turpis arcu. Nulla ac consectetur risus, eget convallis velit. Sed a sapien id mauris mattis blandit. Sed lacinia ipsum sapien, eget egestas enim scelerisque sed. Sed tristique ultrices mauris, vitae sodales tortor tempus sed. Phasellus bibendum nisi at dui volutpat, a vehicula felis cursus. Sed vitae libero eu arcu rutrum elementum."),
-        # fluidRow(
-          # column(width = 12,
         fluidRow(
           column(4,align="left", offset=0, img(src="img/model1.png")),
           column(4,align="center", offset=0, img(src="img/model2.png")),
@@ -53,22 +52,12 @@ app_ui <- function(request) {
         # ),
         br(),
         fluidRow(
-
-            column(width=4,
-                   #offset=4,
-                   # div(
-                   #     style = "display: flex; justify-content: center;",
-                   # class="col-md-12",
                    mod_user_data_ui("user_data"),
                    h4(strong("Pathways")),
                    mod_pathways_data_ui("pathways_data"),
                    h4(strong("Advance settings")),
-                   uiOutput("collapse_settings"),
+                   uiOutput("collapse_settings")
                    # mod_advance_data_ui("advance_data")
-                   # )
-            )
-
-
         ),
         h3(strong("Scenario specification")),
         fluidRow(
@@ -77,7 +66,10 @@ app_ui <- function(request) {
                  )
         ),
         # fluidRow(
-          uiOutput("scenarios")
+          uiOutput("scenarios"),
+        column(width=4,
+          actionButton("calculate", "Calculate pathways", width="100%")
+        )
           # column(width=4, id="scenarios_data_1",
           #        uiOutput("scenario1")
           #        ),

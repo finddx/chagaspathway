@@ -25,53 +25,57 @@ mod_results_ui <- function(id){
 #' results Server Functions
 #'
 #' @noRd
-mod_results_server <- function(id, scenario1_vars, scenario2_vars, scenario3_vars, advance_settins_vars){
+#'
+#'
+mod_results_server <- function(id, event_calculate,  pathways, scenario1_vars, scenario2_vars, scenario3_vars, advance_settins_vars){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
 
     # df_scatter <- data.frame(sensitivity = input$x_input, specificity = input$y_input)
 
-    # observe({
-    #   plot2_obj <- reactive({
-    #     ggplot(mapping = aes(x = 10, y = 20)) +
-    #       geom_point()
-    #   })
-    # })
-    #
-    # # observeEvent(input$calculate1, {
-    #   output$scatterplot <- renderPlot({
-    #     plot2_obj()
-    #   })
-    # })
+    #Get the reactive values
+    results_data <- eventReactive(event_calculate(), {
 
+      sensitivity_scenario1 <- scenario1_vars$sensitivity()
+      specificity_scenario1 <- scenario1_vars$specificity()
 
-
-    observeEvent(scenario1_vars$calculate(), {
-      # print("Button clicked")
-      # req(input$calculate)
-
-      output$scatterplot <- renderPlot({
-        plot_scatter <- ggplot(mapping = aes(x=scenario1_vars$sensitivity(), y=scenario1_vars$specificity())) +
-                 geom_point() +
-          labs(x = "Sensitivity", y = "Specificity", title = "Scatter Plot")
-
-        return(plot_scatter)
-      })
-
-      output$scatterplot2 <- renderPlot({
-        plot_scatter <- ggplot(mapping = aes(x=scenario1_vars$sensitivity(), y=scenario1_vars$specificity())) +
-          geom_point() +
-          labs(x = "Sensitivity", y = "Specificity", title = "Scatter Plot")
-
-        return(plot_scatter)
-      })
-
-      output$user_output <- renderText({ paste0("<b>Result :</b>", scenario1_vars$sensitivity(), " ", scenario1_vars$specificity())})
-
+      list(sensitivity_scenario1 = sensitivity_scenario1, specificity_scenario1 = specificity_scenario1)
     })
 
 
+    #Render the results based on the event reactive
+    output$scatterplot <- renderPlot({
+      req(results_data())
+
+      plot_scatter <- ggplot(mapping = aes(x=results_data()$sensitivity_scenario1, y=results_data()$specificity_scenario1)) +
+        geom_point() +
+        labs(x = "Sensitivity", y = "Specificity", title = "Scatter Plot")
+
+      return(plot_scatter)
+    })
+
+    output$scatterplot2 <- renderPlot({
+      req(results_data())
+      plot_scatter <- ggplot(mapping = aes(x=results_data()$sensitivity_scenario1, y=results_data()$specificity_scenario1)) +
+        geom_point() +
+        labs(x = "Sensitivity", y = "Specificity", title = "Scatter Plot")
+      return(plot_scatter)
+    })
+
+    output$user_output <- renderText({
+      paste0("<b>Result :</b>", results_data()$sensitivity_scenario1, " ", results_data()$specificity_scenario1)
+
+      })
+    # eventReactive(input$calculate, {
+
+    #   output$scatterplot <- renderPlot({
+    #
+    #     plot_scatter <- ggplot(mapping = aes(x=scenario1_vars$sensitivity(), y=scenario1_vars$specificity())) +
+    #              geom_point() +
+    #       labs(x = "Sensitivity", y = "Specificity", title = "Scatter Plot")
+    #     return(plot_scatter)
+    # })
 
   })
 }
