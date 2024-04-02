@@ -17,7 +17,13 @@ mod_results_ui <- function(id){
              plotOutput(ns("scatterplot2")),
              uiOutput(ns("user_output"))
       )
+    ),
+    # fluidRow(
+    downloadButton(
+      ns("report"),
+      label="Generate report"
     )
+    # )
 
   )
 }
@@ -27,55 +33,122 @@ mod_results_ui <- function(id){
 #' @noRd
 #'
 #'
-mod_results_server <- function(id, event_calculate,  pathways, scenario1_vars, scenario2_vars, scenario3_vars, advance_settins_vars){
+mod_results_server <- function(id, event_calculate, pathways, scenario1_vars, scenario2_vars, scenario3_vars, advance_settins_vars){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
 
-    # df_scatter <- data.frame(sensitivity = input$x_input, specificity = input$y_input)
+
 
     #Get the reactive values
     results_data <- eventReactive(event_calculate(), {
 
       sensitivity_scenario1 <- scenario1_vars$sensitivity()
       specificity_scenario1 <- scenario1_vars$specificity()
+      sensitivity_scenario2 <- scenario2_vars$sensitivity()
+      specificity_scenario2 <- scenario2_vars$specificity()
+      sensitivity_scenario3 <- scenario3_vars$sensitivity()
+      specificity_scenario3 <- scenario3_vars$specificity()
 
-      list(sensitivity_scenario1 = sensitivity_scenario1, specificity_scenario1 = specificity_scenario1)
+      list(sensitivity_scenario1=sensitivity_scenario1, specificity_scenario1=specificity_scenario1,
+           sensitivity_scenario2=sensitivity_scenario2, specificity_scenario2=specificity_scenario2,
+           sensitivity_scenario3=sensitivity_scenario3, specificity_scenario3=specificity_scenario3
+           )
     })
 
+
+    df_scatter <- reactive({
+      req(results_data())
+
+      df <- data.frame(
+        sensitivity = c(
+          results_data()$sensitivity_scenario1,
+          results_data()$sensitivity_scenario2,
+          results_data()$sensitivity_scenario3
+        ),
+        specificity = c(
+          results_data()$specificity_scenario1,
+          results_data()$specificity_scenario2,
+          results_data()$specificity_scenario3
+        )
+      )
+
+      # df_values$df <- df
+
+      return(df)
+    })
 
     #Render the results based on the event reactive
-    output$scatterplot <- renderPlot({
-      req(results_data())
+    scatterplot_plot <- reactive({
+      req(df_scatter())
+      # df_scatter <- data.frame(sensitivity = c(results_data()$sensitivity_scenario1,results_data()$sensitivity_scenario2,results_data()$sensitivity_scenario3), specificity = c(results_data()$specificity_scenario1,results_data()$specificity_scenario2,results_data()$specificity_scenario3))
 
-      plot_scatter <- ggplot(mapping = aes(x=results_data()$sensitivity_scenario1, y=results_data()$specificity_scenario1)) +
+      # req(results_data())
+       # ggplot(mapping = aes(x=results_data()$sensitivity_scenario1, y=results_data()$specificity_scenario1)) +
+      ggplot(df_scatter(), aes(x=sensitivity, y=specificity)) +
+        geom_point() +
+        labs(x = "Sensitivity", y = "Specificity", title = "Scatter Plot")
+    })
+
+    scatterplot2_plot <- reactive({
+      req(df_scatter())
+      ggplot(df_scatter(), aes(x=sensitivity, y=specificity)) +
         geom_point() +
         labs(x = "Sensitivity", y = "Specificity", title = "Scatter Plot")
 
-      return(plot_scatter)
     })
+
+    output$scatterplot <- renderPlot({
+      scatterplot_plot()
+      })
 
     output$scatterplot2 <- renderPlot({
-      req(results_data())
-      plot_scatter <- ggplot(mapping = aes(x=results_data()$sensitivity_scenario1, y=results_data()$specificity_scenario1)) +
-        geom_point() +
-        labs(x = "Sensitivity", y = "Specificity", title = "Scatter Plot")
-      return(plot_scatter)
-    })
+      scatterplot2_plot()
+      })
+    # output$scatterplot <- renderPlot({
+    #   req(results_data())
+    #
+    #   plot_scatter <- ggplot(mapping = aes(x=results_data()$sensitivity_scenario1, y=results_data()$specificity_scenario1)) +
+    #     geom_point() +
+    #     labs(x = "Sensitivity", y = "Specificity", title = "Scatter Plot")
+    #
+    #   return(plot_scatter)
+    # })
+    #
+    # output$scatterplot2 <- renderPlot({
+    #   req(results_data())
+    #   plot_scatter <- ggplot(mapping = aes(x=results_data()$sensitivity_scenario1, y=results_data()$specificity_scenario1)) +
+    #     geom_point() +
+    #     labs(x = "Sensitivity", y = "Specificity", title = "Scatter Plot")
+    #   return(plot_scatter)
+    # })
+
+
 
     output$user_output <- renderText({
       paste0("<b>Result :</b>", results_data()$sensitivity_scenario1, " ", results_data()$specificity_scenario1)
 
       })
-    # eventReactive(input$calculate, {
 
-    #   output$scatterplot <- renderPlot({
-    #
-    #     plot_scatter <- ggplot(mapping = aes(x=scenario1_vars$sensitivity(), y=scenario1_vars$specificity())) +
-    #              geom_point() +
-    #       labs(x = "Sensitivity", y = "Specificity", title = "Scatter Plot")
-    #     return(plot_scatter)
-    # })
+
+    output$report <- downloadHandler(
+      filename <-  "chagaspathway_report.html",
+      content = function(file) {
+        tempReport <- file.path(tempdir(), "chagaspathway_report.Rmd")
+        file.copy("chagaspathway_report.Rmd", tempReport, overwrite=TRUE)
+
+        rmarkdown::render(tempReport,
+                          output_file=file,
+                          params=list(
+                            # sensitivity_scenario1 = results_data()$sensitivity_scenario1,
+                            # specificity_scenario1 = results_data()$specificity_scenario1
+                            scatterplot_plot=scatterplot_plot(),
+                            scatterplot2_plot=scatterplot2_plot()
+                          ),
+                          envir=new.env(parent = globalenv())
+        )
+      }
+    )
 
   })
 }

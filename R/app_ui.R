@@ -83,7 +83,8 @@ app_ui <- function(request) {
       ),
       nav_panel(title="Results",
                 icon=bs_icon("bar-chart-line"),
-                mod_results_ui("results")
+                uiOutput("results"),
+                mod_results_ui("results_general")
       ),
       nav_panel(title="Info",icon=bs_icon("info-circle-fill"),
                 br(),

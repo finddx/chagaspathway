@@ -12,7 +12,7 @@ app_server <- function(input, output, session) {
 
   displayed_scenarios <- reactiveVal(c("scenario1"))
 
-  #Add a new scenario (up tp 3)
+  #Count and add a new scenario (up tp 3)
   observeEvent(input$add_scenario, {
     if (length(displayed_scenarios()) < 3){
       current_scenario <- paste0("scenario", length(displayed_scenarios()) + 1)
@@ -27,8 +27,21 @@ app_server <- function(input, output, session) {
       tagList(
           column(width=4, id=paste0("scenarios_data_", gsub("\\D", "", scenario_id)),
                  h4(paste("Scenario", scenario_number)),
-                 mod_scenarios_data_ui(paste("scenarios_data_", scenario_number, sep = ""))
+                 mod_scenarios_data_ui(paste0("scenarios_data_", scenario_number))
           )
+      )
+    }
+  }
+
+  #Generate UI elements for a result
+  generate_result_ui <- function(result_id) {
+    if (result_id %in% displayed_scenarios()) {
+      result_number <- as.numeric(gsub("\\D", "", result_id))
+      tagList(
+        column(width=4, id=paste0("results_data_", gsub("\\D", "", result_id)),
+               h4(paste("Result", result_number)),
+               mod_results_data_ui(paste0("results_data_", result_number))
+        )
       )
     }
   }
@@ -39,6 +52,11 @@ app_server <- function(input, output, session) {
     fluidRow(do.call(tagList, scenario_list))
   })
 
+
+  output$results <- renderUI({
+    results_list <- lapply(displayed_scenarios(), generate_result_ui)
+    fluidRow(do.call(tagList, results_list))
+  })
 
   #
   # output$scenario1 <- renderUI({
@@ -93,9 +111,46 @@ app_server <- function(input, output, session) {
     input$calculate
   })
 
+  mod_results_server("results_general", event_calculate=event_calculate,  pathways=pathways, scenario1_vars=scenario1_vars, scenario2_vars=scenario2_vars, scenario3_vars=scenario3_vars, advance_settins_vars=advance_settins_vars)
 
-  mod_results_server("results", event_calculate=event_calculate,  pathways=pathways, scenario1_vars=scenario1_vars, scenario2_vars=scenario2_vars, scenario3_vars=scenario3_vars, advance_settins_vars=advance_settins_vars)
 
+
+
+  observe({
+    # Generate mod_results_data_server for each displayed scenario
+    lapply(displayed_scenarios(), function(result_id) {
+      if (result_id %in% displayed_scenarios()) {
+        result_number <- as.numeric(gsub("\\D", "", result_id))
+
+        mod_results_data_server(
+          id = paste0("results_data_", result_number),
+          event_calculate = event_calculate,
+          pathways = pathways,
+          scenario_vars = get(paste0("scenario", result_number, "_vars"))
+        )
+      }
+    })
+  })
+
+
+
+  # generate_result_server <- function(result_id) {
+  #   if (result_id %in% displayed_scenarios()) {
+  #     result_number <- as.numeric(gsub("\\D", "", result_id))
+  #
+  #     mod_results_data_server(id=paste0("results_data_", result_number),
+  #                             event_calculate=event_calculate,
+  #                             pathways=pathways,
+  #                             scenario_vars=get(paste0("scenario", result_number, "_vars"))
+  #     )
+  #
+  #   }
+  # }
+  # results_list <- lapply(displayed_scenarios(), generate_result_server)
+  # do.call(tagList, results_list)
+
+
+  # mod_results_data_server("resuts1", event_calculate=event_calculate,  pathways=pathways, scenario1_vars=scenario1_vars)
 
 
 

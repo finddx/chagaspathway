@@ -1,0 +1,29 @@
+---
+title: "Chagas pathway"
+author: "Chagas pathway"
+date: "2024-04-02"
+output: html_document
+params:
+  scatterplot_plot: 'NULL'
+  scatterplot2_plot: 'NULL'
+  # sensitivity_scenario1: 'NULL'
+  # specificity_scenario1: 'NULL'
+---
+
+## Title
+
+Test Report
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE)
+```
+
+
+```{r}
+# params[["sensitivity_scenario1"]]
+params[["scatterplot_plot"]]
+```
+
+```{r}
+# params[["specificity_scenario1"]]
+params[["scatterplot2_plot"]]
+```
