@@ -1,13 +1,17 @@
 ---
 title: "Chagas pathway"
-author: "Chagas pathway"
-date: "2024-04-02"
+author: "User name"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
 params:
   scatterplot_plot: 'NULL'
   scatterplot2_plot: 'NULL'
-  # sensitivity_scenario1: 'NULL'
-  # specificity_scenario1: 'NULL'
+  sensitivity_scenario1: 'NULL'
+  specificity_scenario1: 'NULL'
+  sensitivity_scenario2: 'NULL'
+  specificity_scenario2: 'NULL'
+  sensitivity_scenario3: 'NULL'
+  specificity_scenario3: 'NULL'
 ---
 
 ## Title
@@ -18,12 +22,37 @@ knitr::opts_chunk$set(echo=FALSE)
 ```
 
 
+<div class="row">
+  <div class="col-md-4">
+  Scenario 1
+    ```{r}
+    params[["sensitivity_scenario1"]]
+    params[["specificity_scenario1"]]
+    ```
+  </div>
+
+   <div class="col-md-4">
+   Scenario 3
+    ```{r}
+    params[["sensitivity_scenario2"]]
+    params[["specificity_scenario2"]]
+    ```
+  </div>
+
+   <div class="col-md-4">
+   Scenario 3
+    ```{r}
+    params[["sensitivity_scenario3"]]
+    params[["specificity_scenario3"]]
+    ```
+  </div>
+</div>
+  
+
 ```{r}
-# params[["sensitivity_scenario1"]]
 params[["scatterplot_plot"]]
 ```
 
 ```{r}
-# params[["specificity_scenario1"]]
 params[["scatterplot2_plot"]]
 ```

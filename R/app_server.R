@@ -39,7 +39,7 @@ app_server <- function(input, output, session) {
       result_number <- as.numeric(gsub("\\D", "", result_id))
       tagList(
         column(width=4, id=paste0("results_data_", gsub("\\D", "", result_id)),
-               h4(paste("Result", result_number)),
+               h4(paste("Results scenario", result_number), style="text-align: center; width: 100%;"),
                mod_results_data_ui(paste0("results_data_", result_number))
         )
       )

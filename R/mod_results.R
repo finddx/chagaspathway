@@ -14,16 +14,18 @@ mod_results_ui <- function(id){
     fluidRow(
       column(width=8, offset=2,
              plotOutput(ns("scatterplot")),
-             plotOutput(ns("scatterplot2")),
-             uiOutput(ns("user_output"))
+             plotOutput(ns("scatterplot2"))
       )
     ),
-    # fluidRow(
-    downloadButton(
-      ns("report"),
-      label="Generate report"
+    fluidRow(
+      column(width=4, offset=4,
+              downloadButton(
+                ns("report"),
+                label="Generate report",
+                style="text-align: center; width: 100%;"
+              )
+      )
     )
-    # )
 
   )
 }
@@ -36,9 +38,6 @@ mod_results_ui <- function(id){
 mod_results_server <- function(id, event_calculate, pathways, scenario1_vars, scenario2_vars, scenario3_vars, advance_settins_vars){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
-
-
-
 
     #Get the reactive values
     results_data <- eventReactive(event_calculate(), {
@@ -72,9 +71,6 @@ mod_results_server <- function(id, event_calculate, pathways, scenario1_vars, sc
           results_data()$specificity_scenario3
         )
       )
-
-      # df_values$df <- df
-
       return(df)
     })
 
@@ -123,15 +119,9 @@ mod_results_server <- function(id, event_calculate, pathways, scenario1_vars, sc
     #   return(plot_scatter)
     # })
 
-
-
-    output$user_output <- renderText({
-      paste0("<b>Result :</b>", results_data()$sensitivity_scenario1, " ", results_data()$specificity_scenario1)
-
-      })
-
-
     output$report <- downloadHandler(
+      # req(results_data()),
+
       filename <-  "chagaspathway_report.html",
       content = function(file) {
         tempReport <- file.path(tempdir(), "chagaspathway_report.Rmd")
@@ -140,8 +130,12 @@ mod_results_server <- function(id, event_calculate, pathways, scenario1_vars, sc
         rmarkdown::render(tempReport,
                           output_file=file,
                           params=list(
-                            # sensitivity_scenario1 = results_data()$sensitivity_scenario1,
-                            # specificity_scenario1 = results_data()$specificity_scenario1
+                            sensitivity_scenario1 = results_data()$sensitivity_scenario1,
+                            specificity_scenario1 = results_data()$specificity_scenario1,
+                            sensitivity_scenario2 = results_data()$sensitivity_scenario2,
+                            specificity_scenario2 = results_data()$specificity_scenario2,
+                            sensitivity_scenario3 = results_data()$sensitivity_scenario3,
+                            specificity_scenario3 = results_data()$specificity_scenario3,
                             scatterplot_plot=scatterplot_plot(),
                             scatterplot2_plot=scatterplot2_plot()
                           ),

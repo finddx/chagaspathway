@@ -20,16 +20,16 @@ app_ui <- function(request) {
     # Leave this function for adding external resources
     golem_add_external_resources(),
     page_navbar(
-    theme = "find_theme.css",
+    # theme = "find_theme.css",
       # theme = bs_theme(bootswatch = "materia") |>
         # bs_add_rules(
         #   # sass::sass_file("www/style.scss")
         #   sass_file(system.file("app/sass/style.scss", package="chagaspathway"))
         # ),
-      id = "menubar",
-      title = "Chagas Pathway",
-      bg = "#491e5d",
-      position = "fixed-top",
+      id="menubar",
+      title="Chagas Pathway",
+      bg="#491e5d",
+      position="fixed-top",
       nav_panel(
         "Pathways",icon = bs_icon("arrows-move"),
         br(),
@@ -81,10 +81,12 @@ app_ui <- function(request) {
           #        )
           # )
       ),
-      nav_panel(title="Results",
-                icon=bs_icon("bar-chart-line"),
-                uiOutput("results"),
-                mod_results_ui("results_general")
+      nav_panel(title="Results", icon=bs_icon("bar-chart-line"),
+        br(),
+        br(),
+        br(),
+        uiOutput("results"),
+        mod_results_ui("results_general")
       ),
       nav_panel(title="Info",icon=bs_icon("info-circle-fill"),
                 br(),

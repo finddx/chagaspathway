@@ -10,8 +10,8 @@
 mod_results_data_ui <- function(id){
   ns <- NS(id)
   tagList(
-    uiOutput(ns("value1")),
-    uiOutput(ns("value2"))
+    uiOutput(ns("value1"), style="text-align: center; width: 100%;"),
+    uiOutput(ns("value2"), style="text-align: center; width: 100%;")
   )
 }
 

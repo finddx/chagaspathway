@@ -17,10 +17,10 @@ find_theme <- create_theme(
   theme = "default",
   #Text color
   bs_vars_global(
-    text_color =find_black,
+    text_color=find_black,
   ),
   # bs_vars(
-  #   
+  #
   # ),
   #Navigation page
   # bs_vars_navbar(
@@ -42,7 +42,7 @@ find_theme <- create_theme(
     default_link_hover_bg = "#351644",
     default_link_active_bg = "#351644",
     inverse_link_hover_color = find_white,
-    
+
     default_border = find_white,
     inverse_border = find_purple,
 
@@ -53,7 +53,7 @@ find_theme <- create_theme(
     active_link_hover_bg = find_white,
     active_link_hover_color = find_purple ,
     active_link_hover_border_color = find_purple ,
-    link_hover_border_color = find_purple 
+    link_hover_border_color = find_purple
   ),
   #Side bar
   bs_vars_wells(
@@ -99,7 +99,7 @@ find_theme <- create_theme(
    #Popups
   bs_vars_modal(
     header_border_color = find_purple ,
-    footer_border_color = find_purple 
+    footer_border_color = find_purple
   ),
   output_file = "inst/app/www/find_theme.css"
 )
