@@ -52,7 +52,7 @@ app_server <- function(input, output, session) {
     fluidRow(do.call(tagList, scenario_list))
   })
 
-
+ #Render results
   output$results <- renderUI({
     results_list <- lapply(displayed_scenarios(), generate_result_ui)
     fluidRow(do.call(tagList, results_list))
@@ -86,7 +86,7 @@ app_server <- function(input, output, session) {
   #   }
   # })
 
-  mod_user_data_server("user_data")
+  user_data <- mod_user_data_server("user_data")
 
 
   #ADVANCE SETTINGS PER SCENARIO OR GENERAL???
@@ -101,7 +101,7 @@ app_server <- function(input, output, session) {
 
 
   pathways <- mod_pathways_data_server("pathways_data")
-  advance_settins_vars <- mod_advance_data_server("advance_data")
+  advance_settings_vars <- mod_advance_data_server("advance_data")
   scenario1_vars <- mod_scenarios_data_server("scenarios_data_1")
   scenario2_vars <-mod_scenarios_data_server("scenarios_data_2")
   scenario3_vars <-mod_scenarios_data_server("scenarios_data_3")
@@ -111,7 +111,7 @@ app_server <- function(input, output, session) {
     input$calculate
   })
 
-  mod_results_server("results_general", event_calculate=event_calculate,  pathways=pathways, scenario1_vars=scenario1_vars, scenario2_vars=scenario2_vars, scenario3_vars=scenario3_vars, advance_settins_vars=advance_settins_vars)
+  mod_results_server("results_general", event_calculate=event_calculate, user_data=user_data, pathways=pathways, advance_settings_vars=advance_settings_vars, scenario1_vars=scenario1_vars, scenario2_vars=scenario2_vars, scenario3_vars=scenario3_vars)
 
 
 
@@ -126,6 +126,7 @@ app_server <- function(input, output, session) {
           id = paste0("results_data_", result_number),
           event_calculate = event_calculate,
           pathways = pathways,
+          advance_settings_vars=advance_settings_vars,
           scenario_vars = get(paste0("scenario", result_number, "_vars"))
         )
       }

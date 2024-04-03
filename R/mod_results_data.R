@@ -18,7 +18,7 @@ mod_results_data_ui <- function(id){
 #' results_data Server Functions
 #'
 #' @noRd
-mod_results_data_server <- function(id, event_calculate, pathways, scenario_vars){
+mod_results_data_server <- function(id, event_calculate, pathways, advance_settings_vars, scenario_vars){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -30,6 +30,10 @@ mod_results_data_server <- function(id, event_calculate, pathways, scenario_vars
 
       list(sensitivity=sensitivity, specificity=specificity)
     })
+
+    # output$title <- renderText({
+    #   paste0("<b>Resuls scenario: </b>")
+    # })
 
     output$value1 <- renderText({
       paste0("<b>Sensitivity: </b>", results_data()$sensitivity)

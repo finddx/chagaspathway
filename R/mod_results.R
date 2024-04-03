@@ -35,12 +35,14 @@ mod_results_ui <- function(id){
 #' @noRd
 #'
 #'
-mod_results_server <- function(id, event_calculate, pathways, scenario1_vars, scenario2_vars, scenario3_vars, advance_settins_vars){
+mod_results_server <- function(id, event_calculate, pathways, user_data, advance_settings_vars, scenario1_vars, scenario2_vars, scenario3_vars){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
     #Get the reactive values
     results_data <- eventReactive(event_calculate(), {
+
+      user_name <- user_data$user_name()
 
       sensitivity_scenario1 <- scenario1_vars$sensitivity()
       specificity_scenario1 <- scenario1_vars$specificity()
@@ -49,7 +51,8 @@ mod_results_server <- function(id, event_calculate, pathways, scenario1_vars, sc
       sensitivity_scenario3 <- scenario3_vars$sensitivity()
       specificity_scenario3 <- scenario3_vars$specificity()
 
-      list(sensitivity_scenario1=sensitivity_scenario1, specificity_scenario1=specificity_scenario1,
+      list(user_name=user_name,
+           sensitivity_scenario1=sensitivity_scenario1, specificity_scenario1=specificity_scenario1,
            sensitivity_scenario2=sensitivity_scenario2, specificity_scenario2=specificity_scenario2,
            sensitivity_scenario3=sensitivity_scenario3, specificity_scenario3=specificity_scenario3
            )
@@ -130,6 +133,7 @@ mod_results_server <- function(id, event_calculate, pathways, scenario1_vars, sc
         rmarkdown::render(tempReport,
                           output_file=file,
                           params=list(
+                            user_name = results_data()$user_name,
                             sensitivity_scenario1 = results_data()$sensitivity_scenario1,
                             specificity_scenario1 = results_data()$specificity_scenario1,
                             sensitivity_scenario2 = results_data()$sensitivity_scenario2,

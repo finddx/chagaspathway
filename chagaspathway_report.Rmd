@@ -1,9 +1,10 @@
 ---
 title: "Chagas pathway"
-author: "User name"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
+author: "`r params$user_name`"
+date: "`r format(Sys.time(), '%d %B %Y')`"
 output: html_document
 params:
+  user_name: 'NULL'
   scatterplot_plot: 'NULL'
   scatterplot2_plot: 'NULL'
   sensitivity_scenario1: 'NULL'
@@ -14,45 +15,83 @@ params:
   specificity_scenario3: 'NULL'
 ---
 
-## Title
 
-Test Report
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=FALSE)
-```
 
+library(htmltools)
+
+# Calculate column class based on the number of scenarios
+num_scenarios <- sum(!is.null(params[["sensitivity_scenario1"]]), !is.null(params[["sensitivity_scenario2"]]), !is.null(params[["sensitivity_scenario3"]]))
+
+if (num_scenarios == 1) {
+  column_class <- "col-md-12"
+} else if (num_scenarios == 2) {
+  column_class <- "col-md-6"
+} else {
+  column_class <- "col-md-4"
+}
+
+```
 
 <div class="row">
-  <div class="col-md-4">
-  Scenario 1
-    ```{r}
-    params[["sensitivity_scenario1"]]
-    params[["specificity_scenario1"]]
-    ```
-  </div>
-
-   <div class="col-md-4">
-   Scenario 3
-    ```{r}
-    params[["sensitivity_scenario2"]]
-    params[["specificity_scenario2"]]
-    ```
-  </div>
-
-   <div class="col-md-4">
-   Scenario 3
-    ```{r}
-    params[["sensitivity_scenario3"]]
-    params[["specificity_scenario3"]]
-    ```
-  </div>
+```{r, results='asis'}
+#Iterate over scenarios and generate columns
+for (i in 1:num_scenarios) {
+    scenario_name <- paste0("Scenario", i)
+    sensitivity <- paste0("sensitivity_scenario", i)
+    cat(paste0('<div class="', column_class, '">'))
+    cat("\n", scenario_name, "\n")
+    cat("\n```{r}\n")
+    cat(params[[sensitivity]])
+    cat("\n```\n")
+    cat("</div>")
+}
+```
 </div>
+
+
+
+<!-- <div class="row"> -->
+<!--   <div class=`column_class`> -->
+<!--   Scenario 1 -->
+<!--     ```{r} -->
+<!--     num_scenarios -->
+<!--     column_class -->
+<!--     params[["sensitivity_scenario1"]] -->
+<!--     params[["specificity_scenario1"]] -->
+<!--     ``` -->
+<!--   </div> -->
+
+<!--   <!-- <div class="col-md-4"> --> 
+<!--    <div class=`column_class`> -->
+<!--    Scenario 2 -->
+<!--     ```{r} -->
+<!--     params[["sensitivity_scenario2"]] -->
+<!--     params[["specificity_scenario2"]] -->
+<!--     ``` -->
+<!--   </div> -->
+<!--   <div class=`column_class`> -->
+<!--    <!-- <div class="col-md-4"> --> 
+<!--    Scenario 3 -->
+<!--     ```{r} -->
+<!--     params[["sensitivity_scenario3"]] -->
+<!--     params[["specificity_scenario3"]] -->
+<!--     ``` -->
+<!--   </div> -->
+<!-- </div> -->
   
 
-```{r}
-params[["scatterplot_plot"]]
+```{r, results='asis'}
+cat('<div style="text-align: center;">')
+print(params[["scatterplot_plot"]])
+cat('</div>')
+
+# params[["scatterplot_plot"]]
 ```
 
-```{r}
+```{r, results='asis'}
+cat('<div style="text-align: center;">')
 params[["scatterplot2_plot"]]
+cat('</div>')
 ```
