@@ -10,17 +10,8 @@
 mod_scenarios_data_ui <- function(id){
   ns <- NS(id)
   tagList(
-    selectInput(ns("model_type"), label=HTML("<b> Model type </b>"), choices=c("Model 1", "Model 2", "Model 3"), multiple=FALSE, selected=NULL, width="100%"),
-    selectInput(ns("test_type"), label=HTML("<b> Test type </b>"), choices=c("RDT", "Serological test"), multiple=FALSE, selected=NULL, width="100%"),
-    textInput(ns("label"), label=HTML("<b> Label </b>"), width="100%"),
-    selectInput(ns("facility_type"), label=HTML("<b> Facility type </b>"), choices=c("High complexity", "Low complexity"), multiple=FALSE, selected=NULL, width="100%"),
-    selectInput(ns("sample_type"), label=HTML("<b> Sample type </b>"), choices=c("Capillary", "Whole blood (NB: if low complexity, can only be capillary)"), multiple=FALSE, selected=NULL, width="100%"),
-    sliderInput(ns("sensitivity"), label=HTML("<b> Sensitivity </b>"), min=0,  max=100, value=40, width="100%"),
-    sliderInput(ns("specificity"), label=HTML("<b> Specificity </b>"), min=0, max=100, value=40, width="100%"),
-    textInput(ns("cost_test"), label=HTML("<b> Cost per test (USD) </b>"), value="", width="100%")
-    # ,
-    # actionButton(ns("calculate"), "Calculate pathways", width="100%")
-
+    radioButtons(ns("pathway_type"), label=HTML("<b> Pathway type </b>"), choices=c("Pathway 1", "Pathway 2", "Pathway 3"), inline=TRUE, selected="Pathway 1", width="100%"),
+    uiOutput(ns("tests"))
   )
 }
 
@@ -31,11 +22,42 @@ mod_scenarios_data_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+    test_n_out <- reactive({
+      req(input$pathway_type)
+      if (input$pathway_type == "Pathway 1") {
+        test_n <- c(1,2,3)
+      } else {
+        test_n <- c(1,2,3,4,5)
+      }
+      return(test_n)
+    })
+
+    # displayed_scenarios <- reactiveVal(c("scenario1"))
+
+    generate_test_ui <- function(test_id) {
+      if (test_id %in% test_n_out()) {
+        test_number <- as.numeric(gsub("\\D", "", test_id))
+        tagList(
+          column(width=ifelse(length(test_n_out())==3,4,4), id=paste0("tests_data_", gsub("\\D", "", test_id)),
+                 h5(paste("Test", test_number)),
+                 mod_tests_data_ui(paste0(input$pathway_type,"tests_data_", test_number))
+          )
+        )
+      }
+    }
+
+    output$tests <- renderUI({
+      test_list <- lapply(test_n_out(), generate_test_ui)
+      fluidRow(do.call(tagList, test_list))
+    })
+
+    tests1_vars <- mod_tests_data_server("tests_data_1")
+    tests2_vars <-mod_tests_data_server("tests_data_2")
+
     return(
       list(
-        # calculate = reactive({ input$calculate }),
-        sensitivity = reactive({ input$sensitivity }),
-        specificity = reactive({ input$specificity })
+        pathway_type = reactive({ input$pathway_type }),
+        test_n_out = test_n_out
       )
     )
 

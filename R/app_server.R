@@ -21,11 +21,25 @@ app_server <- function(input, output, session) {
   })
 
   #Generate UI elements for a scenario
+  # generate_scenario_ui <- function(scenario_id) {
+  #   if (scenario_id %in% displayed_scenarios()) {
+  #     scenario_number <- as.numeric(gsub("\\D", "", scenario_id))
+  #     tagList(
+  #       column(width=12, id=paste0("scenarios_data_", gsub("\\D", "", scenario_id)),
+  #              h4(paste("Scenario", scenario_number)),
+  #              mod_scenarios_data_ui(paste0("scenarios_data_", scenario_number))
+  #       )
+  #     )
+  #   }
+  # }
+
+
+
   generate_scenario_ui <- function(scenario_id) {
     if (scenario_id %in% displayed_scenarios()) {
       scenario_number <- as.numeric(gsub("\\D", "", scenario_id))
       tagList(
-          column(width=4, id=paste0("scenarios_data_", gsub("\\D", "", scenario_id)),
+          column(width=12, id=paste0("scenarios_data_", gsub("\\D", "", scenario_id)),
                  h4(paste("Scenario", scenario_number)),
                  mod_scenarios_data_ui(paste0("scenarios_data_", scenario_number))
           )
@@ -90,14 +104,13 @@ app_server <- function(input, output, session) {
 
 
   #ADVANCE SETTINGS PER SCENARIO OR GENERAL???
-  output$collapse_settings <- renderUI({
-
-  bsCollapse(id="Advance settings",
-             open=NULL,
-             bsCollapsePanel("Advance settings", mod_advance_data_ui("advance_data"), style="info")
-  )
-
-  })
+  # output$collapse_settings <- renderUI({
+  # bsCollapse(id="Advance settings",
+  #            open=NULL,
+  #            bsCollapsePanel("Advance settings", mod_advance_data_ui("advance_data"), style="info")
+  # )
+  #
+  # })
 
 
   pathways <- mod_pathways_data_server("pathways_data")
@@ -117,7 +130,7 @@ app_server <- function(input, output, session) {
 
 
   observe({
-    # Generate mod_results_data_server for each displayed scenario
+    #Generate mod_results_data_server for each displayed scenario
     lapply(displayed_scenarios(), function(result_id) {
       if (result_id %in% displayed_scenarios()) {
         result_number <- as.numeric(gsub("\\D", "", result_id))
@@ -132,27 +145,6 @@ app_server <- function(input, output, session) {
       }
     })
   })
-
-
-
-  # generate_result_server <- function(result_id) {
-  #   if (result_id %in% displayed_scenarios()) {
-  #     result_number <- as.numeric(gsub("\\D", "", result_id))
-  #
-  #     mod_results_data_server(id=paste0("results_data_", result_number),
-  #                             event_calculate=event_calculate,
-  #                             pathways=pathways,
-  #                             scenario_vars=get(paste0("scenario", result_number, "_vars"))
-  #     )
-  #
-  #   }
-  # }
-  # results_list <- lapply(displayed_scenarios(), generate_result_server)
-  # do.call(tagList, results_list)
-
-
-  # mod_results_data_server("resuts1", event_calculate=event_calculate,  pathways=pathways, scenario1_vars=scenario1_vars)
-
 
 
 }

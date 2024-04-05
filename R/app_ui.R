@@ -14,27 +14,24 @@
 #' @noRd
 app_ui <- function(request) {
 
-  useShinyjs()
+  # useShinyjs()
 
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
     page_navbar(
     # theme = "find_theme.css",
-      # theme = bs_theme(bootswatch = "materia") |>
-        # bs_add_rules(
-        #   # sass::sass_file("www/style.scss")
-        #   sass_file(system.file("app/sass/style.scss", package="chagaspathway"))
-        # ),
+      theme = bs_theme(bootswatch = "materia") |>
+      bs_add_rules(
+        # sass::sass_file("www/style.scss")
+        sass_file(system.file("app/sass/style.scss", package="chagaspathway"))
+      ),
       id="menubar",
       title="Chagas Pathway",
       bg="#491e5d",
       position="fixed-top",
       nav_panel(
         "Pathways",icon = bs_icon("arrows-move"),
-        br(),
-        br(),
-        br(),
         h3(strong("Introduction")),
         p("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis volutpat justo. Phasellus dignissim, metus vitae malesuada faucibus, odio lorem varius arcu, nec efficitur libero tortor vel mi. Maecenas euismod ligula eget erat malesuada, vel pharetra dui consequat. Integer auctor eleifend velit, vel condimentum nulla vestibulum et. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque lacinia enim ac velit rhoncus, a pellentesque nulla mattis. Donec sit amet sapien quis lorem fermentum tempor. Duis posuere lectus vitae velit ultrices, eget consequat odio consequat. Vivamus ut ipsum ac neque fringilla iaculis. Sed non turpis arcu. Nulla ac consectetur risus, eget convallis velit. Sed a sapien id mauris mattis blandit. Sed lacinia ipsum sapien, eget egestas enim scelerisque sed. Sed tristique ultrices mauris, vitae sodales tortor tempus sed. Phasellus bibendum nisi at dui volutpat, a vehicula felis cursus. Sed vitae libero eu arcu rutrum elementum."),
         fluidRow(
@@ -54,19 +51,15 @@ app_ui <- function(request) {
         fluidRow(
                    mod_user_data_ui("user_data"),
                    h4(strong("Pathways")),
-                   mod_pathways_data_ui("pathways_data"),
-                   h4(strong("Advance settings")),
-                   uiOutput("collapse_settings")
-                   # mod_advance_data_ui("advance_data")
+                   mod_pathways_data_ui("pathways_data")
         ),
         h3(strong("Scenario specification")),
-        fluidRow(
+        uiOutput("scenarios"),
+        # fluidRow(
           column(width=4,
                  actionButton("add_scenario", "Add a new scenario", width="100%")
-                 )
+                 # )
         ),
-        # fluidRow(
-          uiOutput("scenarios"),
         column(width=4,
           actionButton("calculate", "Calculate pathways", width="100%")
         )
@@ -82,20 +75,18 @@ app_ui <- function(request) {
           # )
       ),
       nav_panel(title="Results", icon=bs_icon("bar-chart-line"),
-        br(),
-        br(),
-        br(),
         uiOutput("results"),
         mod_results_ui("results_general")
       ),
+      nav_panel(title="Advance settings", icon=bs_icon("gear-fill"),
+        h3(strong("Advance settings")),
+        mod_advance_data_ui("advance_data")
+      ),
       nav_panel(title="Info",icon=bs_icon("info-circle-fill"),
-                br(),
-                br(),
-                br(),
-                h2("Acknowledgements"),
-                p("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis volutpat justo. Phasellus dignissim, metus vitae malesuada faucibus, odio lorem varius arcu, nec efficitur libero tortor vel mi. Maecenas euismod ligula eget erat malesuada, vel pharetra dui consequat. Integer auctor eleifend velit, vel condimentum nulla vestibulum et. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque lacinia enim ac velit rhoncus, a pellentesque nulla mattis. Donec sit amet sapien quis lorem fermentum tempor. Duis posuere lectus vitae velit ultrices, eget consequat odio consequat. Vivamus ut ipsum ac neque fringilla iaculis. Sed non turpis arcu. Nulla ac consectetur risus, eget convallis velit. Sed a sapien id mauris mattis blandit. Sed lacinia ipsum sapien, eget egestas enim scelerisque sed. Sed tristique ultrices mauris, vitae sodales tortor tempus sed. Phasellus bibendum nisi at dui volutpat, a vehicula felis cursus. Sed vitae libero eu arcu rutrum elementum."),
-                h2("User manual"),
-                p("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis volutpat justo. Phasellus dignissim, metus vitae malesuada faucibus, odio lorem varius arcu, nec efficitur libero tortor vel mi. Maecenas euismod ligula eget erat malesuada, vel pharetra dui consequat. Integer auctor eleifend velit, vel condimentum nulla vestibulum et. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque lacinia enim ac velit rhoncus, a pellentesque nulla mattis. Donec sit amet sapien quis lorem fermentum tempor. Duis posuere lectus vitae velit ultrices, eget consequat odio consequat. Vivamus ut ipsum ac neque fringilla iaculis. Sed non turpis arcu. Nulla ac consectetur risus, eget convallis velit. Sed a sapien id mauris mattis blandit. Sed lacinia ipsum sapien, eget egestas enim scelerisque sed. Sed tristique ultrices mauris, vitae sodales tortor tempus sed. Phasellus bibendum nisi at dui volutpat, a vehicula felis cursus. Sed vitae libero eu arcu rutrum elementum."))
+        h3("Acknowledgements"),
+        p("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis volutpat justo. Phasellus dignissim, metus vitae malesuada faucibus, odio lorem varius arcu, nec efficitur libero tortor vel mi. Maecenas euismod ligula eget erat malesuada, vel pharetra dui consequat. Integer auctor eleifend velit, vel condimentum nulla vestibulum et. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque lacinia enim ac velit rhoncus, a pellentesque nulla mattis. Donec sit amet sapien quis lorem fermentum tempor. Duis posuere lectus vitae velit ultrices, eget consequat odio consequat. Vivamus ut ipsum ac neque fringilla iaculis. Sed non turpis arcu. Nulla ac consectetur risus, eget convallis velit. Sed a sapien id mauris mattis blandit. Sed lacinia ipsum sapien, eget egestas enim scelerisque sed. Sed tristique ultrices mauris, vitae sodales tortor tempus sed. Phasellus bibendum nisi at dui volutpat, a vehicula felis cursus. Sed vitae libero eu arcu rutrum elementum."),
+        h3("User manual"),
+        p("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis volutpat justo. Phasellus dignissim, metus vitae malesuada faucibus, odio lorem varius arcu, nec efficitur libero tortor vel mi. Maecenas euismod ligula eget erat malesuada, vel pharetra dui consequat. Integer auctor eleifend velit, vel condimentum nulla vestibulum et. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque lacinia enim ac velit rhoncus, a pellentesque nulla mattis. Donec sit amet sapien quis lorem fermentum tempor. Duis posuere lectus vitae velit ultrices, eget consequat odio consequat. Vivamus ut ipsum ac neque fringilla iaculis. Sed non turpis arcu. Nulla ac consectetur risus, eget convallis velit. Sed a sapien id mauris mattis blandit. Sed lacinia ipsum sapien, eget egestas enim scelerisque sed. Sed tristique ultrices mauris, vitae sodales tortor tempus sed. Phasellus bibendum nisi at dui volutpat, a vehicula felis cursus. Sed vitae libero eu arcu rutrum elementum."))
     )
   )
 }
