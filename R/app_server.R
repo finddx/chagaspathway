@@ -12,6 +12,7 @@ app_server <- function(input, output, session) {
 
   displayed_scenarios <- reactiveVal(c("scenario1"))
 
+
   #Count and add a new scenario (up tp 3)
   observeEvent(input$add_scenario, {
     if (length(displayed_scenarios()) < 3){
@@ -21,20 +22,6 @@ app_server <- function(input, output, session) {
   })
 
   #Generate UI elements for a scenario
-  # generate_scenario_ui <- function(scenario_id) {
-  #   if (scenario_id %in% displayed_scenarios()) {
-  #     scenario_number <- as.numeric(gsub("\\D", "", scenario_id))
-  #     tagList(
-  #       column(width=12, id=paste0("scenarios_data_", gsub("\\D", "", scenario_id)),
-  #              h4(paste("Scenario", scenario_number)),
-  #              mod_scenarios_data_ui(paste0("scenarios_data_", scenario_number))
-  #       )
-  #     )
-  #   }
-  # }
-
-
-
   generate_scenario_ui <- function(scenario_id) {
     if (scenario_id %in% displayed_scenarios()) {
       scenario_number <- as.numeric(gsub("\\D", "", scenario_id))
@@ -115,9 +102,9 @@ app_server <- function(input, output, session) {
 
   pathways <- mod_pathways_data_server("pathways_data")
   advance_settings_vars <- mod_advance_data_server("advance_data")
-  scenario1_vars <- mod_scenarios_data_server("scenarios_data_1")
-  scenario2_vars <-mod_scenarios_data_server("scenarios_data_2")
-  scenario3_vars <-mod_scenarios_data_server("scenarios_data_3")
+  scenario1_vars <- mod_scenarios_data_server("scenarios_data_1", scenarios_n="scenario1")
+  scenario2_vars <-mod_scenarios_data_server("scenarios_data_2", scenarios_n="scenario2")
+  scenario3_vars <-mod_scenarios_data_server("scenarios_data_3", scenarios_n="scenario3")
 
 
   event_calculate <- eventReactive(input$calculate, {
@@ -128,9 +115,8 @@ app_server <- function(input, output, session) {
 
 
 
-
+  #Generate mod_results_data_server for each displayed scenario
   observe({
-    #Generate mod_results_data_server for each displayed scenario
     lapply(displayed_scenarios(), function(result_id) {
       if (result_id %in% displayed_scenarios()) {
         result_number <- as.numeric(gsub("\\D", "", result_id))
