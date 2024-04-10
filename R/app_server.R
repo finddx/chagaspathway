@@ -88,23 +88,18 @@ app_server <- function(input, output, session) {
   # })
 
   user_data <- mod_user_data_server("user_data")
-
-
-  #ADVANCE SETTINGS PER SCENARIO OR GENERAL???
-  # output$collapse_settings <- renderUI({
-  # bsCollapse(id="Advance settings",
-  #            open=NULL,
-  #            bsCollapsePanel("Advance settings", mod_advance_data_ui("advance_data"), style="info")
-  # )
-  #
-  # })
-
-
   pathways <- mod_pathways_data_server("pathways_data")
   advance_settings_vars <- mod_advance_data_server("advance_data")
-  scenario1_vars <- mod_scenarios_data_server("scenarios_data_1", scenarios_n="scenario1")
-  scenario2_vars <-mod_scenarios_data_server("scenarios_data_2", scenarios_n="scenario2")
-  scenario3_vars <-mod_scenarios_data_server("scenarios_data_3", scenarios_n="scenario3")
+
+
+  test1 <- mod_tests_data_server("scenario1_tests_data_1")
+  test2 <- mod_tests_data_server("scenario1_tests_data_2")
+  test3 <- mod_tests_data_server("scenario1_test_data_3")
+
+
+  scenario1_vars <- mod_scenarios_data_server("scenarios_data_1", scenarios_n="scenario1", test1=test1)
+  scenario2_vars <-mod_scenarios_data_server("scenarios_data_2", scenarios_n="scenario2", test1=test1)
+  scenario3_vars <-mod_scenarios_data_server("scenarios_data_3", scenarios_n="scenario3", test1=test1)
 
 
   event_calculate <- eventReactive(input$calculate, {
@@ -112,6 +107,29 @@ app_server <- function(input, output, session) {
   })
 
   mod_results_server("results_general", event_calculate=event_calculate, user_data=user_data, pathways=pathways, advance_settings_vars=advance_settings_vars, scenario1_vars=scenario1_vars, scenario2_vars=scenario2_vars, scenario3_vars=scenario3_vars)
+
+  # mod_results_data_server(
+  #   id = "results_data_1",
+  #   event_calculate = event_calculate,
+  #   pathways = pathways,
+  #   advance_settings_vars=advance_settings_vars,
+  #   scenario_vars = "scenario1_vars"
+  # )
+
+
+  # results_data <- eventReactive(event_calculate(), {
+  #
+  #     sensitivity <- scenario_vars$test1$test_type()
+  #     facility_type <- scenario_vars$pathway_type()
+  #
+  #
+  #     list(sensitivity=sensitivity, facility_type=facility_type)
+  #
+  #
+  #
+  #
+  #   })
+
 
 
 

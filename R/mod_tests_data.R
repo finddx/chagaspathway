@@ -34,8 +34,13 @@ mod_tests_data_server <- function(id){
 
     return(
       list(
+        test_type = reactive({ input$test_type }),
+        label = reactive({ input$label }),
+        facility_type = reactive({ input$facility_type }),
+        sample_type = reactive({ input$sample_type }),
         sensitivity = reactive({ input$sensitivity }),
-        specificity = reactive({ input$specificity })
+        specificity = reactive({ input$specificity }),
+        cost_test = reactive({ input$cost_test})
       )
     )
 

@@ -22,25 +22,48 @@ mod_results_data_server <- function(id, event_calculate, pathways, advance_setti
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+    results_data <-
+      eventReactive(event_calculate(), {
 
-    results_data <- eventReactive(event_calculate(), {
+      sensitivity <- scenario_vars$test1$test_type()
+      facility_type <- scenario_vars$pathway_type()
 
-      sensitivity <- scenario_vars$sensitivity()
-      specificity <-scenario_vars$specificity()
 
-      list(sensitivity=sensitivity, specificity=specificity)
+      list(sensitivity=sensitivity, facility_type=facility_type)
+
+
+
+
     })
+
+      # print(paste0("Res:",scenario_vars$test1$test_type(), " pah", scenario_vars$pathway_type()))
+    # scenario1_tests_data_1
+
+
+
+
+
+    # results_data <- eventReactive(event_calculate(), {
+    #
+    #   sensitivity <- scenario_vars$sensitivity()
+    #   specificity <-scenario_vars$specificity()
+    #
+    #   list(sensitivity=sensitivity, specificity=specificity)
+    # })
 
     # output$title <- renderText({
     #   paste0("<b>Resuls scenario: </b>")
     # })
+
+
+
 
     output$value1 <- renderText({
       paste0("<b>Sensitivity: </b>", results_data()$sensitivity)
     })
 
     output$value2 <- renderText({
-      paste0("<b>Specificity: </b>", results_data()$specificity)
+      paste0("<b>facility_type: </b>", results_data()$facility_type)
     })
 
   })
