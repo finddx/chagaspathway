@@ -4,13 +4,17 @@
 #'     DO NOT REMOVE.
 #' @import shiny
 #' @importFrom ggplot2 ggplot geom_point
-#' @importFrom shinyjs runjs
+#' @importFrom shinyjs runjs show hidden
 #' @importFrom shinyBS bsCollapse bsCollapsePanel
 
 #' @noRd
 app_server <- function(input, output, session) {
 
   displayed_scenarios <- reactiveVal(c("scenario1"))
+
+
+  # Define a list to store module instances
+  # scenario_module_instances <- list()
 
 
   #Count and add a new scenario (up tp 3)
@@ -20,20 +24,86 @@ app_server <- function(input, output, session) {
       displayed_scenarios(c(displayed_scenarios(), current_scenario))
     }
   })
-
-
   #Generate UI elements for a scenario
-  generate_scenario_ui <- function(scenario_id) {
-    if (scenario_id %in% displayed_scenarios()) {
-      scenario_number <- as.numeric(gsub("\\D", "", scenario_id))
-      tagList(
-          column(width=12, id=paste0("scenarios_data_", gsub("\\D", "", scenario_id)),
-                 h4(paste("Scenario", scenario_number)),
-                 mod_scenarios_data_ui(paste0("scenarios_data_", scenario_number))
-          )
+  # generate_scenario_ui <- function(scenario_id) {
+  #   if (scenario_id %in% displayed_scenarios()) {
+  #     scenario_number <- as.numeric(gsub("\\D", "", scenario_id))
+  #     tagList(
+  #       column(width=12, id=paste0("scenarios_data_", gsub("\\D", "", scenario_id)),
+  #              h4(paste("Scenario", scenario_number)),
+  #              mod_scenarios_data_ui(paste0("scenarios_data_", scenario_number))
+  #       )
+  #     )
+  #   }
+  # }
+  # Generate server Scenario for each displayed scenario
+  observe({
+    lapply(displayed_scenarios(), function(scenario_id) {
+      if (scenario_id %in% displayed_scenarios()) {
+        scenario_number <- as.numeric(gsub("\\D", "", scenario_id))
+
+        assign(
+          paste0("scenario", scenario_number, "_vars"),
+          mod_scenarios_data_server(
+            id = paste0("scenarios_data_", scenario_number),
+            scenarios_n = paste0("scenarios", scenario_number)
+          ),
+          envir = .GlobalEnv
+        )
+      }
+    })
+  })
+
+  # output$scenarios <- renderUI({
+  #   scenario_list <- lapply(displayed_scenarios(), generate_scenario_ui)
+  #   fluidRow(do.call(tagList, scenario_list))
+  # })
+  # # Render scenarios
+
+
+
+  output$scenarios <- renderUI({
+    # Define UI elements for scenarios 1 to 3
+    tagList(
+      column(width=12, id="scenarios_data_1",
+             h4("Scenario 1"),
+             mod_scenarios_data_ui("scenarios_data_1")
+      ),
+      shinyjs::hidden(
+        column(width=12, id="scenarios_data_2",
+             h4("Scenario 2"),
+             mod_scenarios_data_ui("scenarios_data_2")
+      )),
+      shinyjs::hidden(
+      column(width=12, id="scenarios_data_3",
+             h4("Scenario 3"),
+             mod_scenarios_data_ui("scenarios_data_3")
       )
-    }
-  }
+      )
+    )
+
+    # Get the number of displayed scenarios
+    # num_displayed <- length(displayed_scenarios())
+    #
+    # # Show/hide UI elements based on the number of displayed scenarios
+    # if (num_displayed == 1) {
+    #   shinyjs::show("scenarios_data_1")
+    # } else if (num_displayed == 2) {
+    #     shinyjs::show("scenarios_data_2")
+    # } else if (num_displayed == 3) {
+    #   shinyjs::show("scenarios_data_3")
+    # }
+  })
+
+
+
+
+
+
+
+
+
+
 
   #Generate UI elements for a result
   generate_result_ui <- function(result_id) {
@@ -48,11 +118,7 @@ app_server <- function(input, output, session) {
     }
   }
 
-  #Render scenarios
-  output$scenarios <- renderUI({
-    scenario_list <- lapply(displayed_scenarios(), generate_scenario_ui)
-    fluidRow(do.call(tagList, scenario_list))
-  })
+
 
  #Render results
   output$results <- renderUI({
@@ -95,68 +161,12 @@ app_server <- function(input, output, session) {
 
 
 
-  test_count <- reactive({
-    req(input$pathway_type)
-    if (input$pathway_type == "full") {
-      test_count_n <- 5
-    } else {
-      test_count_n <- 3
-    }
-    return(test_count_n)
-  })
-
-
-
-
-
-
-  # create_scenario_list <- function(scenario_name, test_count) {
-  #   test_list <- list()
-  #   for (i in 1:test_count) {
-  #     test_name <- paste0("test", i)
-  #     module_name <- paste0(scenario_name, "_", i)
-  #     test_list[[test_name]] <- mod_tests_data_server(module_name)
-  #   }
-  #   return(test_list)
-  # }
-
-  # observe({
-  #   lapply(displayed_scenarios(), function(scenario_id) {
-  #     if (scenario_id %in% displayed_scenarios()) {
-  #       scenario_number <- as.numeric(gsub("\\D", "", scenario_id))
-  #
-  #       mod_scenarios_data_server(
-  #         id = paste0("scenarios_data_", scenario_number),
-  #         scenarios_n = paste0("scenarios", scenario_number)
-  #       )
-  #     }
-  #   })
-  # })
-
-  #Generate mod_scenarios_data_server for each displayed scenario
-  observe({
-    lapply(displayed_scenarios(), function(scenario_id) {
-      if (scenario_id %in% displayed_scenarios()) {
-        scenario_number <- as.numeric(gsub("\\D", "", scenario_id))
-
-        assign(
-          paste0("scenario", scenario_number, "_vars"),
-          mod_scenarios_data_server(
-            id = paste0("scenarios_data_", scenario_number),
-            scenarios_n = paste0("scenarios", scenario_number)
-          ),
-          envir = .GlobalEnv
-        )
-      }
-    })
-  })
-
 
   # scenario1_vars <- mod_scenarios_data_server("scenarios_data_1", scenarios_n="scenario1")
   # scenario2_vars <- mod_scenarios_data_server("scenarios_data_2", scenarios_n="scenario2")
   # scenario3_vars <- mod_scenarios_data_server("scenarios_data_3", scenarios_n="scenario3")
 
-  #Generate mod_results_data_server for each displayed scenario
+  #Generate server Result-scenario for each displayed scenario
   observe({
     lapply(displayed_scenarios(), function(result_id) {
       if (result_id %in% displayed_scenarios()) {
