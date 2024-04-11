@@ -21,6 +21,7 @@ app_server <- function(input, output, session) {
     }
   })
 
+
   #Generate UI elements for a scenario
   generate_scenario_ui <- function(scenario_id) {
     if (scenario_id %in% displayed_scenarios()) {
@@ -92,21 +93,127 @@ app_server <- function(input, output, session) {
   advance_settings_vars <- mod_advance_data_server("advance_data")
 
 
-  test1 <- mod_tests_data_server("scenario1_tests_data_1")
-  test2 <- mod_tests_data_server("scenario1_tests_data_2")
-  test3 <- mod_tests_data_server("scenario1_test_data_3")
 
 
-  scenario1_vars <- mod_scenarios_data_server("scenarios_data_1", scenarios_n="scenario1", test1=test1)
-  scenario2_vars <-mod_scenarios_data_server("scenarios_data_2", scenarios_n="scenario2", test1=test1)
-  scenario3_vars <-mod_scenarios_data_server("scenarios_data_3", scenarios_n="scenario3", test1=test1)
+  test_count <- reactive({
+    req(input$pathway_type)
+    if (input$pathway_type == "full") {
+      test_count_n <- 5
+    } else {
+      test_count_n <- 3
+    }
+    return(test_count_n)
+  })
+
+
+
+
+
+
+  # create_scenario_list <- function(scenario_name, test_count) {
+  #   test_list <- list()
+  #   for (i in 1:test_count) {
+  #     test_name <- paste0("test", i)
+  #     module_name <- paste0(scenario_name, "_", i)
+  #     test_list[[test_name]] <- mod_tests_data_server(module_name)
+  #   }
+  #   return(test_list)
+  # }
+
+  # observe({
+  #   lapply(displayed_scenarios(), function(scenario_id) {
+  #     if (scenario_id %in% displayed_scenarios()) {
+  #       scenario_number <- as.numeric(gsub("\\D", "", scenario_id))
+  #
+  #       mod_scenarios_data_server(
+  #         id = paste0("scenarios_data_", scenario_number),
+  #         scenarios_n = paste0("scenarios", scenario_number)
+  #       )
+  #     }
+  #   })
+  # })
+
+  #Generate mod_scenarios_data_server for each displayed scenario
+  observe({
+    lapply(displayed_scenarios(), function(scenario_id) {
+      if (scenario_id %in% displayed_scenarios()) {
+        scenario_number <- as.numeric(gsub("\\D", "", scenario_id))
+
+        assign(
+          paste0("scenario", scenario_number, "_vars"),
+          mod_scenarios_data_server(
+            id = paste0("scenarios_data_", scenario_number),
+            scenarios_n = paste0("scenarios", scenario_number)
+          ),
+          envir = .GlobalEnv
+        )
+      }
+    })
+  })
+
+
+  # scenario1_vars <- mod_scenarios_data_server("scenarios_data_1", scenarios_n="scenario1")
+  # scenario2_vars <- mod_scenarios_data_server("scenarios_data_2", scenarios_n="scenario2")
+  # scenario3_vars <- mod_scenarios_data_server("scenarios_data_3", scenarios_n="scenario3")
+
+  #Generate mod_results_data_server for each displayed scenario
+  observe({
+    lapply(displayed_scenarios(), function(result_id) {
+      if (result_id %in% displayed_scenarios()) {
+        result_number <- as.numeric(gsub("\\D", "", result_id))
+
+        mod_results_data_server(
+          id = paste0("results_data_", result_number),
+          event_calculate = event_calculate,
+          pathways = pathways,
+          advance_settings_vars=advance_settings_vars,
+          scenarios_n = paste0("scenario", result_number),
+          results_list  = results_data #get(paste0("scenario", result_number, "_vars"))
+        )
+      }
+    })
+  })
+
+
+  # #Generate mod_results_data_server for each displayed scenario
+  # observe({
+  #   lapply(displayed_scenarios(), function(result_id) {
+  #     if (result_id %in% displayed_scenarios()) {
+  #       result_number <- as.numeric(gsub("\\D", "", result_id))
+  #
+  #       mod_results_data_server(
+  #         id = paste0("results_data_", result_number),
+  #         event_calculate = event_calculate,
+  #         pathways = pathways,
+  #         advance_settings_vars=advance_settings_vars,
+  #         results_list = results_data#get(paste0("scenario", result_number, "_vars"))
+  #       )
+  #     }
+  #   })
+  # })
 
 
   event_calculate <- eventReactive(input$calculate, {
     input$calculate
   })
 
-  mod_results_server("results_general", event_calculate=event_calculate, user_data=user_data, pathways=pathways, advance_settings_vars=advance_settings_vars, scenario1_vars=scenario1_vars, scenario2_vars=scenario2_vars, scenario3_vars=scenario3_vars)
+  results_data <-
+    eventReactive(event_calculate(), {
+
+      list(
+        pathways = pathways,
+        scenario1 =scenario1_vars(),
+        scenario2 = scenario2_vars(),
+        scenario3 = scenario3_vars()
+      )
+
+    })
+
+
+
+  mod_results_server("results_general", event_calculate=event_calculate, results_list=results_data )
+
+                     # user_data=user_data, pathways=pathways, advance_settings_vars=advance_settings_vars, scenario1_vars=scenario1_vars, scenario2_vars=scenario2_vars, scenario3_vars=scenario3_vars
 
   # mod_results_data_server(
   #   id = "results_data_1",
@@ -133,22 +240,7 @@ app_server <- function(input, output, session) {
 
 
 
-  #Generate mod_results_data_server for each displayed scenario
-  observe({
-    lapply(displayed_scenarios(), function(result_id) {
-      if (result_id %in% displayed_scenarios()) {
-        result_number <- as.numeric(gsub("\\D", "", result_id))
 
-        mod_results_data_server(
-          id = paste0("results_data_", result_number),
-          event_calculate = event_calculate,
-          pathways = pathways,
-          advance_settings_vars=advance_settings_vars,
-          scenario_vars = get(paste0("scenario", result_number, "_vars"))
-        )
-      }
-    })
-  })
 
 
 }

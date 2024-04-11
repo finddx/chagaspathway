@@ -35,9 +35,11 @@ mod_results_ui <- function(id){
 #' @noRd
 #'
 #'
-mod_results_server <- function(id, event_calculate, pathways, user_data, advance_settings_vars, scenario1_vars, scenario2_vars, scenario3_vars){
+mod_results_server <- function(id, event_calculate, results_list){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
+
+    # pathways, user_data, advance_settings_vars, scenario1_vars, scenario2_vars, scenario3_vars
 
     #Get the reactive values
     # results_data <- eventReactive(event_calculate(), {
