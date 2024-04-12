@@ -7,14 +7,14 @@
 #' @importFrom bslib page_navbar bs_theme nav_panel bs_add_rules bs_theme
 #' @importFrom bsicons bs_icon
 #' @importFrom shinyWidgets radioGroupButtons
-#' @importFrom shinyjs useShinyjs
+#' @importFrom shinyjs useShinyjs show hidden
 #' @importFrom shinyBS bsCollapse bsCollapsePanel
 #' @importFrom sass sass_file
 
 #' @noRd
 app_ui <- function(request) {
 
-  # useShinyjs()
+  useShinyjs()
 
   tagList(
     # Leave this function for adding external resources
@@ -57,11 +57,11 @@ app_ui <- function(request) {
         uiOutput("scenarios"),
         # fluidRow(
           column(width=4,
-                 actionButton("add_scenario", "Add a new scenario", width="100%")
+                 actionButton("add_scenario", "Add new scenario", width="100%", class="button-color")
                  # )
         ),
         column(width=4,
-          actionButton("calculate", "Calculate pathways", width="100%")
+          actionButton("calculate", "Calculate pathways", width="100%", class="button-color")
         )
           # column(width=4, id="scenarios_data_1",
           #        uiOutput("scenario1")

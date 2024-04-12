@@ -19,12 +19,8 @@ mod_results_ui <- function(id){
     ),
     fluidRow(
       column(width=4, offset=4,
-              downloadButton(
-                ns("report"),
-                label="Generate report",
-                style="text-align: center; width: 100%;"
+              downloadButton(ns("report"), label="Generate report", style="text-align: center; width: 100%;", class="button-color", icon=NULL)
               )
-      )
     )
 
   )

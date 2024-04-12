@@ -49,6 +49,33 @@ mod_scenarios_data_server <- function(id, scenarios_n, list_tests){
       test_list <- lapply(test_n_out(), generate_test_ui)
       fluidRow(do.call(tagList, test_list))
     })
+    # output$scenarios <- renderUI({
+    #   for ( i in 1:length(test_n_out())) {
+    #
+    #     # tagList(
+    #       column(width=ifelse(length(test_n_out())==3,4,2), id=paste0("tests_data_", i),
+    #              h5(strong("Test 1")),
+    #              mod_scenarios_data_ui(ns(paste0(scenarios_n, "_tests_data_",paste0(i))))
+    #       )
+    #     # )
+    #
+    # }
+    # })
+
+    # observe({
+    #   num_scenarios <- length(test_n_out())
+    #   shinyjs::hide(id = c("scenarios_data_1", "scenarios_data_2", "scenarios_data_3"))
+    #   if (num_scenarios >= 1) {
+    #     shinyjs::show(id = "scenarios_data_1")
+    #   }
+    #   if (num_scenarios >= 2) {
+    #     shinyjs::show(id = "scenarios_data_2")
+    #   }
+    #   if (num_scenarios >= 3) {
+    #     shinyjs::show(id = "scenarios_data_3")
+    #   }
+    # })
+
 
 
     create_scenario_list <- function(test_count, pathway_type) {

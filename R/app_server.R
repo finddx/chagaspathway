@@ -4,7 +4,7 @@
 #'     DO NOT REMOVE.
 #' @import shiny
 #' @importFrom ggplot2 ggplot geom_point
-#' @importFrom shinyjs runjs show hidden
+#' @importFrom shinyjs useShinyjs show hidden
 #' @importFrom shinyBS bsCollapse bsCollapsePanel
 
 #' @noRd
@@ -61,39 +61,67 @@ app_server <- function(input, output, session) {
   # # Render scenarios
 
 
-
   output$scenarios <- renderUI({
-    # Define UI elements for scenarios 1 to 3
     tagList(
-      column(width=12, id="scenarios_data_1",
+      scenario1_ui <- column(width=12, id="scenarios_data_1",
              h4("Scenario 1"),
              mod_scenarios_data_ui("scenarios_data_1")
       ),
-      shinyjs::hidden(
-        column(width=12, id="scenarios_data_2",
+      scenario2_ui <- column(width=12, id="scenarios_data_2",
              h4("Scenario 2"),
              mod_scenarios_data_ui("scenarios_data_2")
-      )),
-      shinyjs::hidden(
-      column(width=12, id="scenarios_data_3",
+      ),
+      scenario3_ui <-column(width=12, id="scenarios_data_3",
              h4("Scenario 3"),
              mod_scenarios_data_ui("scenarios_data_3")
       )
-      )
     )
-
-    # Get the number of displayed scenarios
-    # num_displayed <- length(displayed_scenarios())
-    #
-    # # Show/hide UI elements based on the number of displayed scenarios
-    # if (num_displayed == 1) {
-    #   shinyjs::show("scenarios_data_1")
-    # } else if (num_displayed == 2) {
-    #     shinyjs::show("scenarios_data_2")
-    # } else if (num_displayed == 3) {
-    #   shinyjs::show("scenarios_data_3")
-    # }
   })
+
+
+  observe({
+    num_scenarios <- length(displayed_scenarios())
+    shinyjs::hide(id = c("scenario1_ui", "scenario2_ui", "scenario3_ui"))
+    if (num_scenarios >= 1) {
+      shinyjs::show(id = "scenario1_ui")
+    }
+    if (num_scenarios >= 2) {
+      shinyjs::show(id = "scenario2_ui")
+    }
+    if (num_scenarios >= 3) {
+      shinyjs::show(id = "scenario3_ui")
+    }
+  })
+
+
+  # output$scenarios <- renderUI({
+  #   tagList(
+  #     column(width=12, id="scenarios_data_1",
+  #            h4("Scenario 1"),
+  #            mod_scenarios_data_ui("scenarios_data_1")
+  #     ),
+  #       column(width=12, id="scenarios_data_2",
+  #            h4("Scenario 2"),
+  #            mod_scenarios_data_ui("scenarios_data_2")
+  #     ),
+  #     column(width=12, id="scenarios_data_3",
+  #            h4("Scenario 3"),
+  #            mod_scenarios_data_ui("scenarios_data_3")
+  #     )
+  #   )
+  #
+  #     if( length(displayed_scenarios()) == 1){
+  #     shinyjs::show(id = "scenarios_data_1")
+  #     } else if (length(displayed_scenarios()) == 2){
+  #       shinyjs::show(id = "scenarios_data_1")
+  #       shinyjs::show(id = "scenarios_data_2")
+  #     }else if (length(displayed_scenarios()) == 3){
+  #       shinyjs::show(id = "scenarios_data_1")
+  #       shinyjs::show(id = "scenarios_data_2")
+  #       shinyjs::show(id = "scenarios_data_3")
+  #     }
+  #
+  # })
 
 
 
