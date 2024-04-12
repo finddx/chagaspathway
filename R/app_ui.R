@@ -20,10 +20,8 @@ app_ui <- function(request) {
     # Leave this function for adding external resources
     golem_add_external_resources(),
     page_navbar(
-    # theme = "find_theme.css",
       theme = bs_theme(bootswatch = "materia") |>
       bs_add_rules(
-        # sass::sass_file("www/style.scss")
         sass_file(system.file("app/sass/style.scss", package="chagaspathway"))
       ),
       id="menubar",
@@ -55,6 +53,7 @@ app_ui <- function(request) {
         ),
         h3(strong("Scenario specification")),
         uiOutput("scenarios"),
+        # uiOutput("button_scenarios"),
         # fluidRow(
           column(width=4,
                  actionButton("add_scenario", "Add new scenario", width="100%", class="button-color")

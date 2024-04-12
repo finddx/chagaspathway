@@ -13,8 +13,7 @@ mod_results_ui <- function(id){
 
     fluidRow(
       column(width=8, offset=2,
-             plotOutput(ns("scatterplot")),
-             plotOutput(ns("scatterplot2"))
+             plotOutput(ns("plo1"))
       )
     ),
     fluidRow(
@@ -31,9 +30,39 @@ mod_results_ui <- function(id){
 #' @noRd
 #'
 #'
-mod_results_server <- function(id, event_calculate, results_list){
+#'
+#'
+mod_results_server <- function(id, results_list){# event_calculate,
   moduleServer( id, function(input, output, session){
     ns <- session$ns
+
+    # results_data <- reactive({
+    #   results_list()
+    # })
+
+    results_data  <- results_list()
+     # results_data[[scenarios_n]]$test1$test_type()
+
+    # observe({
+      # res_pathway <- results_data()$scenario1$pathway_type
+      res_pathway <- results_data$scenario1$pathway_type
+      res_prev <- 50
+      res_lftu <- results_data$pathways$lftu
+      res_test1 <- results_data$scenario1$test1
+      res_test2 <- results_data$scenario1$test2
+      res_test3 <- results_data$scenario1$test3
+      res_test4 <- results_data$scenario1$test4
+      res_test5 <- results_data$scenario1$test5
+      res_daly_avert_per_tx <- 12 #avg_dalys
+      tx_eff <- res_tx_eff <- 15 #treat_effect
+
+      params <- make_params(pathway=res_pathway, prev=res_prev, test1=res_test1, test2=res_test2, test3=res_test3, test4=res_test4, test5=res_test5, daly_avert_per_tx=res_daly_avert_per_tx, tx_eff=res_tx_eff)
+    # })
+
+
+    # params
+    #
+    # DiagrammeR::render_graph(make_pathway_diagram(params))
 
     # pathways, user_data, advance_settings_vars, scenario1_vars, scenario2_vars, scenario3_vars
 

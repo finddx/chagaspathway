@@ -20,7 +20,7 @@ mod_results_data_ui <- function(id){
 #' results_data Server Functions
 #'
 #' @noRd
-mod_results_data_server <- function(id, event_calculate, pathways, advance_settings_vars, scenarios_n, results_list){
+mod_results_data_server <- function(id, scenarios_n, results_list){# event_calculate,
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 

@@ -49,6 +49,29 @@ mod_scenarios_data_server <- function(id, scenarios_n, list_tests){
       test_list <- lapply(test_n_out(), generate_test_ui)
       fluidRow(do.call(tagList, test_list))
     })
+    #
+
+
+    #
+
+    # if (length(test_n_out())==3){
+    #   tagList(
+    #     column(width=4, id="tests_data_1",
+    #            h5(strong("Test 1")),
+    #            radioButtons(ns("test_type"), label=HTML("<b> Test type </b>"), choices=c("RDT", "Serological test"), inline=TRUE, selected=NULL, width="100%"),
+    #            textInput(ns("label"), label=HTML("<b> Label </b>"), width="100%"),
+    #            radioButtons(ns("facility_type"), label=HTML("<b> Facility type </b>"), choices=c("High complexity", "Low complexity"), inline=TRUE, selected=NULL, width="100%"),
+    #            radioButtons(ns("sample_type"), label=HTML("<b> Sample type </b>"), choices=c("Capillary", "Whole blood (NB: if low complexity, can only be capillary)"),  inline=TRUE, selected=NULL, width="100%"),
+    #            numericInput(ns("sensitivity"), label=HTML("<b> Sensitivity </b>"), min=0,  max=100, value=NULL, width="100%"),
+    #            numericInput(ns("specificity"), label=HTML("<b> Specificity </b>"), min=0, max=100, value=NULL, width="100%"),
+    #            numericInput(ns("cost_test"), label=HTML("<b> Cost per test (USD) </b>"), value=NULL, width="100%")
+    #     ),
+    #
+    #   )
+    # }
+
+
+
     # output$scenarios <- renderUI({
     #   for ( i in 1:length(test_n_out())) {
     #
