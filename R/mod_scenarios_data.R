@@ -18,7 +18,7 @@ mod_scenarios_data_ui <- function(id){
 #' scenarios_data Server Functions
 #'
 #' @noRd
-mod_scenarios_data_server <- function(id, scenarios_n, list_tests){
+mod_scenarios_data_server <- function(id, scenarios_n){#, list_tests
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -34,70 +34,91 @@ mod_scenarios_data_server <- function(id, scenarios_n, list_tests){
     })
 
     #Generate tests UI
-    generate_test_ui <- function(test_id) {
-      if (test_id %in% test_n_out()) {
-        test_number <- as.numeric(gsub("\\D", "", test_id))
-        tagList(
-          column(width=ifelse(length(test_n_out())==3,4,2), id=paste0("tests_data_", gsub("\\D", "", test_id)),
-                 h5(strong(paste("Test", test_number))),
-                 mod_tests_data_ui(ns(paste0(scenarios_n, "_tests_data_", test_number)))
-          )
-        )
-      }
-    }
-    output$tests <- renderUI({
-      test_list <- lapply(test_n_out(), generate_test_ui)
-      fluidRow(do.call(tagList, test_list))
-    })
-    #
-
-
-    #
-
-    # if (length(test_n_out())==3){
-    #   tagList(
-    #     column(width=4, id="tests_data_1",
-    #            h5(strong("Test 1")),
-    #            radioButtons(ns("test_type"), label=HTML("<b> Test type </b>"), choices=c("RDT", "Serological test"), inline=TRUE, selected=NULL, width="100%"),
-    #            textInput(ns("label"), label=HTML("<b> Label </b>"), width="100%"),
-    #            radioButtons(ns("facility_type"), label=HTML("<b> Facility type </b>"), choices=c("High complexity", "Low complexity"), inline=TRUE, selected=NULL, width="100%"),
-    #            radioButtons(ns("sample_type"), label=HTML("<b> Sample type </b>"), choices=c("Capillary", "Whole blood (NB: if low complexity, can only be capillary)"),  inline=TRUE, selected=NULL, width="100%"),
-    #            numericInput(ns("sensitivity"), label=HTML("<b> Sensitivity </b>"), min=0,  max=100, value=NULL, width="100%"),
-    #            numericInput(ns("specificity"), label=HTML("<b> Specificity </b>"), min=0, max=100, value=NULL, width="100%"),
-    #            numericInput(ns("cost_test"), label=HTML("<b> Cost per test (USD) </b>"), value=NULL, width="100%")
-    #     ),
-    #
-    #   )
-    # }
-
-
-
-    # output$scenarios <- renderUI({
-    #   for ( i in 1:length(test_n_out())) {
-    #
-    #     # tagList(
-    #       column(width=ifelse(length(test_n_out())==3,4,2), id=paste0("tests_data_", i),
-    #              h5(strong("Test 1")),
-    #              mod_scenarios_data_ui(ns(paste0(scenarios_n, "_tests_data_",paste0(i))))
+    # generate_test_ui <- function(test_id) {
+    #   if (test_id %in% test_n_out()) {
+    #     test_number <- as.numeric(gsub("\\D", "", test_id))
+    #     tagList(
+    #       column(width=ifelse(length(test_n_out())==3,4,2), id=paste0("tests_data_", gsub("\\D", "", test_id)),
+    #              h5(strong(paste("Test", test_number))),
+    #              mod_tests_data_ui(ns(paste0(scenarios_n, "_tests_data_", test_number)))
     #       )
-    #     # )
-    #
+    #     )
+    #   }
     # }
+    # output$tests <- renderUI({
+    #   test_list <- lapply(test_n_out(), generate_test_ui)
+    #   fluidRow(do.call(tagList, test_list))
     # })
 
-    # observe({
-    #   num_scenarios <- length(test_n_out())
-    #   shinyjs::hide(id = c("scenarios_data_1", "scenarios_data_2", "scenarios_data_3"))
-    #   if (num_scenarios >= 1) {
-    #     shinyjs::show(id = "scenarios_data_1")
-    #   }
-    #   if (num_scenarios >= 2) {
-    #     shinyjs::show(id = "scenarios_data_2")
-    #   }
-    #   if (num_scenarios >= 3) {
-    #     shinyjs::show(id = "scenarios_data_3")
-    #   }
-    # })
+
+
+    output$tests <- renderUI({
+      tagList(
+        shinyjs::useShinyjs(),
+        # shinyjs::hidden(
+        div(id="tests_5_div",
+            fluidRow(
+          h4("Results 5"),
+            column(width=2,
+                   h5(strong("Test 1")),
+                   mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_1")))
+                   ),
+            column(width=2,
+                   h5(strong("Test 2")),
+                   mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_2")))
+                   ),
+            column(width=2,
+                   h5(strong("Test 3")),
+                   mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_3")))
+                   ),
+            column(width=2,
+                   h5(strong("Test 4")),
+                   mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_4")))
+                   ),
+            column(width=2,
+                   h5(strong("Test 5")),
+                   mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_5")))
+                   )
+        # )
+        )),
+        # )
+
+        # shinyjs::hidden(
+          div(id="tests_3_div",
+            fluidRow(
+            h4("Results 3"),
+            column(width=4,
+                   h5(strong("Test 1")),
+                   mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_1")))
+                   ),
+            column(width=4,
+                   h5(strong("Test 2")),
+                   mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_2")))
+                   ),
+            column(width=4,
+                   h5(strong("Test 3")),
+                   mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_3")))
+                   )
+            )
+            )
+          )
+    # )
+    })
+
+    observe({
+          num_tests <- length(test_n_out())
+          if (num_tests == 5) {
+            shinyjs::show(id="tests_5_div")
+            shinyjs::hide(id="tests_3_div")
+            print("5")
+          }
+          if (num_tests == 3) {
+            shinyjs::show(id="tests_3_div")
+            shinyjs::hide(id="tests_5_div")
+            print("3")
+          }
+    })
+
 
 
 
@@ -114,11 +135,10 @@ mod_scenarios_data_server <- function(id, scenarios_n, list_tests){
 
 
     scenarios_list <- reactive({
-        create_scenario_list(test_count = length(test_n_out()), pathway_type=input$pathway_type)
+      create_scenario_list(test_count=length(test_n_out()), pathway_type=input$pathway_type)
     })
 
-#
-#     scenarios_list <- create_scenario_list(test_count=5)
+    #     scenarios_list <- create_scenario_list(test_count=5)
     # scenarios_list$pathway_type <- reactive({ input$pathway_type })
 
 
@@ -129,4 +149,3 @@ mod_scenarios_data_server <- function(id, scenarios_n, list_tests){
 
   })
 }
-

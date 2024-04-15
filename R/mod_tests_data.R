@@ -18,9 +18,9 @@ mod_tests_data_ui <- function(id){
     ),#selected = character(0)
     textInput(ns("label"), label=HTML("<b> Label </b>"), width="100%"),
     radioButtons(ns("facility_type"), label=HTML("<b> Facility type </b>"), choices=c("High complexity", "Low complexity"), inline=TRUE, selected=NULL, width="100%"),
-    radioButtons(ns("sample_type"), label=HTML("<b> Sample type </b>"), choices=c("Capillary", "Whole blood (NB: if low complexity, can only be capillary)"),  inline=TRUE, selected=NULL, width="100%"),
-    numericInput(ns("sensitivity"), label=HTML("<b> Sensitivity </b>"), min=0,  max=100, value=NULL, width="100%"),
-    numericInput(ns("specificity"), label=HTML("<b> Specificity </b>"), min=0, max=100, value=NULL, width="100%"),
+    # radioButtons(ns("sample_type"), label=HTML("<b> Sample type </b>"), choices=c("Capillary", "Whole blood (NB: if low complexity, can only be capillary)"),  inline=TRUE, selected=NULL, width="100%"),
+    numericInput(ns("sens"), label=HTML("<b> Sensitivity </b>"), min=0,  max=100, value=NULL, width="100%"),
+    numericInput(ns("spec"), label=HTML("<b> Specificity </b>"), min=0, max=100, value=NULL, width="100%"),
     numericInput(ns("cost_test"), label=HTML("<b> Cost per test (USD) </b>"), value=NULL, width="100%")
   )
 }
@@ -37,9 +37,9 @@ mod_tests_data_server <- function(id){
         test_type = reactive({ input$test_type }),
         label = reactive({ input$label }),
         facility_type = reactive({ input$facility_type }),
-        sample_type = reactive({ input$sample_type }),
-        sensitivity = reactive({ input$sensitivity }),
-        specificity = reactive({ input$specificity }),
+        # sample_type = reactive({ input$sample_type }),
+        sens = reactive({ input$sens }),
+        spec = reactive({ input$spec }),
         cost_test = reactive({ input$cost_test})
       )
     )

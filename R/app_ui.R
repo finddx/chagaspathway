@@ -7,17 +7,18 @@
 #' @importFrom bslib page_navbar bs_theme nav_panel bs_add_rules bs_theme
 #' @importFrom bsicons bs_icon
 #' @importFrom shinyWidgets radioGroupButtons
-#' @importFrom shinyjs useShinyjs show hidden
+#' @importFrom shinyjs useShinyjs show hide hidden disable
 #' @importFrom shinyBS bsCollapse bsCollapsePanel
 #' @importFrom sass sass_file
 
 #' @noRd
 app_ui <- function(request) {
 
-  useShinyjs()
+
 
   tagList(
     # Leave this function for adding external resources
+    useShinyjs(),
     golem_add_external_resources(),
     page_navbar(
       theme = bs_theme(bootswatch = "materia") |>

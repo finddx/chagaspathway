@@ -82,9 +82,9 @@ make_params <- function(
       prev = prev,
       test1 = test1,
       test2 = test2,
-      test3 = list(label="N/A", sensitivity=0, specificity=1, ltfu=0, cost_test=0),
-      test4 = list(label="N/A", sensitivity=0, specificity=1, ltfu=0, cost_test=0),
-      test5 = list(label="N/A", sensitivity=0, specificity=1, ltfu=0, cost_test=0),
+      test3 = list(label="N/A", sens=0, spec=1, ltfu=0, cost_test=0),
+      test4 = list(label="N/A", sens=0, spec=1, ltfu=0, cost_test=0),
+      test5 = list(label="N/A", sens=0, spec=1, ltfu=0, cost_test=0),
       daly_avert_per_tx = daly_avert_per_tx,
       tx_eff = tx_eff,
       n = n
@@ -99,13 +99,13 @@ make_params <- function(
 check_test_params <- function(test){
 
   # sens, spec, ltfu must be provided
-  stopifnot(any(names(test)=="sensitivity"))
-  stopifnot(any(names(test)=="specificity"))
+  stopifnot(any(names(test)=="sens"))
+  stopifnot(any(names(test)=="spec"))
   stopifnot(any(names(test)=="ltfu"))
 
   # sens, spec, ltfu must be within 0-1
-  stopifnot(test$sensitivity>=0 & test$sensitivity<=1)
-  stopifnot(test$specificity>=0 & test$specificity<=1)
+  stopifnot(test$sens>=0 & test$sens<=1)
+  stopifnot(test$spec>=0 & test$spec<=1)
   stopifnot(test$ltfu>=0 & test$ltfu<=1)
 
 }
