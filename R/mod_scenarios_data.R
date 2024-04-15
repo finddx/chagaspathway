@@ -51,11 +51,9 @@ mod_scenarios_data_server <- function(id, scenarios_n){#, list_tests
     # })
 
 
-
+#
     output$tests <- renderUI({
       tagList(
-        shinyjs::useShinyjs(),
-        # shinyjs::hidden(
         div(id="tests_5_div",
             fluidRow(
           h4("Results 5"),
@@ -79,11 +77,8 @@ mod_scenarios_data_server <- function(id, scenarios_n){#, list_tests
                    h5(strong("Test 5")),
                    mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_5")))
                    )
-        # )
         )),
-        # )
-
-        # shinyjs::hidden(
+        shinyjs::hidden(
           div(id="tests_3_div",
             fluidRow(
             h4("Results 3"),
@@ -102,20 +97,17 @@ mod_scenarios_data_server <- function(id, scenarios_n){#, list_tests
             )
             )
           )
-    # )
+    )
     })
-
+    #
     observe({
           num_tests <- length(test_n_out())
-          if (num_tests == 5) {
-            shinyjs::show(id="tests_5_div")
-            shinyjs::hide(id="tests_3_div")
-            print("5")
-          }
-          if (num_tests == 3) {
-            shinyjs::show(id="tests_3_div")
-            shinyjs::hide(id="tests_5_div")
-            print("3")
+          if (num_tests==5) {
+            shinyjs::show(id="tests_5_div", asis=TRUE)
+            shinyjs::hide(id="tests_3_div", asis=TRUE)
+          } else if(num_tests==3){
+            shinyjs::show(id ="tests_3_div", asis=TRUE)
+            shinyjs::hide(id="tests_5_div", asis=TRUE)
           }
     })
 
@@ -138,7 +130,11 @@ mod_scenarios_data_server <- function(id, scenarios_n){#, list_tests
       create_scenario_list(test_count=length(test_n_out()), pathway_type=input$pathway_type)
     })
 
-    #     scenarios_list <- create_scenario_list(test_count=5)
+    reactive_values <- reactiveValues(pathway_type = NULL)
+    observe({
+      reactive_values$pathway_type <- input$pathway_type
+    })
+    #
     # scenarios_list$pathway_type <- reactive({ input$pathway_type })
 
 
