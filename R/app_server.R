@@ -225,45 +225,45 @@ app_server <- function(input, output, session) {
   observe({
         num_scenarios <- length(displayed_scenarios())
 
-        scenario1_pathway = scenario1_vars()
-        scenario1_tests_n <- scenario1_pathway$pathway_type
-
-        scenario2_pathway = scenario2_vars()
-        scenario2_tests_n <- scenario2_pathway$pathway_type
-
-        scenario3_pathway = scenario3_vars()
-        scenario3_tests_n <- scenario3_pathway$pathway_type
+        # scenario1_pathway = scenario1_vars()
+        # scenario1_tests_n <- scenario1_pathway$pathway_type
+        #
+        # scenario2_pathway = scenario2_vars()
+        # scenario2_tests_n <- scenario2_pathway$pathway_type
+        #
+        # scenario3_pathway = scenario3_vars()
+        # scenario3_tests_n <- scenario3_pathway$pathway_type
 
         # shinyjs::hide(id = c("scenario1_div", "scenario2_div", "scenario3_div"))
         if (num_scenarios >= 1) {
           shinyjs::show(id = "scenario1_div")
-          if (scenario1_tests_n=="full") {
-            shinyjs::show(id = "scenario1_test_5_div")
-            shinyjs::hide(id = "scenario1_test_3_div")
-          } else {
-            shinyjs::show(id = "scenario1_test_3_div")
-            shinyjs::hide(id = "scenario1_test_5_div")
-          }
+          # if (scenario1_tests_n=="full") {
+          #   shinyjs::show(id = "scenario1_test_5_div")
+          #   shinyjs::hide(id = "scenario1_test_3_div")
+          # } else {
+          #   shinyjs::show(id = "scenario1_test_3_div")
+          #   shinyjs::hide(id = "scenario1_test_5_div")
+          # }
         }
         if (num_scenarios >= 2) {
           shinyjs::show(id = "scenario2_div")
-          if (scenario2_tests_n=="full") {
-            shinyjs::show(id = "scenario2_test_5_div")
-            shinyjs::hide(id = "scenario2_test_3_div")
-          } else {
-            shinyjs::show(id = "scenario2_test_3_div")
-            shinyjs::hide(id = "scenario2_test_5_div")
-          }
+          # if (scenario2_tests_n=="full") {
+          #   shinyjs::show(id = "scenario2_test_5_div")
+          #   shinyjs::hide(id = "scenario2_test_3_div")
+          # } else {
+          #   shinyjs::show(id = "scenario2_test_3_div")
+          #   shinyjs::hide(id = "scenario2_test_5_div")
+          # }
         }
         if (num_scenarios >= 3) {
           shinyjs::show(id = "scenario3_div")
-          if (scenario3_tests_n=="full") {
-            shinyjs::show(id = "scenario3_test_5_div")
-            shinyjs::hide(id = "scenario3_test_3_div")
-          } else {
-            shinyjs::show(id = "scenario3_test_3_div")
-            shinyjs::hide(id = "scenario3_test_5_div")
-          }
+          # if (scenario3_tests_n=="full") {
+          #   shinyjs::show(id = "scenario3_test_5_div")
+          #   shinyjs::hide(id = "scenario3_test_3_div")
+          # } else {
+          #   shinyjs::show(id = "scenario3_test_3_div")
+          #   shinyjs::hide(id = "scenario3_test_5_div")
+          # }
         }
   })
 

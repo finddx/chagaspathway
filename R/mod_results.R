@@ -59,8 +59,9 @@ mod_results_server <- function(id, results_list){# event_calculate,
       # res_daly_avert_per_tx <- 12 #results_data$advance$avg_dalys
       # res_treat_effect <- treat_effect <- 15 #results_data$advance$treat_effect
 
-      params <- format_app_params2(scenario_vars=results_data$scenario1, global_vars=results_data$pathways, advance_vars=results_data$advance)
-      # print(results_data$scenario1$test1$test_type())
+      params <- format_app_params_react(scenario_vars=results_data$scenario1, global_vars=results_data$pathways, advance_vars=results_data$advance)
+      print(params)
+      # print(results_data$scenario1$test1$test_type)
 
       # print(results_data$scenario1)
       # print(results_data$pathways)
