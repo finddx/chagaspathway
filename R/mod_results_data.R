@@ -45,20 +45,15 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
     # print(scenario_vars()$test3$test_type())
     # print(results_data[[scenarios_n]]$test1)
     # print(scenarios_n)
-    # results_data$scenario1$scenario1$test1$test_type
+    # print(results_data$scenario1$test1$test_type())
 
 
     output$value1 <- renderText({
       paste0("<b>Sensitivity: </b>", results_data[[scenarios_n]]$test1$test_type())
     })
-    #
     output$value2 <- renderText({
       paste0("<b>facility_type: </b>", results_data[[scenarios_n]]$pathway_type)
     })
-    #
-    # output$value3 <- renderText({
-    #   paste0("<b>facility_type: </b>", results_data$sensitivity1)
-    # })
 
 
 

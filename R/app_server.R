@@ -10,10 +10,7 @@
 #' @noRd
 app_server <- function(input, output, session) {
 
-
-
   displayed_scenarios <- reactiveVal(c("scenario1"))
-
   #Count and add a new scenario (up tp 3)
   observeEvent(input$add_scenario, {
     if (length(displayed_scenarios()) < 3){
@@ -21,16 +18,12 @@ app_server <- function(input, output, session) {
       displayed_scenarios(c(displayed_scenarios(), current_scenario))
     }
   })
-
-
   #Disable add scenario button
   observe({
     if (length(displayed_scenarios()) >= 3) {
       shinyjs::disable("add_scenario")
     }
   })
-
-
   #Generate UI elements for a scenario
   # generate_scenario_ui <- function(scenario_id) {
   #   if (scenario_id %in% displayed_scenarios()) {
@@ -72,51 +65,51 @@ app_server <- function(input, output, session) {
                  h4("Scenario 1"),
                  mod_scenarios_data_ui("scenarios_data_1")
 
-                 ,
-                shinyjs::hidden(
-                  div(id="scenario1_test_5_div",
-                 fluidRow(
-                 column(width=2,
-                        h5(strong("Test 1")),
-                        mod_tests_data_ui("scenario1_tests_data_1")
-                 ),
-                 column(width=2,
-                        h5(strong("Test 2")),
-                        mod_tests_data_ui("scenario1_tests_data_2")
-                 ),
-                 column(width=2,
-                        h5(strong("Test 3")),
-                        mod_tests_data_ui("scenario1_tests_data_3")
-                 ),
-                 column(width=2,
-                        h5(strong("Test 4")),
-                        mod_tests_data_ui("scenario1_tests_data_4")
-                 ),
-                 column(width=2,
-                        h5(strong("Test 5")),
-                        mod_tests_data_ui("scenario1_tests_data_5")
-                 )
-                )
-                )
-                ),
-          shinyjs::hidden(
-            div(id="scenario1_test_3_div",
-                fluidRow(
-                  column(width=2,
-                         h5(strong("Test 1")),
-                         mod_tests_data_ui("scenario1_tests_data_1")
-                  ),
-                  column(width=2,
-                         h5(strong("Test 2")),
-                         mod_tests_data_ui("scenario1_tests_data_2")
-                  ),
-                  column(width=2,
-                         h5(strong("Test 3")),
-                         mod_tests_data_ui("scenario1_tests_data_3")
-                  )
-
-                ))
-          )
+          #        ,
+          #       shinyjs::hidden(
+          #         div(id="scenario1_test_5_div",
+          #        fluidRow(
+          #        column(width=2,
+          #               h5(strong("Test 1")),
+          #               mod_tests_data_ui("scenario1_tests_data_1")
+          #        ),
+          #        column(width=2,
+          #               h5(strong("Test 2")),
+          #               mod_tests_data_ui("scenario1_tests_data_2")
+          #        ),
+          #        column(width=2,
+          #               h5(strong("Test 3")),
+          #               mod_tests_data_ui("scenario1_tests_data_3")
+          #        ),
+          #        column(width=2,
+          #               h5(strong("Test 4")),
+          #               mod_tests_data_ui("scenario1_tests_data_4")
+          #        ),
+          #        column(width=2,
+          #               h5(strong("Test 5")),
+          #               mod_tests_data_ui("scenario1_tests_data_5")
+          #        )
+          #       )
+          #       )
+          #       ),
+          # shinyjs::hidden(
+          #   div(id="scenario1_test_3_div",
+          #       fluidRow(
+          #         column(width=2,
+          #                h5(strong("Test 1")),
+          #                mod_tests_data_ui("scenario1_tests_data_1")
+          #         ),
+          #         column(width=2,
+          #                h5(strong("Test 2")),
+          #                mod_tests_data_ui("scenario1_tests_data_2")
+          #         ),
+          #         column(width=2,
+          #                h5(strong("Test 3")),
+          #                mod_tests_data_ui("scenario1_tests_data_3")
+          #         )
+          #
+          #       ))
+          # )
 
 
                 )),
@@ -126,86 +119,125 @@ app_server <- function(input, output, session) {
           column(width=12,
                  h4("Scenario 2"),
                  mod_scenarios_data_ui("scenarios_data_2")
-                 ,
-                 shinyjs::hidden(
-                   div(id="scenario2_test_5_div",
-                       fluidRow(
-                         column(width=2,
-                                h5(strong("Test 1")),
-                                mod_tests_data_ui("scenario2_tests_data_1")
-                         ),
-                         column(width=2,
-                                h5(strong("Test 2")),
-                                mod_tests_data_ui("scenario2_tests_data_2")
-                         ),
-                         column(width=2,
-                                h5(strong("Test 3")),
-                                mod_tests_data_ui("scenario2_tests_data_3")
-                         ),
-                         column(width=2,
-                                h5(strong("Test 4")),
-                                mod_tests_data_ui("scenario2_tests_data_4")
-                         ),
-                         column(width=2,
-                                h5(strong("Test 5")),
-                                mod_tests_data_ui("scenario2_tests_data_5")
-                         )
-                       )
-                   )
-                 ),
-                 shinyjs::hidden(
-                   div(id="scenario2_test_3_div",
-                       fluidRow(
-                         column(width=2,
-                                h5(strong("Test 1")),
-                                mod_tests_data_ui("scenario2_tests_data_1")
-                         ),
-                         column(width=2,
-                                h5(strong("Test 2")),
-                                mod_tests_data_ui("scenario2_tests_data_2")
-                         ),
-                         column(width=2,
-                                h5(strong("Test 3")),
-                                mod_tests_data_ui("scenario2_tests_data_3")
-                         )
-
-                       ))
+                 # ,
+                 # shinyjs::hidden(
+                 #   div(id="scenario2_test_5_div",
+                 #       fluidRow(
+                 #         column(width=2,
+                 #                h5(strong("Test 1")),
+                 #                mod_tests_data_ui("scenario2_tests_data_1")
+                 #         ),
+                 #         column(width=2,
+                 #                h5(strong("Test 2")),
+                 #                mod_tests_data_ui("scenario2_tests_data_2")
+                 #         ),
+                 #         column(width=2,
+                 #                h5(strong("Test 3")),
+                 #                mod_tests_data_ui("scenario2_tests_data_3")
+                 #         ),
+                 #         column(width=2,
+                 #                h5(strong("Test 4")),
+                 #                mod_tests_data_ui("scenario2_tests_data_4")
+                 #         ),
+                 #         column(width=2,
+                 #                h5(strong("Test 5")),
+                 #                mod_tests_data_ui("scenario2_tests_data_5")
+                 #         )
+                 #       )
+                 #   ))
+                 # ),
+                 # shinyjs::hidden(
+                 #   div(id="scenario2_test_3_div",
+                 #       fluidRow(
+                 #         column(width=2,
+                 #                h5(strong("Test 1")),
+                 #                mod_tests_data_ui("scenario2_tests_data_1")
+                 #         ),
+                 #         column(width=2,
+                 #                h5(strong("Test 2")),
+                 #                mod_tests_data_ui("scenario2_tests_data_2")
+                 #         ),
+                 #         column(width=2,
+                 #                h5(strong("Test 3")),
+                 #                mod_tests_data_ui("scenario2_tests_data_3")
+                 #         )
+                 #
+                 #       ))
                  )
       )),
       shinyjs::hidden(div(id="scenario3_div",
           column(width=12,
                  h4("Scenario 3"),
                  mod_scenarios_data_ui("scenarios_data_3")
+          #        ,
+          #        shinyjs::hidden(
+          #          div(id="scenario3_test_5_div",
+          #              fluidRow(
+          #                column(width=2,
+          #                       h5(strong("Test 1")),
+          #                       mod_tests_data_ui("scenario3_tests_data_1")
+          #                ),
+          #                column(width=2,
+          #                       h5(strong("Test 2")),
+          #                       mod_tests_data_ui("scenario3_tests_data_2")
+          #                ),
+          #                column(width=2,
+          #                       h5(strong("Test 3")),
+          #                       mod_tests_data_ui("scenario3_tests_data_3")
+          #                ),
+          #                column(width=2,
+          #                       h5(strong("Test 4")),
+          #                       mod_tests_data_ui("scenario3_tests_data_4")
+          #                ),
+          #                column(width=2,
+          #                       h5(strong("Test 5")),
+          #                       mod_tests_data_ui("scenario3_tests_data_5")
+          #                )
+          #              )
+          #          )
+          #        ),
+          #        shinyjs::hidden(
+          #          div(id="scenario3_test_3_div",
+          #              fluidRow(
+          #                column(width=2,
+          #                       h5(strong("Test 1")),
+          #                       mod_tests_data_ui("scenario3_tests_data_1")
+          #                ),
+          #                column(width=2,
+          #                       h5(strong("Test 2")),
+          #                       mod_tests_data_ui("scenario3_tests_data_2")
+          #                ),
+          #                column(width=2,
+          #                       h5(strong("Test 3")),
+          #                       mod_tests_data_ui("scenario3_tests_data_3")
+          #                )
+          #
+          #              ))
+          #        )
+          #
           )
       ))
     )
   })
 
 
-#   x1 <- scenario1_vars$pathway_list$pathway_type()
-#   #pathway_type()
-#   # scenario2 = scenario2_vars(),
-#   # scenario3 = scenario3_vars()
-# print(x1)
-  # xx <- 3#observe ({pathway_list$pathway_type()})
-
-
-  # observe({
-  #
-  #
-  #   # Now you can use test_n_value in this observe block
-  # })
-
 
   observe({
         num_scenarios <- length(displayed_scenarios())
 
-        scenarioX = scenario1_vars()
-        x <- scenarioX$pathway_type
+        scenario1_pathway = scenario1_vars()
+        scenario1_tests_n <- scenario1_pathway$pathway_type
+
+        scenario2_pathway = scenario2_vars()
+        scenario2_tests_n <- scenario2_pathway$pathway_type
+
+        scenario3_pathway = scenario3_vars()
+        scenario3_tests_n <- scenario3_pathway$pathway_type
+
         # shinyjs::hide(id = c("scenario1_div", "scenario2_div", "scenario3_div"))
         if (num_scenarios >= 1) {
           shinyjs::show(id = "scenario1_div")
-          if (x=="full") {
+          if (scenario1_tests_n=="full") {
             shinyjs::show(id = "scenario1_test_5_div")
             shinyjs::hide(id = "scenario1_test_3_div")
           } else {
@@ -215,11 +247,27 @@ app_server <- function(input, output, session) {
         }
         if (num_scenarios >= 2) {
           shinyjs::show(id = "scenario2_div")
+          if (scenario2_tests_n=="full") {
+            shinyjs::show(id = "scenario2_test_5_div")
+            shinyjs::hide(id = "scenario2_test_3_div")
+          } else {
+            shinyjs::show(id = "scenario2_test_3_div")
+            shinyjs::hide(id = "scenario2_test_5_div")
+          }
         }
         if (num_scenarios >= 3) {
           shinyjs::show(id = "scenario3_div")
+          if (scenario3_tests_n=="full") {
+            shinyjs::show(id = "scenario3_test_5_div")
+            shinyjs::hide(id = "scenario3_test_3_div")
+          } else {
+            shinyjs::show(id = "scenario3_test_3_div")
+            shinyjs::hide(id = "scenario3_test_5_div")
+          }
         }
   })
+
+
   # observe({
   #   num_scenarios <- length(displayed_scenarios())
   #   shinyjs::hide(selector = ".scenario_column")
@@ -251,7 +299,7 @@ app_server <- function(input, output, session) {
 
   user_data <- mod_user_data_server("user_data")
   pathways <- mod_pathways_data_server("pathways_data")
-  advance_settings_vars <- mod_advance_data_server("advance_data")
+  advance <- mod_advance_data_server("advance_data")
 
 
   #Generate server Result-scenario for each displayed scenario
@@ -278,6 +326,7 @@ app_server <- function(input, output, session) {
     eventReactive(input$calculate, {
 
       list(
+        advance = advance,
         pathways = pathways,
         scenario1 = scenario1_vars(),
         scenario2 = scenario2_vars(),
@@ -286,21 +335,9 @@ app_server <- function(input, output, session) {
 
     })
 
-
-# event_calculate=event_calculate,
   observe({
-    mod_results_server("results_general", results_list=results_data )
+    mod_results_server("results_general", results_list=results_data)
   })
-                     # user_data=user_data, pathways=pathways, advance_settings_vars=advance_settings_vars, scenario1_vars=scenario1_vars, scenario2_vars=scenario2_vars, scenario3_vars=scenario3_vars
-
-  # mod_results_data_server(
-  #   id = "results_data_1",
-  #   event_calculate = event_calculate,
-  #   pathways = pathways,
-  #   advance_settings_vars=advance_settings_vars,
-  #   scenario_vars = "scenario1_vars"
-  # )
-
 
 
 }

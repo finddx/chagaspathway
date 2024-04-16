@@ -40,23 +40,33 @@ mod_results_server <- function(id, results_list){# event_calculate,
     #   results_list()
     # })
 
+
     results_data  <- results_list()
+
+
      # results_data[[scenarios_n]]$test1$test_type()
 
     # observe({
       # res_pathway <- results_data()$scenario1$pathway_type
-      res_pathway <- results_data$scenario1$pathway_type
-      res_prev <- 50
-      res_lftu <- results_data$pathways$lftu
-      res_test1 <- results_data$scenario1$test1
-      res_test2 <- results_data$scenario1$test2
-      res_test3 <- results_data$scenario1$test3
-      res_test4 <- results_data$scenario1$test4
-      res_test5 <- results_data$scenario1$test5
-      res_daly_avert_per_tx <- 12 #avg_dalys
-      tx_eff <- res_tx_eff <- 15 #treat_effect
+      # res_pathway <- results_data$scenario1$pathway_type
+      # res_prev <- 50
+      # res_lftu <- results_data$pathways$lftu
+      # res_test1 <- results_data$scenario1$test1
+      # res_test2 <- results_data$scenario1$test2
+      # res_test3 <- results_data$scenario1$test3
+      # res_test4 <- results_data$scenario1$test4
+      # res_test5 <- results_data$scenario1$test5
+      # res_daly_avert_per_tx <- 12 #results_data$advance$avg_dalys
+      # res_treat_effect <- treat_effect <- 15 #results_data$advance$treat_effect
 
-      params <- make_params(pathway=res_pathway, prev=res_prev, test1=res_test1, test2=res_test2, test3=res_test3, test4=res_test4, test5=res_test5, daly_avert_per_tx=res_daly_avert_per_tx, tx_eff=res_tx_eff)
+      params <- format_app_params2(scenario_vars=results_data$scenario1, global_vars=results_data$pathways, advance_vars=results_data$advance)
+      # print(results_data$scenario1$test1$test_type())
+
+      # print(results_data$scenario1)
+      # print(results_data$pathways)
+      # print(results_data$advance)
+
+      # params <- make_params(pathway=res_pathway, prev=res_prev, test1=res_test1, test2=res_test2, test3=res_test3, test4=res_test4, test5=res_test5, daly_avert_per_tx=res_daly_avert_per_tx, treat_effect=res_treat_effect)
     # })
 
 
