@@ -41,9 +41,9 @@ mod_results_server <- function(id, results_list){# event_calculate,
     # })
 
 
-    results_data  <- results_list()
+    params  <- results_list
 
-
+    # print(params)
      # results_data[[scenarios_n]]$test1$test_type()
 
     # observe({
@@ -52,20 +52,11 @@ mod_results_server <- function(id, results_list){# event_calculate,
       # res_prev <- 50
       # res_lftu <- results_data$pathways$lftu
       # res_test1 <- results_data$scenario1$test1
-      # res_test2 <- results_data$scenario1$test2
-      # res_test3 <- results_data$scenario1$test3
-      # res_test4 <- results_data$scenario1$test4
-      # res_test5 <- results_data$scenario1$test5
-      # res_daly_avert_per_tx <- 12 #results_data$advance$avg_dalys
-      # res_treat_effect <- treat_effect <- 15 #results_data$advance$treat_effect
 
-      params <- format_app_params_react(scenario_vars=results_data$scenario1, global_vars=results_data$pathways, advance_vars=results_data$advance)
-      print(params)
+
+      # params <- format_app_params_react(scenario_vars=results_data$scenario1, global_vars=results_data$pathways, advance_vars=results_data$advance)
+      # print(params)
       # print(results_data$scenario1$test1$test_type)
-
-      # print(results_data$scenario1)
-      # print(results_data$pathways)
-      # print(results_data$advance)
 
       # params <- make_params(pathway=res_pathway, prev=res_prev, test1=res_test1, test2=res_test2, test3=res_test3, test4=res_test4, test5=res_test5, daly_avert_per_tx=res_daly_avert_per_tx, treat_effect=res_treat_effect)
     # })
@@ -84,10 +75,7 @@ mod_results_server <- function(id, results_list){# event_calculate,
     #
     #   sensitivity_scenario1 <- scenario1_vars$sensitivity()
     #   specificity_scenario1 <- scenario1_vars$specificity()
-    #   sensitivity_scenario2 <- scenario2_vars$sensitivity()
-    #   specificity_scenario2 <- scenario2_vars$specificity()
-    #   sensitivity_scenario3 <- scenario3_vars$sensitivity()
-    #   specificity_scenario3 <- scenario3_vars$specificity()
+
     #
     #   list(user_name=user_name,
     #        sensitivity_scenario1=sensitivity_scenario1, specificity_scenario1=specificity_scenario1,

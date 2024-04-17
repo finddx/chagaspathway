@@ -61,9 +61,17 @@ app_server <- function(input, output, session) {
   output$scenarios <- renderUI({
     tagList(
       div(id="scenario1_div",
+
           column(width=12,
-                 h4("Scenario 1"),
-                 mod_scenarios_data_ui("scenarios_data_1")
+                 card(
+                   card_header(h4(strong("Scenario 1"))),
+                   card_body(
+                     mod_scenarios_data_ui("scenarios_data_1")
+                   )
+                 )
+
+                 # h4(strong("Scenario 1")),
+                 # mod_scenarios_data_ui("scenarios_data_1")
 
           #        ,
           #       shinyjs::hidden(
@@ -116,9 +124,17 @@ app_server <- function(input, output, session) {
 
 
       shinyjs::hidden(div(id="scenario2_div",
+                          # hr(style="border-top: 3px solid #491E5D;"),
           column(width=12,
-                 h4("Scenario 2"),
-                 mod_scenarios_data_ui("scenarios_data_2")
+                 card(
+                   card_header(h4(strong("Scenario 2"))),
+                   card_body(
+                     mod_scenarios_data_ui("scenarios_data_2")
+                   )
+                 )
+
+                 # h4(strong("Scenario 2")),
+                 # mod_scenarios_data_ui("scenarios_data_2")
                  # ,
                  # shinyjs::hidden(
                  #   div(id="scenario2_test_5_div",
@@ -166,9 +182,16 @@ app_server <- function(input, output, session) {
                  )
       )),
       shinyjs::hidden(div(id="scenario3_div",
+                          # hr(style="border-top: 3px solid #491E5D;"),
           column(width=12,
-                 h4("Scenario 3"),
-                 mod_scenarios_data_ui("scenarios_data_3")
+                 card(
+                   card_header(h4(strong("Scenario 3"))),
+                   card_body(
+                     mod_scenarios_data_ui("scenarios_data_3")
+                   )
+                 )
+                 # h4(strong("Scenario 3")),
+                 # mod_scenarios_data_ui("scenarios_data_3")
           #        ,
           #        shinyjs::hidden(
           #          div(id="scenario3_test_5_div",
@@ -280,9 +303,14 @@ app_server <- function(input, output, session) {
     if (result_id %in% displayed_scenarios()) {
       result_number <- as.numeric(gsub("\\D", "", result_id))
       tagList(
-        column(width=4, id=paste0("results_data_", gsub("\\D", "", result_id)),
-               h4(paste("Results scenario", result_number), style="text-align: center; width: 100%;"),
-               mod_results_data_ui(paste0("results_data_", result_number))
+        column(width=ifelse(length(displayed_scenarios())==1,12,ifelse(length(displayed_scenarios())==2,6,4)), id=paste0("results_data_", gsub("\\D", "", result_id)),
+               # h4(paste("Results scenario", result_number), style="text-align: center; width: 100%;"),
+               card(
+                 card_header(h4(strong(paste("Results scenario", result_number)))),
+                card_body(
+                  mod_results_data_ui(paste0("results_data_", result_number))
+                )
+               )
         )
       )
     }
@@ -336,7 +364,12 @@ app_server <- function(input, output, session) {
     })
 
   observe({
-    mod_results_server("results_general", results_list=results_data)
+  params <- format_app_params_react(scenario_vars=results_data()$scenario1, global_vars=results_data()$pathways, advance_vars=results_data()$advance)
+
+  })
+
+  observe({
+    mod_results_server("results_general", results_list=params)
   })
 
 

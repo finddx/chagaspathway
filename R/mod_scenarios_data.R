@@ -34,80 +34,103 @@ mod_scenarios_data_server <- function(id, scenarios_n){#, list_tests
     })
 
     #Generate tests UI
-    generate_test_ui <- function(test_id) {
-      if (test_id %in% test_n_out()) {
-        test_number <- as.numeric(gsub("\\D", "", test_id))
-        tagList(
-          column(width=ifelse(length(test_n_out())==3,4,2), id=paste0("tests_data_", gsub("\\D", "", test_id)),
-                 h5(strong(paste("Test", test_number))),
-                 mod_tests_data_ui(ns(paste0(scenarios_n, "_tests_data_", test_number)))
-          )
-        )
-      }
-    }
-    output$tests <- renderUI({
-      test_list <- lapply(test_n_out(), generate_test_ui)
-      fluidRow(do.call(tagList, test_list))
-    })
-
-
+    # generate_test_ui <- function(test_id) {
+    #   if (test_id %in% test_n_out()) {
+    #     test_number <- as.numeric(gsub("\\D", "", test_id))
+    #     tagList(
+    #
+    #       # splitLayout(
+    #       column(width=ifelse(length(test_n_out())==3,4,2), id=paste0("tests_data_", gsub("\\D", "", test_id)),
+    #
+    #
+    #              card(
+    #                card_header(h5(strong(paste("Test", test_number)))),
+    #                card_body(
+    #              # h5(strong(paste("Test", test_number))),
+    #              mod_tests_data_ui(ns(paste0(scenarios_n, "_tests_data_", test_number)))
+    #                )
+    #
+    #              )
+    #              )
+    #
+    #     )
+    #   }
+    # }
     # output$tests <- renderUI({
-    #   tagList(
-    #     div(id="tests_5_div",
-    #         fluidRow(
-    #       h4("Results 5"),
-    #         column(width=2,
-    #                h5(strong("Test 1")),
-    #                mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_1")))
-    #                ),
-    #         column(width=2,
-    #                h5(strong("Test 2")),
-    #                mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_2")))
-    #                ),
-    #         column(width=2,
-    #                h5(strong("Test 3")),
-    #                mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_3")))
-    #                ),
-    #         column(width=2,
-    #                h5(strong("Test 4")),
-    #                mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_4")))
-    #                ),
-    #         column(width=2,
-    #                h5(strong("Test 5")),
-    #                mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_5")))
-    #                )
-    #     )),
-    #     shinyjs::hidden(
-    #       div(id="tests_3_div",
-    #         fluidRow(
-    #         h4("Results 3"),
-    #         column(width=4,
-    #                h5(strong("Test 1")),
-    #                mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_1")))
-    #                ),
-    #         column(width=4,
-    #                h5(strong("Test 2")),
-    #                mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_2")))
-    #                ),
-    #         column(width=4,
-    #                h5(strong("Test 3")),
-    #                mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_3")))
-    #                )
-    #         )
-    #         )
-    #       )
-    # )
+    #   test_list <- lapply(test_n_out(), generate_test_ui)
+    #   fluidRow(do.call(tagList, test_list))
+    #   # cell_width <- ifelse(length(test_n_out()) == 3, "33%", "20%")
+    #   # splitLayout(splitLayout(do.call(tagList, test_list), cellWidths = rep(cell_width, length(test_n_out()))),cell_width="100%")
     # })
-    # observe({
-    #       num_tests <- length(test_n_out())
-    #       if (num_tests==5) {
-    #         shinyjs::show(id="tests_5_div", asis=TRUE)
-    #         shinyjs::hide(id="tests_3_div", asis=TRUE)
-    #       } else if(num_tests==3){
-    #         shinyjs::show(id ="tests_3_div", asis=TRUE)
-    #         shinyjs::hide(id="tests_5_div", asis=TRUE)
-    #       }
-    # })
+
+
+    output$tests <- renderUI({
+      tagList(
+        div(id="tests_5_div",
+            fluidRow(
+              splitLayout(
+                cell_width="20%",
+                   card(
+                     card_header(h5(strong("Test 1"))),
+                     card_body(
+                       mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_1")))
+                   )),
+                card(
+                  card_header(h5(strong("Test 2"))),
+                  card_body(
+                    mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_2")))
+                  )),
+                card(
+                  card_header(h5(strong("Test 3"))),
+                  card_body(
+                    mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_3")))
+                  )),
+                card(
+                  card_header(h5(strong("Test 4"))),
+                  card_body(
+                    mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_4")))
+                  )),
+                card(
+                  card_header(h5(strong("Test 5"))),
+                  card_body(
+                    mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_5")))
+                  ))
+        ))),
+        shinyjs::hidden(
+          div(id="tests_3_div",
+            fluidRow(
+              splitLayout(
+                cell_width="33%",
+                card(
+                  card_header(h5(strong("Test 1"))),
+                  card_body(
+                    mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_1")))
+                  )),
+                card(
+                  card_header(h5(strong("Test 2"))),
+                  card_body(
+                    mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_2")))
+                  )),
+                card(
+                  card_header(h5(strong("Test 3"))),
+                  card_body(
+                    mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_3")))
+                  ))
+            )
+            )
+          )
+    ))
+    })
+    observe({
+          num_tests <- length(test_n_out())
+          if (num_tests==5) {
+            shinyjs::show(id="tests_5_div", asis=TRUE)
+            shinyjs::hide(id="tests_3_div", asis=TRUE)
+          } else if(num_tests==3){
+            shinyjs::show(id ="tests_3_div", asis=TRUE)
+            shinyjs::hide(id="tests_5_div", asis=TRUE)
+          }
+    })
 
 
 
