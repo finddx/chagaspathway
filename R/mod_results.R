@@ -9,20 +9,14 @@
 #' @importFrom shiny NS tagList
 mod_results_ui <- function(id){
   ns <- NS(id)
-  tagList(
-
-    fluidRow(
-      column(width=8, offset=2,
-             plotOutput(ns("plo1"))
-      )
-    ),
-    fluidRow(
-      column(width=4, offset=4,
-              downloadButton(ns("report"), label="Generate report", style="text-align: center; width: 100%;", class="button-color", icon=NULL)
-              )
-    )
-
-  )
+  # tagList(
+  #   # fluidRow(
+  #   #   column(width=4, offset=4,
+  #   #           downloadButton(ns("report"), label="Generate report", style="text-align: center; width: 100%;", class="button-color", icon=NULL)
+  #   #           )
+  #   # )
+  #
+  # )
 }
 
 #' results Server Functions
@@ -36,12 +30,26 @@ mod_results_server <- function(id, results_list){# event_calculate,
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+
+    # observe({
+    #   for (i in 1:3) {
+    #     module_name <- paste0("results", i)
+    #
+    #     # Check if module exists
+    #     if (!exists(module_name)) {
+    #       # Dynamically create module if it doesn't exist
+    #       module_results[[module_name]] <- callModule(plotModule, module_name)
+    #     }
+    #   }
+    # })
+
+
     # results_data <- reactive({
     #   results_list()
     # })
 
 
-    params  <- results_list
+    # params  <- results_list
 
     # print(params)
      # results_data[[scenarios_n]]$test1$test_type()
@@ -167,15 +175,28 @@ mod_results_server <- function(id, results_list){# event_calculate,
     #     rmarkdown::render(tempReport,
     #                       output_file=file,
     #                       params=list(
-    #                         user_name = results_data()$user_name,
-    #                         sensitivity_scenario1 = results_data()$sensitivity_scenario1,
-    #                         specificity_scenario1 = results_data()$specificity_scenario1,
-    #                         sensitivity_scenario2 = results_data()$sensitivity_scenario2,
-    #                         specificity_scenario2 = results_data()$specificity_scenario2,
-    #                         sensitivity_scenario3 = results_data()$sensitivity_scenario3,
-    #                         specificity_scenario3 = results_data()$specificity_scenario3,
-    #                         scatterplot_plot=scatterplot_plot(),
-    #                         scatterplot2_plot=scatterplot2_plot()
+    #                         # user_name = results_data()$user_name,
+    #                         # sensitivity_scenario1 = results_data()$sensitivity_scenario1,
+    #                         # scatterplot_plot=scatterplot_plot(),
+    #                         fig_diagram_scenarios1 = fig_diagram,
+    #                         # value3_scenarios1 = value3_scenarios1(),
+    #                         # value4_scenarios1 = value4_scenarios1(),
+    #                         plot_ppv_scenarios1 = plot_ppv,
+    #                         plot_npv_scenarios1 = plot_npv,
+    #                         plot_cpc_scenarios1 = plot_cpc,
+    #                         # fig_diagram_scenarios2 =  fig_diagram_scenarios2(),
+    #                         # value3_scenarios2 = value3_scenarios2(),
+    #                         # value4_scenarios2 = value4_scenarios2(),
+    #                         # plot_ppv_scenarios2 = plot_ppv_scenarios2(),
+    #                         # plot_npv_scenarios2 = plot_npv_scenarios2(),
+    #                         # plot_cpc_scenarios2 = plot_cpc_scenarios2(),
+    #                         # fig_diagram_scenarios3 = fig_diagram_scenarios3(),
+    #                         # value3_scenarios3 = value3_scenarios3(),
+    #                         # value4_scenarios3 = value4_scenarios3(),
+    #                         # plot_ppv_scenarios3 = plot_ppv_scenarios3(),
+    #                         # plot_npv_scenarios3 = plot_npv_scenarios3(),
+    #                         # plot_cpc_scenarios3 = plot_cpc_scenarios3()
+    #
     #                       ),
     #                       envir=new.env(parent = globalenv())
     #     )

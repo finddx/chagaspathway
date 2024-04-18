@@ -18,6 +18,7 @@ mod_results_data_ui <- function(id){
     plotOutput(ns("out_plot_ppv"), width="100%"),
     plotOutput(ns("out_plot_npv"), width="100%"),
     plotOutput(ns("out_plot_cpc"), width="100%")
+    # uiOutput(ns("outputs"))
   )
 }
 
@@ -53,9 +54,12 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
 #     out$total_cost / out$n_true_pos
 # #
 
+
+    #Make diagram
+    fig_diagram <- render_graph(make_pathway_diagram(params))
+
     # Proportion cases diagnosed:
     prop_diagnosed <- round(out$prop_diagnosed*100, 1)#}%
-
     # Cost per case diagnosed:
     cost_per_true_pos <- round(out$cost_per_true_pos*100, 2)
 
@@ -63,9 +67,6 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
     plot_ppv <- make_plots(params, "ppv")
     plot_npv <- make_plots(params, "npv")
     plot_cpc <- make_plots(params, "cpc")
-
-    #Make diagram
-    fig_diagram <- render_graph(make_pathway_diagram(params))
 
   # print(scenario_vars()$sensitivity)
     # results_data <-
@@ -92,32 +93,60 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
       paste0("<b>facility_type: </b>", results_data[[scenarios_n]]$pathway_type)
     })
 
+
+    # output$outputs <- renderUI({
+    #   tagList(
+    #     grVizOutput(ns(paste0("out_fig_diagram_", scenarios_n)), width = "100%"),
+    #     uiOutput(ns(paste0("value3_", scenarios_n)), style="text-align: center; width: 100%;"),
+    #     uiOutput(ns(paste0("value4_", scenarios_n)), style="text-align: center; width: 100%;"),
+    #     plotOutput(ns(paste0("out_plot_ppv_", scenarios_n)), width="100%"),
+    #     plotOutput(ns(paste0("out_plot_npv_", scenarios_n)), width="100%"),
+    #     plotOutput(ns(paste0("out_plot_cpc_", scenarios_n)), width="100%")
+    #   )
+    # })
+
     output$value3 <- renderText({
+      # output[[paste0("value3_", scenarios_n)]] <- renderText({
       paste0("<b>Proportion cases diagnosed: </b>", prop_diagnosed)
     })
     output$value4 <- renderText({
+      # output[[paste0("value4_", scenarios_n)]] <- renderText({
       paste0("<b>Cost per case diagnosed: </b>", cost_per_true_pos)
     })
 
     #Render plots
     output$out_fig_diagram <- renderGrViz({
+    # output[[paste0("out_fig_diagram_", scenarios_n)]]  <- renderGrViz({
       fig_diagram
     })
 
     output$out_plot_ppv <- renderPlot({
+      # output[[paste0("out_plot_ppv_", scenarios_n)]] <- renderPlot({
       plot_ppv
       })
 
     output$out_plot_npv <- renderPlot({
+      # output[[paste0("out_plot_npv_", scenarios_n)]] <- renderPlot({
       plot_npv
       })
 
     output$out_plot_cpc <- renderPlot({
+      # output[[paste0("out_plot_cpc_", scenarios_n)]] <- renderPlot({
       plot_cpc
       })
 
 
-
+      #Return outputs for html report
+      return(
+        list(
+          fig_diagram = fig_diagram,
+          prop_diagnosed = prop_diagnosed, #reactive({ })
+          cost_per_true_pos = cost_per_true_pos,
+          plot_ppv = plot_ppv,
+          plot_npv = plot_npv,
+          plot_cpc = plot_cpc
+        )
+      )
 
 
   })

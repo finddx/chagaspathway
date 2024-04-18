@@ -337,16 +337,21 @@ app_server <- function(input, output, session) {
     lapply(displayed_scenarios(), function(result_id) {
       if (result_id %in% displayed_scenarios()) {
         result_number <- as.numeric(gsub("\\D", "", result_id))
-
-        mod_results_data_server(
-          id = paste0("results_data_", result_number),
-          # event_calculate = event_calculate,
-          scenarios_n = paste0("scenario", result_number),
-          results_list  = results_data #get(paste0("scenario", result_number, "_vars"))
+        assign(
+          paste0("results_", result_number, "_vars"),
+          mod_results_data_server(
+            id = paste0("results_data_", result_number),
+            # event_calculate = event_calculate,
+            scenarios_n = paste0("scenario", result_number),
+            results_list  = results_data #get(paste0("scenario", result_number, "_vars"))
+          ),
+          envir = .GlobalEnv
         )
       }
     })
   })
+
+
 
   # event_calculate <- eventReactive(input$calculate, {
   #   input$calculate
@@ -356,6 +361,7 @@ app_server <- function(input, output, session) {
   # scenario2_vars <- function(){}
   # scenario3_vars <- function(){}
    # <- scenario5_vars()
+
   results_data <-
     eventReactive(input$calculate, {
 
@@ -369,13 +375,56 @@ app_server <- function(input, output, session) {
 
     })
 
-  observe({
-    tmp_params <- format_app_params_react(scenario_vars=results_data()$scenario1, global_vars=results_data()$pathways, advance_vars=results_data()$advance)
-  })
+  # observe({
+  #   tmp_params <- format_app_params_react(scenario_vars=results_data()$scenario1, global_vars=results_data()$pathways, advance_vars=results_data()$advance)
+  # })
 
-  observe({
-    mod_results_server("results_general", results_list=results_data)#event_calculate=event_calculate)#
-  })
+  # observe({
+  #   mod_results_server("results_general", results_list=results_data)#event_calculate=event_calculate)#
+  # })
+
+  # plot_values <- callModule(mod_results_data_server, "results_data_1")
+
+
+
+  output$report <- downloadHandler(
+
+    filename <-  "chagaspathway_report.html",
+    content = function(file) {
+      tempReport <- file.path(tempdir(), "chagaspathway_report.Rmd")
+      file.copy("chagaspathway_report.Rmd", tempReport, overwrite=TRUE)
+
+      rmarkdown::render(tempReport,
+                        output_file=file,
+                        params=list(
+                          num_scenarios=length(displayed_scenarios()),
+                          # user_name = results_data()$user_name,
+                          # sensitivity_scenario1 = results_data()$sensitivity_scenario1,
+                          # scatterplot_plot=scatterplot_plot(),
+                          fig_diagram_scenarios1 = if(exists("results_1_vars")) results_1_vars$fig_diagram else NULL,
+                          # value3_scenarios1 = value3_scenarios1(),
+                          # value4_scenarios1 = value4_scenarios1(),
+                          plot_ppv_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_ppv else NULL,
+                          plot_npv_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_npv else NULL,
+                          plot_cpc_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_cpc else NULL,
+                          # fig_diagram_scenarios2 =  fig_diagram_scenarios2(),
+                          # value3_scenarios2 = value3_scenarios2(),
+                          # value4_scenarios2 = value4_scenarios2(),
+                          plot_ppv_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_ppv else NULL,
+                          plot_npv_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_npv else NULL,
+                          plot_cpc_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_cpc else NULL,
+                          # fig_diagram_scenarios3 = fig_diagram_scenarios3(),
+                          # value3_scenarios3 = value3_scenarios3(),
+                          # value4_scenarios3 = value4_scenarios3(),
+                          plot_ppv_scenarios3 = if(exists("results_3_vars")) results_3_vars$plot_ppv else NULL,
+                          plot_npv_scenarios3 = if(exists("results_3_vars")) results_3_vars$plot_npv else NULL,
+                          plot_cpc_scenarios3 = if(exists("results_3_vars")) results_3_vars$plot_cpc else NULL
+
+                        ),
+                        envir=new.env(parent = globalenv())
+      )
+    }
+  )
 
 
 }

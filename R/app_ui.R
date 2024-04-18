@@ -117,7 +117,12 @@ app_ui <- function(request) {
       ),
       nav_panel(title="Results", icon=bs_icon("bar-chart-line"),
         uiOutput("results"),
-        mod_results_ui("results_general")
+        fluidRow(
+          column(width=4, offset=4,
+                 downloadButton("report", label="Generate report", style="text-align: center; width: 100%;", class="button-color", icon=NULL)
+          )
+        )
+        # mod_results_ui("results_general")
       ),
       nav_panel(title="Advance settings", icon=bs_icon("gear-fill"),
         h3(strong("Advance settings")),
