@@ -6,6 +6,8 @@
 #' @importFrom ggplot2 ggplot geom_point
 #' @importFrom shinyjs useShinyjs show hide hidden disable
 #' @importFrom shinyBS bsCollapse bsCollapsePanel
+#' @importFrom patientpathways make_params run_pathway make_plots make_pathway_diagram
+#' @importFrom DiagrammeR render_graph grVizOutput renderGrViz
 
 #' @noRd
 app_server <- function(input, output, session) {
@@ -350,6 +352,10 @@ app_server <- function(input, output, session) {
   #   input$calculate
   # })
 
+  # scenario1_vars <- function(){}
+  # scenario2_vars <- function(){}
+  # scenario3_vars <- function(){}
+   # <- scenario5_vars()
   results_data <-
     eventReactive(input$calculate, {
 
@@ -364,12 +370,11 @@ app_server <- function(input, output, session) {
     })
 
   observe({
-  params <- format_app_params_react(scenario_vars=results_data()$scenario1, global_vars=results_data()$pathways, advance_vars=results_data()$advance)
-
+    tmp_params <- format_app_params_react(scenario_vars=results_data()$scenario1, global_vars=results_data()$pathways, advance_vars=results_data()$advance)
   })
 
   observe({
-    mod_results_server("results_general", results_list=params)
+    mod_results_server("results_general", results_list=results_data)#event_calculate=event_calculate)#
   })
 
 

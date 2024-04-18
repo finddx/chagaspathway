@@ -12,15 +12,15 @@ mod_tests_data_ui <- function(id){
   tagList(
     # fluidRow(column(12,
     #                 align='center',tags$style(HTML(".distribute { display: flex; justify-content: space-between; }")),
-    radioButtons(ns("test_type"), label=HTML("<b> Test type </b>"), choices=c("RDT", "Serological test"), inline=TRUE, selected=NULL, width="100%"
+    radioButtons(ns("test_type"), label=HTML("<b> Test type </b>"), choices=c("RDT", "Serological test"), inline=TRUE, selected="RDT", width="100%"
     #              )
     # )
     ),#selected = character(0)
     textInput(ns("label"), label=HTML("<b> Label </b>"), width="100%"),
-    radioButtons(ns("facility_type"), label=HTML("<b> Facility type </b>"), choices=c("High complexity", "Low complexity"), inline=TRUE, selected=NULL, width="100%"),
+    radioButtons(ns("facility_type"), label=HTML("<b> Facility type </b>"), choices=c("High complexity", "Low complexity"), inline=TRUE, selected="High complexity", width="100%"),
     # radioButtons(ns("sample_type"), label=HTML("<b> Sample type </b>"), choices=c("Capillary", "Whole blood (NB: if low complexity, can only be capillary)"),  inline=TRUE, selected=NULL, width="100%"),
-    numericInput(ns("sens"), label=HTML("<b> Sensitivity </b>"), min=0,  max=100, value=NULL, width="100%"),
-    numericInput(ns("spec"), label=HTML("<b> Specificity </b>"), min=0, max=100, value=NULL, width="100%"),
+    numericInput(ns("sens"), label=HTML("<b> Sensitivity </b>"), min=0,  max=1, value=0.5, width="100%"),
+    numericInput(ns("spec"), label=HTML("<b> Specificity </b>"), min=0, max=1, value=0.5, width="100%"),
     numericInput(ns("cost_test"), label=HTML("<b> Cost per test (USD) </b>"), value=50, width="100%")
   )
 }

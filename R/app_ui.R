@@ -66,8 +66,7 @@ app_ui <- function(request) {
             # card_header(h3(strong("General inp"))),
             card_body(
               mod_user_data_ui("user_data"),
-              mod_pathways_data_ui("pathways_data"),
-
+              mod_pathways_data_ui("pathways_data")
             )
           )
           )
