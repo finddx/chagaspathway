@@ -375,6 +375,16 @@ app_server <- function(input, output, session) {
 
     })
 
+
+  output$report_button <- renderUI({
+    if(!is.null(results_1_vars$plot_ppv)) {
+        column(width=4, offset=4,
+               downloadButton("report", label="Generate report", style="text-align: center; width: 100%;", icon=NULL)
+        )
+    }
+  })
+
+
   # observe({
   #   tmp_params <- format_app_params_react(scenario_vars=results_data()$scenario1, global_vars=results_data()$pathways, advance_vars=results_data()$advance)
   # })
@@ -402,20 +412,24 @@ app_server <- function(input, output, session) {
                           # sensitivity_scenario1 = results_data()$sensitivity_scenario1,
                           # scatterplot_plot=scatterplot_plot(),
                           fig_diagram_scenarios1 = if(exists("results_1_vars")) results_1_vars$fig_diagram else NULL,
-                          # value3_scenarios1 = value3_scenarios1(),
-                          # value4_scenarios1 = value4_scenarios1(),
+                          # values_box_scenarios1 = if(exists("results_1_vars")) results_1_vars$values_box else NULL,
+                          prop_diagnosed_scenarios1 = if(exists("results_1_vars")) results_1_vars$prop_diagnosed else NULL,
+                          cost_per_true_pos_scenarios1 = if(exists("results_1_vars")) results_1_vars$cost_per_true_pos else NULL,
+
                           plot_ppv_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_ppv else NULL,
                           plot_npv_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_npv else NULL,
                           plot_cpc_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_cpc else NULL,
-                          # fig_diagram_scenarios2 =  fig_diagram_scenarios2(),
-                          # value3_scenarios2 = value3_scenarios2(),
-                          # value4_scenarios2 = value4_scenarios2(),
+                          fig_diagram_scenarios2 =  if(exists("results_2_vars")) results_2_vars$fig_diagram else NULL,
+                          # values_box_scenarios2 = if(exists("results_2_vars")) results_2_vars$values_box else NULL,
+                          prop_diagnosed_scenarios2 = if(exists("results_2_vars")) results_2_vars$prop_diagnosed else NULL,
+                          cost_per_true_pos_scenarios2 = if(exists("results_2_vars")) results_2_vars$cost_per_true_pos else NULL,
                           plot_ppv_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_ppv else NULL,
                           plot_npv_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_npv else NULL,
                           plot_cpc_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_cpc else NULL,
-                          # fig_diagram_scenarios3 = fig_diagram_scenarios3(),
-                          # value3_scenarios3 = value3_scenarios3(),
-                          # value4_scenarios3 = value4_scenarios3(),
+                          fig_diagram_scenarios3 = if(exists("results_3_vars")) results_3_vars$fig_diagram else NULL,
+                          # values_box_scenarios3 = if(exists("results_3_vars")) results_3_vars$values_box else NULL,
+                          prop_diagnosed_scenarios3 = if(exists("results_3_vars")) results_3_vars$prop_diagnosed else NULL,
+                          cost_per_true_pos_scenarios3 = if(exists("results_3_vars")) results_3_vars$cost_per_true_pos else NULL,
                           plot_ppv_scenarios3 = if(exists("results_3_vars")) results_3_vars$plot_ppv else NULL,
                           plot_npv_scenarios3 = if(exists("results_3_vars")) results_3_vars$plot_npv else NULL,
                           plot_cpc_scenarios3 = if(exists("results_3_vars")) results_3_vars$plot_cpc else NULL

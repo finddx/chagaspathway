@@ -6,20 +6,23 @@ output: html_document
 params:
   num_scenarios: 'NULL'
   fig_diagram_scenarios1: 'NULL'
-  value3_scenarios1: 'NULL'
-  value4_scenarios1: 'NULL'
+  # values_box_scenarios1: 'NULL'
+  prop_diagnosed_scenarios1: 'NULL' 
+  cost_per_true_pos_scenarios1: 'NULL'
   plot_ppv_scenarios1: 'NULL'
   plot_npv_scenarios1: 'NULL'
   plot_cpc_scenarios1: 'NULL'
   fig_diagram_scenarios2: 'NULL'
-  value3_scenarios2: 'NULL'
-  value4_scenarios2: 'NULL'
+  # values_box_scenarios2: 'NULL'
+  prop_diagnosed_scenarios2: 'NULL' 
+  cost_per_true_pos_scenarios2: 'NULL'
   plot_ppv_scenarios2: 'NULL'
   plot_npv_scenarios2: 'NULL'
   plot_cpc_scenarios2: 'NULL'
   fig_diagram_scenarios3: 'NULL'
-  value3_scenarios3: 'NULL'
-  value4_scenarios3: 'NULL'
+  prop_diagnosed_scenarios3: 'NULL' 
+  cost_per_true_pos_scenarios3: 'NULL'
+  # values_box_scenarios3: 'NULL'
   plot_ppv_scenarios3: 'NULL'
   plot_npv_scenarios3: 'NULL'
   plot_cpc_scenarios3: 'NULL'
@@ -30,9 +33,11 @@ params:
 knitr::opts_chunk$set(echo=FALSE)
 
 library(htmltools)
+library(DiagrammeR)
+library(DiagrammeRsvg)
 
 # Calculate column class based on the number of scenarios
-num_scenarios <- sum(!is.null(params[["fig_diagram_scenarios1"]]), !is.null(params[["fig_diagram_scenarios2"]]), !is.null(params[["fig_diagram_scenarios3"]]))
+num_scenarios <- sum(!is.null(params[["plot_ppv_scenarios1"]]), !is.null(params[["plot_ppv_scenarios2"]]), !is.null(params[["plot_ppv_scenarios3"]]))
 # num_scenarios <- params[[num_scenarios]]
 if (num_scenarios == 1) {
   column_class <- "col-md-12"
@@ -42,6 +47,7 @@ if (num_scenarios == 1) {
   column_class <- "col-md-4"
 }
 
+
 ```
 
 <div class="row">
@@ -49,15 +55,20 @@ if (num_scenarios == 1) {
 
 # "`r params$user_name`"
 
+
 for (i in 1:num_scenarios) {
     scenario_name <- paste0("Scenario ", i)
     cat(paste0('<div class="', column_class, '">'))
     cat("\n", scenario_name, "\n")
     cat('<div style="text-align: center;">')
-    
+
     # Print the plot directly as HTML
+    print(params[[paste0("values_box_scenarios", i)]])
+    print(params[[paste0("fig_diagram_scenarios", i)]])
     print(params[[paste0("plot_ppv_scenarios", i)]])
-    
+    print(params[[paste0("plot_npv_scenarios", i)]])
+    print(params[[paste0("plot_cpc_scenarios", i)]])
+
     cat('</div>')
     cat("</div>")
 }
@@ -66,13 +77,11 @@ for (i in 1:num_scenarios) {
 # for (i in 1:params$num_scenarios) {
 # for (i in 1:num_scenarios) {
 #     scenario_name <- paste0("Scenario ", i)
-#     # val1 <- paste0("value3_scenarios", i)
+
 #     cat(paste0('<div class="', column_class, '">'))
 #     cat("\n", scenario_name, "\n")
 #     cat("\n```{r, results='asis'}\n")#results='asis'
-#     cat(paste0("value3_scenarios", i))
-    # cat(params[[num_scenarios]])
-    
+
     # cat('<div style="text-align: center;">')
     # print(params[["plot_ppv_scenarios1"]])
     # cat('</div>')

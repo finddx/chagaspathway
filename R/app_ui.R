@@ -4,7 +4,7 @@
 #'     DO NOT REMOVE.
 #' @import shiny
 #' @import ggplot2
-#' @importFrom bslib page_navbar bs_theme nav_panel bs_add_rules bs_theme card card_body card_header
+#' @importFrom bslib page_navbar bs_theme nav_panel bs_add_rules bs_theme card card_body card_header value_box
 #' @importFrom bsicons bs_icon
 #' @importFrom shinyWidgets radioGroupButtons
 #' @importFrom shinyjs useShinyjs show hide hidden disable
@@ -117,11 +117,7 @@ app_ui <- function(request) {
       ),
       nav_panel(title="Results", icon=bs_icon("bar-chart-line"),
         uiOutput("results"),
-        fluidRow(
-          column(width=4, offset=4,
-                 downloadButton("report", label="Generate report", style="text-align: center; width: 100%;", class="button-color", icon=NULL)
-          )
-        )
+        uiOutput("report_button")
         # mod_results_ui("results_general")
       ),
       nav_panel(title="Advance settings", icon=bs_icon("gear-fill"),
