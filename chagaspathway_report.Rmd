@@ -14,7 +14,7 @@ params:
   plot_npv_scenarios1: 'NULL'
   plot_cpc_scenarios1: 'NULL'
   fig_diagram_scenarios2: 'NULL'
-  # values_box_scenarios2: 'NULL'
+  values_box_scenarios2: 'NULL'
   prop_diagnosed_scenarios2: 'NULL' 
   cost_per_true_pos_scenarios2: 'NULL'
   plot_ppv_scenarios2: 'NULL'
@@ -23,7 +23,7 @@ params:
   fig_diagram_scenarios3: 'NULL'
   prop_diagnosed_scenarios3: 'NULL' 
   cost_per_true_pos_scenarios3: 'NULL'
-  # values_box_scenarios3: 'NULL'
+  values_box_scenarios3: 'NULL'
   plot_ppv_scenarios3: 'NULL'
   plot_npv_scenarios3: 'NULL'
   plot_cpc_scenarios3: 'NULL'
@@ -35,7 +35,7 @@ knitr::opts_chunk$set(echo=FALSE)
 
 library(htmltools)
 library(DiagrammeR)
-library(DiagrammeRsvg)
+
 
 # Calculate column class based on the number of scenarios
 num_scenarios <- sum(!is.null(params[["plot_ppv_scenarios1"]]), !is.null(params[["plot_ppv_scenarios2"]]), !is.null(params[["plot_ppv_scenarios3"]]))
@@ -53,26 +53,48 @@ if (num_scenarios == 1) {
 
 <div class="row">
 ```{r, results='asis'}
-
-# "`r params$user_name`"
-
-
+plotlist = list()
+#Iterate over scenarios and generate columns
 for (i in 1:num_scenarios) {
     scenario_name <- paste0("Scenario ", i)
-    cat(paste0('<div class="', column_class, '">'))
+    
+   #  cat("\n")
+   # htmltools::tag(params[[paste0("fig_diagram_scenarios", i)]])
+   #  cat("\n")
+     # plotlist[[i]] <- list(
+       cat(paste0('<div class="', column_class, '">'))
     cat("\n", scenario_name, "\n")
     cat('<div style="text-align: center;">')
-
-    # Print the plot directly as HTML
-    print(params[[paste0("values_box_scenarios", i)]])
-    print(params[[paste0("fig_diagram_scenarios", i)]])
-    print(params[[paste0("plot_ppv_scenarios", i)]])
-    print(params[[paste0("plot_npv_scenarios", i)]])
-    print(params[[paste0("plot_cpc_scenarios", i)]])
-
-    cat('</div>')
+    # tagList(
+    # print(params[[paste0("plot_ppv_scenarios", i)]]),
+    # print(params[[paste0("plot_npv_scenarios", i)]]),
+    # print(params[[paste0("plot_cpc_scenarios", i)]]),
+    # cat("</br>"),
+      # params[[paste0("values_box_scenarios", i)]])
+      # cat("</br>"),
+    htmlwidgets::widgetList(params[[paste0("fig_diagram_scenarios", i)]])
+      # print(htmltools::tagList(params[[paste0("fig_diagram_scenarios", i)]]))
+   
+      # cat("</br>")
+    # )
     cat("</div>")
+    cat("</div>")
+
+        # plot_ppv = params[[paste0("plot_ppv_scenarios", i)]],
+        # plot_npv = params[[paste0("plot_npv_scenarios", i)]],
+        # plot_cpc = params[[paste0("plot_cpc_scenarios", i)]]
+    # )
+    # htmltools::tagList(setNames(plotlist, NULL))
+#     
+    # print(params[[paste0("plot_ppv_scenarios", i)]])
+    # print(params[[paste0("plot_npv_scenarios", i)]])
+    # print(params[[paste0("plot_cpc_scenarios", i)]])
+    
+
+    # cat("\n")
 }
+
+# htmltools::tagList(setNames(plotlist, NULL))
 
 #Iterate over scenarios and generate columns
 # for (i in 1:params$num_scenarios) {
@@ -137,15 +159,6 @@ for (i in 1:num_scenarios) {
 <!-- </div> -->
   
   
-  
-```{r, results='asis'}
-# cat('<div style="text-align: center;">')
-# print(params[["values_box_scenarios1"]])
-# print(params[["fig_diagram_scenarios1"]])
-# cat('</div>')
-#
-# params[["scatterplot_plot"]]
-```
   
 
 <!-- # ```{r, results='asis'} -->

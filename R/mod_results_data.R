@@ -170,16 +170,16 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
       plot_cpc
       })
 
-    values_box_content <- reactive({
-      HTML(as.character(output$values_box))
-    })
+    # values_box_content <- reactive({
+    #   HTML(as.character(output$values_box))
+    # })
       #Return outputs for html report
       return(
         list(
           fig_diagram = fig_diagram,
           prop_diagnosed = prop_diagnosed, #reactive({ })
           cost_per_true_pos = cost_per_true_pos,
-          values_box = values_box2,
+          values_box2 = values_box2,
           plot_ppv = plot_ppv,
           plot_npv = plot_npv,
           plot_cpc = plot_cpc
