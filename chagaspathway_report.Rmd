@@ -1,12 +1,13 @@
 ---
 title: "Chagas pathway"
-author: "XX"
+author: "`r params$user_name`"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output: html_document
 params:
+  user_name: 'NULL'
   num_scenarios: 'NULL'
   fig_diagram_scenarios1: 'NULL'
-  # values_box_scenarios1: 'NULL'
+  values_box_scenarios1: 'NULL'
   prop_diagnosed_scenarios1: 'NULL' 
   cost_per_true_pos_scenarios1: 'NULL'
   plot_ppv_scenarios1: 'NULL'
@@ -137,7 +138,14 @@ for (i in 1:num_scenarios) {
   
   
   
-  
+```{r, results='asis'}
+# cat('<div style="text-align: center;">')
+# print(params[["values_box_scenarios1"]])
+# print(params[["fig_diagram_scenarios1"]])
+# cat('</div>')
+#
+# params[["scatterplot_plot"]]
+```
   
 
 <!-- # ```{r, results='asis'} -->

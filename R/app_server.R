@@ -326,8 +326,6 @@ app_server <- function(input, output, session) {
     fluidRow(do.call(tagList, results_list))
   })
 
-
-  user_data <- mod_user_data_server("user_data")
   pathways <- mod_pathways_data_server("pathways_data")
   advance <- mod_advance_data_server("advance_data")
 
@@ -408,11 +406,11 @@ app_server <- function(input, output, session) {
                         output_file=file,
                         params=list(
                           num_scenarios=length(displayed_scenarios()),
-                          # user_name = results_data()$user_name,
+                          user_name = pathways$user_name(),
                           # sensitivity_scenario1 = results_data()$sensitivity_scenario1,
                           # scatterplot_plot=scatterplot_plot(),
                           fig_diagram_scenarios1 = if(exists("results_1_vars")) results_1_vars$fig_diagram else NULL,
-                          # values_box_scenarios1 = if(exists("results_1_vars")) results_1_vars$values_box else NULL,
+                          values_box_scenarios1 = if(exists("results_1_vars")) results_1_vars$values_box2 else NULL,
                           prop_diagnosed_scenarios1 = if(exists("results_1_vars")) results_1_vars$prop_diagnosed else NULL,
                           cost_per_true_pos_scenarios1 = if(exists("results_1_vars")) results_1_vars$cost_per_true_pos else NULL,
 

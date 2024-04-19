@@ -11,13 +11,27 @@ mod_pathways_data_ui <- function(id){
   ns <- NS(id)
   tagList(
     fluidRow(
-      column(3, radioButtons(ns("population"), label=HTML("<b> Population </b>"), choices=c("General", "Women of childbearing age", "Children"), inline=TRUE, selected=NULL, width="100%")),
-      column(3, numericInput(ns("lftu"), label=HTML("<b> LFTU (0-100%) </b> </br> Expected LTFU following patient or sample referral from low complexity to high complexity facility."), min=0, max=100, value=NULL, width="100%")),
-      column(3, numericInput(ns("link_treatment_low"), label=HTML("<b> Linkage to treatment low complexity (0-100%) </b> </br> Expected linkage to treatment if final diagnosis is made after testing at low complexity facility."), min=0, max=100, value=NULL, width="100%")),
-      column(3, numericInput(ns("link_treatment_high"), label=HTML("<b> Linkage to treatment high complexity (0-100%) </b> </br> Expected linkage to treatment if final diagnosis is made after testing at high complexity facility"), min=0, max=100, value=NULL, width="100%")),
-      p("This model assumes treatment is Y% effective at curing chronic chagas disease. This model also assumes that X% of patients with untreated chronic chagas develop a long-term complication. These values can be changed in [Advanced settings]")
+      card(
+          card_header(h4(strong("User data"))),
+          card_body(
+            column(3, textInput(ns("user_name"), label=HTML("<b> User name </b>"),  width="100%"))
+            )
+      )
+    ),
+    fluidRow(
+      card(
+        card_header(h4(strong("General data"))),
+        card_body(
+          layout_column_wrap(
+            style = "display: flex; align-items: flex-end;",
+            radioButtons(ns("population"), label=HTML("<b> Population </b>"), choices=c("General", "Women of childbearing age", "Children"), inline=TRUE, selected=NULL, width="100%"),
+            numericInput(ns("lftu"), label=HTML("<b> LFTU (0-100%) </b> </br> Expected LTFU following patient or sample referral from low complexity to high complexity facility."), min=0, max=100, value=NULL, width="100%"),
+            numericInput(ns("link_treatment_low"), label=HTML("<b> Linkage to treatment low complexity (0-100%) </b> </br> Expected linkage to treatment if final diagnosis is made after testing at low complexity facility."), min=0, max=100, value=NULL, width="100%"),
+             numericInput(ns("link_treatment_high"), label=HTML("<b> Linkage to treatment high complexity (0-100%) </b> </br> Expected linkage to treatment if final diagnosis is made after testing at high complexity facility"), min=0, max=100, value=NULL, width="100%")
+            )
+        )
+      )
     )
-
   )
 }
 
@@ -30,6 +44,7 @@ mod_pathways_data_server <- function(id){
 
     return(
       list(
+        user_name = reactive({ input$user_name }),
         population = reactive({ input$ population }),
         lftu = reactive({ input$lftu }),
         link_treatment_low = reactive({ input$link_treatment_low }),

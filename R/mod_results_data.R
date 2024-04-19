@@ -115,6 +115,22 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
     #   cost_per_true_pos
     # })
 
+    values_box2 <- layout_column_wrap(
+      width = 1/2,
+      value_box(
+        title = "Proportion cases diagnosed:",
+        value = paste0(prop_diagnosed, "%"),
+        showcase = bs_icon("search"),
+        theme="success"
+      ),
+      value_box(
+        title = "Cost per case diagnosed:",
+        value = cost_per_true_pos,
+        showcase = bs_icon("currency-dollar"),
+        theme="primary"
+      )
+    )
+
     output$values_box <- renderUI({
       layout_column_wrap(
         width = 1/2,
@@ -163,7 +179,7 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
           fig_diagram = fig_diagram,
           prop_diagnosed = prop_diagnosed, #reactive({ })
           cost_per_true_pos = cost_per_true_pos,
-          # values_box = values_box,
+          values_box = values_box2,
           plot_ppv = plot_ppv,
           plot_npv = plot_npv,
           plot_cpc = plot_cpc
