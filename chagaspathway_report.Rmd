@@ -34,8 +34,6 @@ params:
 knitr::opts_chunk$set(echo=FALSE)
 
 library(htmltools)
-library(DiagrammeR)
-
 
 # Calculate column class based on the number of scenarios
 num_scenarios <- sum(!is.null(params[["plot_ppv_scenarios1"]]), !is.null(params[["plot_ppv_scenarios2"]]), !is.null(params[["plot_ppv_scenarios3"]]))
@@ -47,119 +45,86 @@ if (num_scenarios == 1) {
 } else {
   column_class <- "col-md-4"
 }
-
+# num_scenarios <- 1
 
 ```
-
-<div class="row">
-```{r, results='asis'}
-plotlist = list()
-#Iterate over scenarios and generate columns
-for (i in 1:num_scenarios) {
-    scenario_name <- paste0("Scenario ", i)
-    
-   #  cat("\n")
-   # htmltools::tag(params[[paste0("fig_diagram_scenarios", i)]])
-   #  cat("\n")
-     # plotlist[[i]] <- list(
-       cat(paste0('<div class="', column_class, '">'))
-    cat("\n", scenario_name, "\n")
-    cat('<div style="text-align: center;">')
-    # tagList(
-    # print(params[[paste0("plot_ppv_scenarios", i)]]),
-    # print(params[[paste0("plot_npv_scenarios", i)]]),
-    # print(params[[paste0("plot_cpc_scenarios", i)]]),
-    # cat("</br>"),
-      # params[[paste0("values_box_scenarios", i)]])
-      # cat("</br>"),
-    htmlwidgets::widgetList(params[[paste0("fig_diagram_scenarios", i)]])
-      # print(htmltools::tagList(params[[paste0("fig_diagram_scenarios", i)]]))
-   
-      # cat("</br>")
-    # )
-    cat("</div>")
-    cat("</div>")
-
-        # plot_ppv = params[[paste0("plot_ppv_scenarios", i)]],
-        # plot_npv = params[[paste0("plot_npv_scenarios", i)]],
-        # plot_cpc = params[[paste0("plot_cpc_scenarios", i)]]
-    # )
-    # htmltools::tagList(setNames(plotlist, NULL))
-#     
-    # print(params[[paste0("plot_ppv_scenarios", i)]])
-    # print(params[[paste0("plot_npv_scenarios", i)]])
-    # print(params[[paste0("plot_cpc_scenarios", i)]])
-    
-
-    # cat("\n")
-}
-
-# htmltools::tagList(setNames(plotlist, NULL))
-
-#Iterate over scenarios and generate columns
-# for (i in 1:params$num_scenarios) {
-# for (i in 1:num_scenarios) {
-#     scenario_name <- paste0("Scenario ", i)
-
-#     cat(paste0('<div class="', column_class, '">'))
-#     cat("\n", scenario_name, "\n")
-#     cat("\n```{r, results='asis'}\n")#results='asis'
-
-    # cat('<div style="text-align: center;">')
-    # print(params[["plot_ppv_scenarios1"]])
-    # cat('</div>')
-    # cat(params[[val1]])
-
-    
-    
-    #   cat('<div style="text-align: center;">')
-    #   print(params[[paste0("plot_ppv_scenarios", i)]])
-    # cat('</div>')
-
-    
-#     cat("\n```\n")
-#     cat("</div>")
-# }
-
-# cat('<div style="text-align: center;">')
-# print(params[["plot_ppv_scenarios1"]])
-# cat('</div>')
-```
-</div>
-
-
 
 <!-- <div class="row"> -->
-<!--   <div class=`column_class`> -->
-<!--   Scenario 1 -->
-<!--     ```{r} -->
-<!--     num_scenarios -->
-<!--     column_class -->
-<!--     params[["sensitivity_scenario1"]] -->
-<!--     params[["specificity_scenario1"]] -->
-<!--     ``` -->
-<!--   </div> -->
+```{r, results='asis', eval = num_scenarios >= 1}
+cat('<div style="text-align: center;">') 
+cat('<h3 style="font-weight: bold;">Scenario 1</h3>') 
+cat("\n")
+params[["fig_diagram_scenarios1"]]
+params[["values_box_scenarios1"]]
+params[["plot_ppv_scenarios1"]]
+params[["plot_npv_scenarios1"]]
+params[["plot_cpc_scenarios1"]]
+cat("\n")
+cat('</div>')
+```
 
-<!--   <!-- <div class="col-md-4"> --> 
-<!--    <div class=`column_class`> -->
-<!--    Scenario 2 -->
-<!--     ```{r} -->
-<!--     params[["sensitivity_scenario2"]] -->
-<!--     params[["specificity_scenario2"]] -->
-<!--     ``` -->
-<!--   </div> -->
-<!--   <div class=`column_class`> -->
-<!--    <!-- <div class="col-md-4"> --> 
-<!--    Scenario 3 -->
-<!--     ```{r} -->
-<!--     params[["sensitivity_scenario3"]] -->
-<!--     params[["specificity_scenario3"]] -->
-<!--     ``` -->
-<!--   </div> -->
+```{r, results='asis', eval = num_scenarios >= 2}
+cat('<div style="text-align: center;">') 
+cat('<h3 style="font-weight: bold;">Scenario 2</h3>')
+cat("\n")
+params[["fig_diagram_scenarios2"]]
+params[["values_box_scenarios2"]]
+params[["plot_ppv_scenarios2"]]
+params[["plot_npv_scenarios2"]]
+params[["plot_cpc_scenarios2"]]
+cat("\n")
+cat('</div>')
+```
+
+```{r, results='asis', eval = num_scenarios >= 3}
+cat('<div style="text-align: center;">') 
+cat('<h3 style="font-weight: bold;">Scenario 3</h3>')
+cat("\n")
+params[["fig_diagram_scenarios3"]]
+params[["values_box_scenarios3"]]
+params[["plot_ppv_scenarios3"]]
+params[["plot_npv_scenarios3"]]
+params[["plot_cpc_scenarios3"]]
+cat("\n")
+cat('</div>')
+```
+
+<!-- # ```{r, results='asis'} -->
+<!-- # plotlist = list() -->
+<!-- # if (num_scenarios >= 1) { -->
+<!-- #   params[["fig_diagram_scenarios1"]] -->
+<!-- #   params[["plot_ppv_scenarios1"]] -->
+<!-- #  -->
+<!-- # } -->
+
+<!-- #Iterate over scenarios and generate columns -->
+<!-- # res <- lapply(1:num_scenarios, function(i) params[[paste0("fig_diagram_scenarios", i)]]) -->
+<!-- # res1 <- lapply(1:2, function(i) params[[paste0("plot_ppv_scenarios", i)]]) -->
+<!-- # htmltools::tagList(res) -->
+<!-- # htmltools::tagList(res1) -->
+
+<!-- # for (i in 1:num_scenarios) { -->
+<!-- #     scenario_name <- paste0("Scenario ", i) -->
+<!-- #     # cat(paste0('<div class="', column_class, '">')) -->
+<!-- #     # cat("\n", scenario_name, "\n") -->
+<!-- #     # cat('<div style="text-align: center;">') -->
+<!-- #     plotlist[[i]] <- list( -->
+<!-- #         fig_diagra = params[[paste0("fig_diagram_scenarios", i)]], -->
+<!-- #         plot_ppv = print(params[[paste0("plot_ppv_scenarios", i)]]) -->
+<!-- #     ) -->
+<!-- #     # print(params[[paste0("plot_ppv_scenarios", i)]]) -->
+<!-- #     # print(params[[paste0("plot_npv_scenarios", i)]]) -->
+<!-- #     # print(params[[paste0("plot_cpc_scenarios", i)]]) -->
+<!-- #     # cat("</div>") -->
+<!-- #     # cat("</div>") -->
+<!-- #     # cat("\n") -->
+<!-- # } -->
+<!-- #  -->
+<!-- # htmltools::tagList(setNames(plotlist, NULL)) -->
+<!-- ``` -->
 <!-- </div> -->
-  
-  
-  
+
+
 
 <!-- # ```{r, results='asis'} -->
 <!-- # cat('<div style="text-align: center;">') -->
