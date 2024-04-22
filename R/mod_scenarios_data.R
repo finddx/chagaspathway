@@ -43,29 +43,27 @@ mod_scenarios_data_server <- function(id, scenarios_n){#, list_tests
       if (test_id %in% test_n_out()) {
         test_number <- as.numeric(gsub("\\D", "", test_id))
         tagList(
-
-          # splitLayout(
-          column(width=ifelse(length(test_n_out())==3,4,ifelse(length(test_n_out())==2,6,2)), id=paste0("tests_data_", gsub("\\D", "", test_id)),
-
-
+          # column(width=ifelse(length(test_n_out())==3,4,ifelse(length(test_n_out())==2,6,2)), id=paste0("tests_data_", gsub("\\D", "", test_id)),
                  card(
                    card_header(h5(strong(paste("Test", test_number)))),
                    card_body(
                      mod_tests_data_ui(ns(paste0(scenarios_n, "_tests_data_", test_number)))
                    )
-
                  )
-                 )
-
         )
       }
     }
     output$tests <- renderUI({
       test_list <- lapply(test_n_out(), generate_test_ui)
-      fluidRow(do.call(tagList, test_list))
-      # cell_width <- ifelse(length(test_n_out()) == 3, "33%", "20%")
-      # splitLayout(splitLayout(do.call(tagList, test_list), cellWidths = rep(cell_width, length(test_n_out()))),cell_width="100%")
+      # fluidRow(do.call(tagList, test_list))
+      fluidRow(do.call(layout_column_wrap, test_list))
     })
+
+    # output$tests <- renderUI({
+    #   test_list <- lapply(test_n_out(), generate_test_ui)
+    #   splitLayout(do.call(tagList, test_list), cellWidths = "20%")
+    #
+    # })
 
 
     # output$tests <- renderUI({

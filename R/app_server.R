@@ -49,10 +49,14 @@ app_server <- function(input, output, session) {
     if (scenario_id %in% displayed_scenarios()) {
       scenario_number <- as.numeric(gsub("\\D", "", scenario_id))
       tagList(
-        column(width=12, id=paste0("scenarios_data_", gsub("\\D", "", scenario_id)),
-               h4(paste("Scenario", scenario_number)),
-               mod_scenarios_data_ui(paste0("scenarios_data_", scenario_number))
-        )
+        # column(width=12,
+               card(
+                 card_header(h4(strong(paste("Scenario", scenario_number)))),
+                 card_body(
+                   mod_scenarios_data_ui(paste0("scenarios_data_", scenario_number))
+                 )
+               )
+        # )
       )
     }
   }
@@ -68,7 +72,8 @@ app_server <- function(input, output, session) {
       if (result_id %in% displayed_scenarios()) {
         result_number <- as.numeric(gsub("\\D", "", result_id))
         tagList(
-          column(width=ifelse(length(displayed_scenarios())==1,12,ifelse(length(displayed_scenarios())==2,6,4)), id=paste0("results_data_", gsub("\\D", "", result_id)),
+          column(width=ifelse(length(displayed_scenarios())==1,12,ifelse(length(displayed_scenarios())==2,6,4)),
+                 # id=paste0("results_data_", gsub("\\D", "", result_id)),
                  card(
                    card_header(h4(strong(paste("Results scenario", result_number)))),
                    card_body(
@@ -84,6 +89,7 @@ app_server <- function(input, output, session) {
   output$results <- renderUI({
     results_list <- lapply(displayed_scenarios(), generate_result_ui)
     fluidRow(do.call(tagList, results_list))
+    # fluidRow(do.call(layout_column_wrap, results_list))
   })
 
   # # Render scenarios
@@ -407,6 +413,7 @@ app_server <- function(input, output, session) {
   results_data <-
     eventReactive(input$calculate, {
 
+
       result_list <- list(scenario1 = scenario1_vars())
       if (!is.null(scenario2_vars)) {
         result_list$scenario2 <- scenario2_vars()
@@ -430,12 +437,17 @@ app_server <- function(input, output, session) {
     })
 
 
+  output$calculate_button <- renderUI({
+    if(length(displayed_scenarios())>=1){
+      actionButton("calculate", "Calculate pathways", width="100%")
+    }
+  })
+
   output$report_button <- renderUI({
     if(!is.null(results_data())){
-    # if(!is.null(results_1_vars$plot_ppv)) {
-        column(width=4, offset=4,
-               downloadButton("report", label="Generate report", style="text-align: center; width: 100%;", icon=NULL)
-        )
+      column(width=4, offset=4,
+             downloadButton("report", label="Generate report", style="text-align: center; width: 100%;", icon=NULL)
+      )
     }
   })
 
@@ -461,21 +473,21 @@ app_server <- function(input, output, session) {
                           # scatterplot_plot=scatterplot_plot(),
 
                           fig_diagram_scenarios1 = if(exists("results_1_vars")) results_1_vars$fig_diagram else NULL,
-                          values_box_scenarios1 = if(exists("results_1_vars")) results_1_vars$values_box2 else NULL,
+                          values_box_scenarios1 = if(exists("results_1_vars")) results_1_vars$values_box else NULL,
                           prop_diagnosed_scenarios1 = if(exists("results_1_vars")) results_1_vars$prop_diagnosed else NULL,
                           cost_per_true_pos_scenarios1 = if(exists("results_1_vars")) results_1_vars$cost_per_true_pos else NULL,
                           plot_ppv_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_ppv else NULL,
                           plot_npv_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_npv else NULL,
                           plot_cpc_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_cpc else NULL,
                           fig_diagram_scenarios2 =  if(exists("results_2_vars")) results_2_vars$fig_diagram else NULL,
-                          values_box_scenarios2 = if(exists("results_2_vars")) results_2_vars$values_box2 else NULL,
+                          values_box_scenarios2 = if(exists("results_2_vars")) results_2_vars$values_box else NULL,
                           prop_diagnosed_scenarios2 = if(exists("results_2_vars")) results_2_vars$prop_diagnosed else NULL,
                           cost_per_true_pos_scenarios2 = if(exists("results_2_vars")) results_2_vars$cost_per_true_pos else NULL,
                           plot_ppv_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_ppv else NULL,
                           plot_npv_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_npv else NULL,
                           plot_cpc_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_cpc else NULL,
                           fig_diagram_scenarios3 = if(exists("results_3_vars")) results_3_vars$fig_diagram else NULL,
-                          values_box_scenarios3 = if(exists("results_3_vars")) results_3_vars$values_box2 else NULL,
+                          values_box_scenarios3 = if(exists("results_3_vars")) results_3_vars$values_box else NULL,
                           prop_diagnosed_scenarios3 = if(exists("results_3_vars")) results_3_vars$prop_diagnosed else NULL,
                           cost_per_true_pos_scenarios3 = if(exists("results_3_vars")) results_3_vars$cost_per_true_pos else NULL,
                           plot_ppv_scenarios3 = if(exists("results_3_vars")) results_3_vars$plot_ppv else NULL,

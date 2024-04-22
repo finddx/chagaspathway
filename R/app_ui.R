@@ -20,7 +20,7 @@ app_ui <- function(request) {
     tags$style(HTML("body { margin-top: 50px !important; }")),
     page_navbar(
       theme = bs_theme(
-        preset = "shiny", # main theme
+        preset = "shiny",
         bg = "white",
         fg = "#414d52",
         primary = "#81969F",
@@ -66,8 +66,8 @@ app_ui <- function(request) {
                 layout_column_wrap(
                   style = "display: flex; align-items: flex-end;",
                   width = 1/3,
-                numericInput("out_num_scenarios", label=HTML("<b> Select the number of scenarios </b>"), min=1, max=3, value=1, width="100%"),
-                actionButton("add_num_scenarios", "Render scenarios", width="100%")
+                numericInput("out_num_scenarios", label=HTML("<b> Select the number of scenarios (up to 3) </b>"), min=1, max=3, value=1, width="100%"),
+                actionButton("add_num_scenarios", "Create scenarios", width="100%")
               )
             )
           )
@@ -81,7 +81,8 @@ app_ui <- function(request) {
         # ),
         fluidRow(
         column(width=4,
-          actionButton("calculate", "Calculate pathways", width="100%")
+               uiOutput("calculate_button")
+          # actionButton("calculate", "Calculate pathways", width="100%")
         )
         )
           # column(width=4, id="scenarios_data_1",
