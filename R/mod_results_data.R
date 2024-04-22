@@ -12,6 +12,7 @@ mod_results_data_ui <- function(id){
   tagList(
     uiOutput(ns("value1"), style="text-align: center; width: 100%;"),
     uiOutput(ns("value2"), style="text-align: center; width: 100%;"),
+    uiOutput(ns("value3"), style="text-align: center; width: 100%;"),
     grVizOutput(ns("out_fig_diagram"), width="100%"),
     uiOutput(ns("values_box")),
     plotOutput(ns("out_plot_ppv"), width="100%"),
@@ -31,7 +32,7 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
     results_data <- results_list()
 
     tmp_params <- format_app_params_react(scenario_vars=results_data[[scenarios_n]], global_vars=results_data$pathways, advance_vars=results_data$advance)
-
+    #
     params <- make_params(
       tmp_params$pathway,
       tmp_params$prev,
@@ -44,29 +45,21 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
       tmp_params$tx_eff,
       tmp_params$n
     )
-
-#
     out <- run_pathway(params)
-    # prop diagnosed
-#     out$n_true_pos/(params$n*params$prev)
-#     # cost per case diagnosed
-#     out$total_cost / out$n_true_pos
-# #
-
-
-    #Make diagram
+    # Make diagram
     fig_diagram <- render_graph(make_pathway_diagram(params))#, as_svg=TRUE
-
     # Proportion cases diagnosed:
     prop_diagnosed <- round(out$prop_diagnosed*100, 1)#}%
     # Cost per case diagnosed:
     cost_per_true_pos <- round(out$cost_per_true_pos*100, 2)
-
     #Make plots
     plot_ppv <- make_plots(params, "ppv")
     plot_npv <- make_plots(params, "npv")
     plot_cpc <- make_plots(params, "cpc")
 
+
+
+    #NOT ANYMORE
   # print(scenario_vars()$sensitivity)
     # results_data <-
     #   eventReactive(event_calculate(), {
@@ -91,8 +84,13 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
     output$value2 <- renderText({
       paste0("<b>facility_type: </b>", results_data[[scenarios_n]]$pathway_type)
     })
+    output$value3 <- renderText({
+      paste0("<b>facility_type: </b>", results_data[[scenarios_n]]$test5$test_type())
+    })
 
 
+
+    #NOT ANYMORE
     # output$outputs <- renderUI({
     #   tagList(
     #     grVizOutput(ns(paste0("out_fig_diagram_", scenarios_n)), width = "100%"),
@@ -104,16 +102,9 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
     #   )
     # })
 
-    # output$out_prop_diagnosed <- renderText({
-    #   # output[[paste0("value3_", scenarios_n)]] <- renderText({
-    #   # paste0("<b>Proportion cases diagnosed: </b>", prop_diagnosed)
-    #   prop_diagnosed
-    # })
-    # output$out_cost_per_true_pos <- renderText({
-    #   # output[[paste0("value4_", scenarios_n)]] <- renderText({
-    #   # paste0("<b>Cost per case diagnosed: </b>", cost_per_true_pos)
-    #   cost_per_true_pos
-    # })
+
+
+
 
     values_box2 <- layout_column_wrap(
       width = 1/2,
@@ -130,7 +121,7 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
         theme="primary"
       )
     )
-
+    #
     output$values_box <- renderUI({
       layout_column_wrap(
         width = 1/2,
@@ -149,7 +140,7 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
       )
     })
 
-    #Render plots
+    # #Render plots
     output$out_fig_diagram <- renderGrViz({
     # output[[paste0("out_fig_diagram_", scenarios_n)]]  <- renderGrViz({
       fig_diagram
@@ -170,10 +161,7 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
       plot_cpc
       })
 
-    # values_box_content <- reactive({
-    #   HTML(as.character(output$values_box))
-    # })
-      #Return outputs for html report
+      # Return outputs for html report
       return(
         list(
           fig_diagram = fig_diagram,

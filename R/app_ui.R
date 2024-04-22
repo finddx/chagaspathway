@@ -60,15 +60,28 @@ app_ui <- function(request) {
         ),
         p("This model assumes treatment is Y% effective at curing chronic chagas disease. This model also assumes that X% of patients with untreated chronic chagas develop a long-term complication. These values can be changed in [Advanced settings]"),
         h3(strong("Scenario specification")),
-        uiOutput("scenarios"),
         fluidRow(
-          column(width=4,
-                 actionButton("add_scenario", "Add new scenario", width="100%", class="button-color")
-                 )
+            card(
+              card_body(
+                layout_column_wrap(
+                  style = "display: flex; align-items: flex-end;",
+                  width = 1/3,
+                numericInput("out_num_scenarios", label=HTML("<b> Select the number of scenarios </b>"), min=1, max=3, value=1, width="100%"),
+                actionButton("add_num_scenarios", "Render scenarios", width="100%")
+              )
+            )
+          )
+
         ),
+        uiOutput("scenarios"),
+        # fluidRow(
+        #   column(width=4,
+        #          actionButton("add_scenario", "Add new scenario", width="100%")
+        #          )
+        # ),
         fluidRow(
         column(width=4,
-          actionButton("calculate", "Calculate pathways", width="100%", class="button-color")
+          actionButton("calculate", "Calculate pathways", width="100%")
         )
         )
           # column(width=4, id="scenarios_data_1",
@@ -85,7 +98,6 @@ app_ui <- function(request) {
       nav_panel(title="Results", icon=bs_icon("bar-chart-line"),
         uiOutput("results"),
         uiOutput("report_button")
-        # mod_results_ui("results_general")
       ),
       nav_panel(title="Advance settings", icon=bs_icon("gear-fill"),
         h3(strong("Advance settings")),
