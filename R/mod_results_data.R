@@ -10,15 +10,45 @@
 mod_results_data_ui <- function(id){
   ns <- NS(id)
   tagList(
-    uiOutput(ns("value1"), style="text-align: center; width: 100%;"),
-    uiOutput(ns("value2"), style="text-align: center; width: 100%;"),
-    uiOutput(ns("value3"), style="text-align: center; width: 100%;"),
-    grVizOutput(ns("out_fig_diagram"), width="100%"),
-    uiOutput(ns("out_values_box")),
-    plotOutput(ns("out_plot_ppv"), width="100%"),
-    plotOutput(ns("out_plot_npv"), width="100%"),
-    plotOutput(ns("out_plot_cpc"), width="100%"),
+    # uiOutput(ns("value1"), style="text-align: center; width: 100%;"),
+    # uiOutput(ns("value2"), style="text-align: center; width: 100%;"),
+    # uiOutput(ns("value3"), style="text-align: center; width: 100%;"),
+    card(
+      # card_header(h4(strong("User data"))),
+      card_body(
+        grVizOutput(ns("out_fig_diagram"), width="100%")
+    )),
+    card(
+      # card_header(h4(strong("User data"))),
+      card_body(
+    uiOutput(ns("out_values_box"), width="70%")
+      )),
+    card(
+      # card_header(h4(strong("User data"))),
+      card_body(
+        column(width=12,align="center",
+    plotOutput(ns("out_plot_ppv"), width="70%")
+        )
+      )),
+    card(
+      # card_header(h4(strong("User data"))),
+      card_body(
+        column(width=12,align="center",
+    plotOutput(ns("out_plot_npv"), width="70%")
+        )
+  )),
+  card(
+    # card_header(h4(strong("User data"))),
+    card_body(
+      column(width=12,align="center",
+    plotOutput(ns("out_plot_cpc"), width="70%")
+      )
+)),
+card(
+  # card_header(h4(strong("User data"))),
+  card_body(
     gt_output(ns("out_table_res"))
+))
     # uiOutput(ns("outputs"))
   )
 }
@@ -60,6 +90,7 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
     #Make boxes
     values_box <- layout_column_wrap(
       width = 1/2,
+      # style = "display: flex; align-items: center; justify-content: center;",
       value_box(
         title = "Proportion cases diagnosed:",
         value = paste0(prop_diagnosed, "%"),
@@ -98,15 +129,15 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
     # print(results_data$scenario1$test1$test_type())
 
 
-    output$value1 <- renderText({
-      paste0("<b>Sensitivity: </b>", results_data[[scenarios_n]]$test1$test_type())
-    })
-    output$value2 <- renderText({
-      paste0("<b>facility_type: </b>", results_data[[scenarios_n]]$pathway_type)
-    })
-    output$value3 <- renderText({
-      paste0("<b>facility_type: </b>", results_data[[scenarios_n]]$test5$test_type())
-    })
+    # output$value1 <- renderText({
+    #   paste0("<b>Sensitivity: </b>", results_data[[scenarios_n]]$test1$test_type())
+    # })
+    # output$value2 <- renderText({
+    #   paste0("<b>facility_type: </b>", results_data[[scenarios_n]]$pathway_type)
+    # })
+    # output$value3 <- renderText({
+    #   paste0("<b>facility_type: </b>", results_data[[scenarios_n]]$test5$test_type())
+    # })
 
 
 
