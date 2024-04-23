@@ -6,9 +6,10 @@
 #' @importFrom ggplot2 ggplot geom_point
 #' @importFrom shinyjs useShinyjs show hide hidden disable
 #' @importFrom shinyBS bsCollapse bsCollapsePanel
-#' @importFrom patientpathways make_params run_pathway make_plots make_pathway_diagram
+#' @importFrom patientpathways make_params run_pathway make_plots make_pathway_diagram format_app_params_react make_table_params make_table_results
 #' @importFrom DiagrammeR render_graph grVizOutput renderGrViz
-
+#' @importFrom gt render_gt gt_output
+#'
 #' @noRd
 app_server <- function(input, output, session) {
 
@@ -479,6 +480,7 @@ app_server <- function(input, output, session) {
                           plot_ppv_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_ppv else NULL,
                           plot_npv_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_npv else NULL,
                           plot_cpc_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_cpc else NULL,
+                          table_res_scenarios1 = if(exists("results_1_vars")) results_1_vars$table_res else NULL,
                           fig_diagram_scenarios2 =  if(exists("results_2_vars")) results_2_vars$fig_diagram else NULL,
                           values_box_scenarios2 = if(exists("results_2_vars")) results_2_vars$values_box else NULL,
                           prop_diagnosed_scenarios2 = if(exists("results_2_vars")) results_2_vars$prop_diagnosed else NULL,
@@ -486,13 +488,15 @@ app_server <- function(input, output, session) {
                           plot_ppv_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_ppv else NULL,
                           plot_npv_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_npv else NULL,
                           plot_cpc_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_cpc else NULL,
+                          table_res_scenarios2 = if(exists("results_2_vars")) results_2_vars$table_res else NULL,
                           fig_diagram_scenarios3 = if(exists("results_3_vars")) results_3_vars$fig_diagram else NULL,
                           values_box_scenarios3 = if(exists("results_3_vars")) results_3_vars$values_box else NULL,
                           prop_diagnosed_scenarios3 = if(exists("results_3_vars")) results_3_vars$prop_diagnosed else NULL,
                           cost_per_true_pos_scenarios3 = if(exists("results_3_vars")) results_3_vars$cost_per_true_pos else NULL,
                           plot_ppv_scenarios3 = if(exists("results_3_vars")) results_3_vars$plot_ppv else NULL,
                           plot_npv_scenarios3 = if(exists("results_3_vars")) results_3_vars$plot_npv else NULL,
-                          plot_cpc_scenarios3 = if(exists("results_3_vars")) results_3_vars$plot_cpc else NULL
+                          plot_cpc_scenarios3 = if(exists("results_3_vars")) results_3_vars$plot_cpc else NULL,
+                          table_res_scenarios3 = if(exists("results_3_vars")) results_3_vars$table_res else NULL
                         ),
                         envir=new.env(parent = globalenv())
       )

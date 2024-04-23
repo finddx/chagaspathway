@@ -17,7 +17,8 @@ mod_results_data_ui <- function(id){
     uiOutput(ns("out_values_box")),
     plotOutput(ns("out_plot_ppv"), width="100%"),
     plotOutput(ns("out_plot_npv"), width="100%"),
-    plotOutput(ns("out_plot_cpc"), width="100%")
+    plotOutput(ns("out_plot_cpc"), width="100%"),
+    gt_output(ns("out_table_res"))
     # uiOutput(ns("outputs"))
   )
 }
@@ -29,8 +30,9 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     # req(results_list)
-    results_data <- results_list()
 
+    results_data <- results_list()
+    # browser()
     tmp_params <- format_app_params_react(scenario_vars=results_data[[scenarios_n]], global_vars=results_data$pathways, advance_vars=results_data$advance)
 
     params <- make_params(
@@ -74,7 +76,8 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
     plot_ppv <- make_plots(params, "ppv")
     plot_npv <- make_plots(params, "npv")
     plot_cpc <- make_plots(params, "cpc")
-
+    #Table
+    table_res <- make_table_results(out)
 
     #NOT ANYMORE
   # print(scenario_vars()$sensitivity)
@@ -140,6 +143,10 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
     output$out_plot_cpc <- renderPlot({
       plot_cpc
       })
+    #Render table
+    output$out_table_res <-render_gt({
+      table_res
+    })
 
       #Return outputs for html report
       return(
@@ -150,7 +157,8 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
           values_box = values_box,
           plot_ppv = plot_ppv,
           plot_npv = plot_npv,
-          plot_cpc = plot_cpc
+          plot_cpc = plot_cpc,
+          table_res = table_res
         )
       )
 

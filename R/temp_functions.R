@@ -1,7 +1,7 @@
 # scenario_vars$pathway_type <- scenario_vars$pathway_type
 
 
-format_app_params_react <- function(scenario_vars, global_vars, advance_vars){
+format_app_params_react2 <- function(scenario_vars, global_vars, advance_vars){
 
   # assign each test a visit value, visit=1 if new visit or sample referral required
   # assign LTFU values (where LTFU=0 if visit=0, or ltfu if visit=1)
