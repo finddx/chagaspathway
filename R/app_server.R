@@ -413,13 +413,13 @@ app_server <- function(input, output, session) {
   #Assign inputs to a list
   results_data <-
     eventReactive(input$calculate, {
-
+      # validate(need(!is.null(scenario1_vars()$test1$test_type), "Test value is NULL"))
 
       result_list <- list(scenario1 = scenario1_vars())
-      if (!is.null(scenario2_vars)) {
+      if (exists("scenario2_vars")) {
         result_list$scenario2 <- scenario2_vars()
       }
-      if (!is.null(scenario3_vars)) {
+      if (exists("scenario3_vars")) {
         result_list$scenario3 <- scenario3_vars()
       }
 

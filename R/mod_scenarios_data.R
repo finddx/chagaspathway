@@ -60,13 +60,6 @@ mod_scenarios_data_server <- function(id, scenarios_n){#, list_tests
     })
 
     # output$tests <- renderUI({
-    #   test_list <- lapply(test_n_out(), generate_test_ui)
-    #   splitLayout(do.call(tagList, test_list), cellWidths = "20%")
-    #
-    # })
-
-
-    # output$tests <- renderUI({
     #   tagList(
     #     div(id="tests_5_div",
     #         fluidRow(

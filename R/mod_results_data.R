@@ -32,7 +32,10 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
     # req(results_list)
 
     results_data <- results_list()
-    # browser()
+    # print(results_data)#$test1$test_type())
+    # scenario_vars$test1$test_type()
+
+
     tmp_params <- format_app_params_react(scenario_vars=results_data[[scenarios_n]], global_vars=results_data$pathways, advance_vars=results_data$advance)
 
     params <- make_params(
@@ -68,8 +71,6 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
         value = cost_per_true_pos,
         showcase = bs_icon("currency-dollar"),
         theme = value_box_theme(bg="#81969F", fg="#FFFFFF")
-        # style = 'background-color: #81969F !important; color:#FFFFFF !important;'
-        # theme="primary"
       )
     )
     #Make plots
