@@ -45,14 +45,16 @@ app_server <- function(input, output, session) {
 
   #UI modules#
 
+  color_scenarios <- c("#498FA9","#FF8F28","#491E5D")
   #Generate UI elements for a scenario
-  generate_scenario_ui <- function(scenario_id) {
+  generate_scenario_ui <- function(scenario_id, color_scenarios) {
     if (scenario_id %in% displayed_scenarios()) {
       scenario_number <- as.numeric(gsub("\\D", "", scenario_id))
+      bg_color <- color_scenarios[scenario_number]
       tagList(
         # column(width=12,
                card(
-                 card_header(h4(strong(paste("Scenario", scenario_number))), style="background-color: #491e5d; color: #ffffff;"),
+                 card_header(h4(strong(paste("Scenario", scenario_number))), style=paste0("background-color: " , bg_color, "; color: #ffffff;")),
                  card_body(
                    mod_scenarios_data_ui(paste0("scenarios_data_", scenario_number))
                  )
@@ -63,20 +65,21 @@ app_server <- function(input, output, session) {
   }
   #Render scenario
   output$scenarios <- renderUI({
-    scenario_list <- lapply(displayed_scenarios(), generate_scenario_ui)
+    scenario_list <- lapply(displayed_scenarios(), generate_scenario_ui, color_scenarios=color_scenarios)
     fluidRow(do.call(tagList, scenario_list))
   })
 
   #Generate UI elements for a result
-  generate_result_ui <- function(result_id) {
+  generate_result_ui <- function(result_id, color_scenarios) {
     if(!is.null(results_data())){
       if (result_id %in% displayed_scenarios()) {
         result_number <- as.numeric(gsub("\\D", "", result_id))
+        bg_color <- color_scenarios[result_number]
         tagList(
           column(width=ifelse(length(displayed_scenarios())==1,12,ifelse(length(displayed_scenarios())==2,6,4)),
                  # id=paste0("results_data_", gsub("\\D", "", result_id)),
                  card(
-                   card_header(h4(strong(paste("Results scenario", result_number))), style="background-color: #491e5d; color: #ffffff;"),
+                   card_header(h4(strong(paste("Results scenario", result_number))), style=paste0("background-color: ", bg_color, "; color: #ffffff;")),
                    card_body(
                      mod_results_data_ui(paste0("results_data_", result_number))
                    )
@@ -88,7 +91,7 @@ app_server <- function(input, output, session) {
   }
   #Render results
   output$results <- renderUI({
-    results_list <- lapply(displayed_scenarios(), generate_result_ui)
+    results_list <- lapply(displayed_scenarios(), generate_result_ui, color_scenarios=color_scenarios)
     fluidRow(do.call(tagList, results_list))
     # fluidRow(do.call(layout_column_wrap, results_list))
   })

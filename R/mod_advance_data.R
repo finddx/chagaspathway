@@ -16,10 +16,10 @@ mod_advance_data_ui <- function(id){
         card_body(
           layout_column_wrap(
             style = "display: flex; align-items: flex-end;",
-            numericInput(ns("prev_chagas"), label=HTML("<b> Prevalence of Chagas in care-seeking population </b>"), min=0, max=1, value=0.5, width="100%"),
-            numericInput(ns("treat_effect"), label=HTML("<b> Treatment effectiveness </b>"), min=0,  max=100, value=50, width="100%"),
-            numericInput(ns("untreated_pats"), label=HTML("<b> Proportion of untreated patients developing long-term morbidities </b>"), min=0, max=100, value=50, width="100%"),
-           numericInput(ns("avg_dalys"), label=HTML("<b> Average DALYs associated with untreated, long-term comorbidities </b>"), value=50, width="100%")
+            numericInput(ns("prev_chagas"), label=HTML("<b> Prevalence of Chagas in care-seeking population (0-100%) </b>"), min=0, max=100, value=50, width="100%"),
+            numericInput(ns("treat_effect"), label=HTML("<b> Treatment effectiveness (0-100%) </b>"), min=0, max=100, value=50, width="100%"),
+            numericInput(ns("untreated_pats"), label=HTML("<b> Percent untreated patients developing long-term morbidities (0-100%) </b>"), min=0, max=100, value=50, width="100%"),
+           numericInput(ns("avg_dalys"), label=HTML("<b> Average DALYs associated with untreated, long-term comorbidities </b>"), value=2, width="100%")
           )
         )
       )
@@ -44,9 +44,9 @@ mod_advance_data_server <- function(id){
 
     return(
       list(
-        prev_chagas = reactive({ input$prev_chagas }),
-        treat_effect = reactive({ input$treat_effect }),
-        untreated_pats = reactive({ input$untreated_pats }),
+        prev_chagas = reactive({ input$prev_chagas / 100 }),
+        treat_effect = reactive({ input$treat_effect / 100 }),
+        untreated_pats = reactive({ input$untreated_pats / 100 }),
         avg_dalys = reactive({ input$avg_dalys }),
         cost_visit = reactive({ input$cost_visit })
       )

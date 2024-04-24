@@ -15,37 +15,43 @@ mod_results_data_ui <- function(id){
     # uiOutput(ns("value3"), style="text-align: center; width: 100%;"),
     card(
       # card_header(h4(strong("User data"))),
+      full_screen=TRUE,
       card_body(
         grVizOutput(ns("out_fig_diagram"), width="100%")
     )),
     card(
       # card_header(h4(strong("User data"))),
+      full_screen=TRUE,
       card_body(
     uiOutput(ns("out_values_box"))
       )),
     card(
       # card_header(h4(strong("User data"))),
+      full_screen=TRUE,
       card_body(
         column(width=12,align="center",
-    plotOutput(ns("out_plot_ppv"), width="70%")
+    plotOutput(ns("out_plot_ppv"), width="100%")
         )
       )),
     card(
       # card_header(h4(strong("User data"))),
+      full_screen=TRUE,
       card_body(
         column(width=12,align="center",
-    plotOutput(ns("out_plot_npv"), width="70%")
+    plotOutput(ns("out_plot_npv"), width="100%")
         )
   )),
   card(
     # card_header(h4(strong("User data"))),
+    full_screen=TRUE,
     card_body(
       column(width=12,align="center",
-    plotOutput(ns("out_plot_cpc"), width="70%")
+    plotOutput(ns("out_plot_cpc"), width="100%")
       )
 )),
 card(
   # card_header(h4(strong("User data"))),
+  full_screen=TRUE,
   card_body(
     gt_output(ns("out_table_res"))
 ))
@@ -89,7 +95,7 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
     cost_per_true_pos <- round(out$cost_per_true_pos*100, 2)
     #Make boxes
     values_box <- fluidRow(
-      column(offset=2, width=8,layout_column_wrap(
+      column(offset=0, width=12,layout_column_wrap(
       width = 1/2,
       # style = "display: flex; align-items: center; justify-content: center;",
       value_box(

@@ -1,0 +1,97 @@
+{
+    "languages": ["English", "Español"],
+    "translation": [
+        {
+            "English": "Chagas Pathway",
+            "Español": "Vía de Chagas"
+        },
+        {
+            "English": "Introduction",
+            "Español": "Introducción"
+        },
+        {
+            "English": "Pathways data",
+            "Español": "Datos sobre las vías"
+        },
+        {
+            "English": "Scenario specification",
+            "Español": "Especificación del escenario"
+        },
+        {
+            "English": "Select the number of scenarios (up to 3)",
+            "Español": "Seleccione el número de escenarios (hasta 3)"
+        },
+        {
+            "English": "Create scenarios",
+            "Español": "Crear escenarios"
+        },
+        {
+            "English": "Advance settings",
+            "Español": "Ajustes avanzados"
+        },
+        {
+            "English": "Info",
+            "Español": "Info"
+        },
+        {
+            "English": "Acknowledgements",
+            "Español": "Agradecimientos"
+        },
+        {
+            "English": "User manual",
+            "Español": "Manual de usuario"
+        },
+        {
+            "English": "Conditions",
+            "Español": "Condiciones",
+        },
+        {
+            "English": "Complications",
+            "Español": "Complicaciones"
+        },
+        {
+            "English": "Did you present any of the following symptoms in the first 10 days following symptoms onset?",
+            "Español": "¿Presentó alguno de los siguientes síntomas en los primeros 10 días tras el inicio de la sintomatología por la infección"
+        },
+        {
+            "English": "Fever",
+            "Español": "Fiebre"
+        },
+        {
+            "English": "Headache",
+            "Español": "Dolor de cabeza"
+        },
+        {
+            "English": "Fatigue",
+            "Español": "Fatiga"
+        },
+        {
+            "English": "Shortness of breath",
+            "Español": "Dificultad para respirar"
+        },
+        {
+            "English": "Cough",
+            "Español": "Tos"
+        },
+        {
+            "English": "Loss of taste or smell",
+            "Español": "Pérdida del gusto u olfato"
+        },
+        {
+            "English": "Digestive symptoms (abdominal pain, diarrhea, vomiting)",
+            "Español": "Síntomas digestivos (dolor abdominal, diarrea, vómito)"
+        },
+        {
+            "English": "I did not present any of these symptoms",
+            "Español": "No presenté ninguno de estos síntomas"
+        },
+        {
+            "English": "Loss of smell",
+            "Español": "Pérdida del olfato"
+        },
+        {
+            "English": "Loss of taste",
+            "Español": "Pérdida del gusto"
+        }
+    ]
+}

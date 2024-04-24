@@ -19,8 +19,8 @@ mod_tests_data_ui <- function(id){
     textInput(ns("label"), label=HTML("<b> Label </b>"), width="100%"),
     radioButtons(ns("facility_type"), label=HTML("<b> Facility type </b>"), choices=c("High complexity", "Low complexity"), inline=TRUE, selected="High complexity", width="100%"),
     # radioButtons(ns("sample_type"), label=HTML("<b> Sample type </b>"), choices=c("Capillary", "Whole blood (NB: if low complexity, can only be capillary)"),  inline=TRUE, selected=NULL, width="100%"),
-    numericInput(ns("sens"), label=HTML("<b> Sensitivity </b>"), min=0,  max=1, value=0.8, width="100%"),
-    numericInput(ns("spec"), label=HTML("<b> Specificity </b>"), min=0, max=1, value=0.9, width="100%"),
+    numericInput(ns("sens"), label=HTML("<b> Sensitivity (0-100%) </b>"), min=0,  max=100, value=80, width="100%"),
+    numericInput(ns("spec"), label=HTML("<b> Specificity (0-100%) </b>"), min=0, max=100, value=90, width="100%"),
     numericInput(ns("cost_test"), label=HTML("<b> Cost per test (USD) </b>"), value=2, width="100%")
   )
 }
@@ -38,8 +38,8 @@ mod_tests_data_server <- function(id){
         label = reactive({ input$label }),
         facility_type = reactive({ input$facility_type }),
         # sample_type = reactive({ input$sample_type }),
-        sens = reactive({ input$sens }),
-        spec = reactive({ input$spec }),
+        sens = reactive({ input$sens / 100 }),
+        spec = reactive({ input$spec / 100 }),
         cost_test = reactive({ input$cost_test})
       )
     )

@@ -9,13 +9,16 @@
 #' @importFrom shinyWidgets radioGroupButtons
 #' @importFrom shinyjs useShinyjs show hide hidden disable
 #' @importFrom shinyBS bsCollapse bsCollapsePanel
+#' @importFrom shiny.i18n usei18n
 
 #' @noRd
 app_ui <- function(request) {
+  # i18n <- Translator$new(translation_json_path= "translations/translation.json")
 
   tagList(
     # Leave this function for adding external resources
     useShinyjs(),
+    # shiny.i18n::usei18n(i18n),
     golem_add_external_resources(),
     tags$style(HTML("body { margin-top: 50px !important; }")),
     page_navbar(
@@ -37,6 +40,7 @@ app_ui <- function(request) {
       nav_panel(
         "Pathways",icon = bs_icon("arrows-move"),
         h3(strong("Introduction")),
+        # selectInput("selected_language","",choices=i18n$get_languages(),selected=i18n$get_key_translation()),
         p("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis volutpat justo. Phasellus dignissim, metus vitae malesuada faucibus, odio lorem varius arcu, nec efficitur libero tortor vel mi. Maecenas euismod ligula eget erat malesuada, vel pharetra dui consequat. Integer auctor eleifend velit, vel condimentum nulla vestibulum et. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque lacinia enim ac velit rhoncus, a pellentesque nulla mattis. Donec sit amet sapien quis lorem fermentum tempor. Duis posuere lectus vitae velit ultrices, eget consequat odio consequat. Vivamus ut ipsum ac neque fringilla iaculis. Sed non turpis arcu. Nulla ac consectetur risus, eget convallis velit. Sed a sapien id mauris mattis blandit. Sed lacinia ipsum sapien, eget egestas enim scelerisque sed. Sed tristique ultrices mauris, vitae sodales tortor tempus sed. Phasellus bibendum nisi at dui volutpat, a vehicula felis cursus. Sed vitae libero eu arcu rutrum elementum."),
         fluidRow(
           column(4, align="left", offset=0, img(src="img/model1.png")),
