@@ -52,7 +52,7 @@ app_server <- function(input, output, session) {
       tagList(
         # column(width=12,
                card(
-                 card_header(h4(strong(paste("Scenario", scenario_number)))),
+                 card_header(h4(strong(paste("Scenario", scenario_number))), style="background-color: #491e5d; color: #ffffff;"),
                  card_body(
                    mod_scenarios_data_ui(paste0("scenarios_data_", scenario_number))
                  )
@@ -76,7 +76,7 @@ app_server <- function(input, output, session) {
           column(width=ifelse(length(displayed_scenarios())==1,12,ifelse(length(displayed_scenarios())==2,6,4)),
                  # id=paste0("results_data_", gsub("\\D", "", result_id)),
                  card(
-                   card_header(h4(strong(paste("Results scenario", result_number)))),
+                   card_header(h4(strong(paste("Results scenario", result_number))), style="background-color: #491e5d; color: #ffffff;"),
                    card_body(
                      mod_results_data_ui(paste0("results_data_", result_number))
                    )

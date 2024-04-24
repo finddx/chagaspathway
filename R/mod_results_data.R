@@ -21,7 +21,7 @@ mod_results_data_ui <- function(id){
     card(
       # card_header(h4(strong("User data"))),
       card_body(
-    uiOutput(ns("out_values_box"), width="70%")
+    uiOutput(ns("out_values_box"))
       )),
     card(
       # card_header(h4(strong("User data"))),
@@ -88,7 +88,8 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
     #Cost per case diagnosed:
     cost_per_true_pos <- round(out$cost_per_true_pos*100, 2)
     #Make boxes
-    values_box <- layout_column_wrap(
+    values_box <- fluidRow(
+      column(offset=2, width=8,layout_column_wrap(
       width = 1/2,
       # style = "display: flex; align-items: center; justify-content: center;",
       value_box(
@@ -104,6 +105,7 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
         theme = value_box_theme(bg="#81969F", fg="#FFFFFF")
       )
     )
+      ))
     #Make plots
     plot_ppv <- make_plots(params, "ppv")
     plot_npv <- make_plots(params, "npv")
