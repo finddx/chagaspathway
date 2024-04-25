@@ -24,37 +24,8 @@ mod_results_data_ui <- function(id){
       full_screen=TRUE,
       card_body(
     uiOutput(ns("out_values_box"))
-      )),
-    card(
-      # card_header(h4(strong("User data"))),
-      full_screen=TRUE,
-      card_body(
-        column(width=12,align="center",
-    plotOutput(ns("out_plot_ppv"), width="100%")
-        )
-      )),
-    card(
-      # card_header(h4(strong("User data"))),
-      full_screen=TRUE,
-      card_body(
-        column(width=12,align="center",
-    plotOutput(ns("out_plot_npv"), width="100%")
-        )
-  )),
-  card(
-    # card_header(h4(strong("User data"))),
-    full_screen=TRUE,
-    card_body(
-      column(width=12,align="center",
-    plotOutput(ns("out_plot_cpc"), width="100%")
-      )
-)),
-card(
-  # card_header(h4(strong("User data"))),
-  full_screen=TRUE,
-  card_body(
-    gt_output(ns("out_table_res"))
-))
+      ))#,
+
     # uiOutput(ns("outputs"))
   )
 }
@@ -72,7 +43,9 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
     # scenario_vars$test1$test_type()
 
 
-    tmp_params <- format_app_params_react(scenario_vars=results_data[[scenarios_n]], global_vars=results_data$pathways, advance_vars=results_data$advance)
+    # paste0("scenario1", scenario_number)
+
+    tmp_params <- format_app_params_react(scenario_vars=results_data[[scenarios_n]], global_vars=results_data$pathways, advance_vars=results_data$advance, scn_lab=scenarios_n)
 
     params <- make_params(
       tmp_params$pathway,
@@ -84,7 +57,8 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
       tmp_params$test5,
       tmp_params$daly_avert_per_tx,
       tmp_params$tx_eff,
-      tmp_params$n
+      tmp_params$n,
+      tmp_params$scenario
     )
     out <- run_pathway(params)
     #Make diagram
@@ -113,11 +87,13 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
     )
       ))
     #Make plots
-    plot_ppv <- make_plots(params, "ppv")
-    plot_npv <- make_plots(params, "npv")
-    plot_cpc <- make_plots(params, "cpc")
+    # plot_ppv <- make_plots(params, "ppv")
+    # plot_npv <- make_plots(params, "npv")
+    # plot_cpc <- make_plots(params, "cpc")
     #Table
-    table_res <- make_table_results(out)
+    # table_res <- make_table_results(out)
+
+
 
     #NOT ANYMORE
   # print(scenario_vars()$sensitivity)
@@ -174,19 +150,19 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
     # output[[paste0("out_fig_diagram_", scenarios_n)]]  <- renderGrViz({
       fig_diagram
     })
-    output$out_plot_ppv <- renderPlot({
-      plot_ppv
-      })
-    output$out_plot_npv <- renderPlot({
-      plot_npv
-      })
-    output$out_plot_cpc <- renderPlot({
-      plot_cpc
-      })
-    #Render table
-    output$out_table_res <-render_gt({
-      table_res
-    })
+    # output$out_plot_ppv <- renderPlot({
+    #   plot_ppv
+    #   })
+    # output$out_plot_npv <- renderPlot({
+    #   plot_npv
+    #   })
+    # output$out_plot_cpc <- renderPlot({
+    #   plot_cpc
+    #   })
+    # #Render table
+    # output$out_table_res <-render_gt({
+    #   table_res
+    # })
 
       #Return outputs for html report
       return(
@@ -195,10 +171,11 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
           prop_diagnosed = prop_diagnosed, #reactive({ })
           cost_per_true_pos = cost_per_true_pos,
           values_box = values_box,
-          plot_ppv = plot_ppv,
-          plot_npv = plot_npv,
-          plot_cpc = plot_cpc,
-          table_res = table_res
+          out = out
+          # plot_ppv = plot_ppv,
+          # plot_npv = plot_npv,
+          # plot_cpc = plot_cpc,
+          # table_res = table_res
         )
       )
 

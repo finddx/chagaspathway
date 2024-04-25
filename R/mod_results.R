@@ -9,14 +9,41 @@
 #' @importFrom shiny NS tagList
 mod_results_ui <- function(id){
   ns <- NS(id)
-  # tagList(
-  #   # fluidRow(
-  #   #   column(width=4, offset=4,
-  #   #           downloadButton(ns("report"), label="Generate report", style="text-align: center; width: 100%;", class="button-color", icon=NULL)
-  #   #           )
-  #   # )
-  #
-  # )
+  tagList(
+    card(
+      # card_header(h4(strong("User data"))),
+      full_screen=TRUE,
+      card_body(
+        column(width=12,align="center",
+               plotOutput(ns("out_plot_ppv"), width="100%")
+        )
+      )),
+    card(
+      # card_header(h4(strong("User data"))),
+      full_screen=TRUE,
+      card_body(
+        column(width=12,align="center",
+               plotOutput(ns("out_plot_npv"), width="100%")
+        )
+      )),
+    card(
+      # card_header(h4(strong("User data"))),
+      full_screen=TRUE,
+      card_body(
+        column(width=12,align="center",
+               plotOutput(ns("out_plot_cpc"), width="100%")
+        )
+      )),
+    fluidRow(
+    card(
+      # card_header(h4(strong("User data"))),
+      full_screen=TRUE,
+      card_body(
+        gt_output(ns("out_table_res"))
+      ))
+    )
+
+  )
 }
 
 #' results Server Functions
@@ -26,9 +53,50 @@ mod_results_ui <- function(id){
 #'
 #'
 #'
-mod_results_server <- function(id, results_list){# event_calculate,
+mod_results_server <- function(id, out_scenario1=NULL, out_scenario2=NULL, out_scenario3=NULL){# event_calculate,
   moduleServer( id, function(input, output, session){
     ns <- session$ns
+
+
+    out <- rbind(out_scenario1, out_scenario2, out_scenario3)
+    print(out)
+    table_res <- make_table_results(out)
+
+    # prev_df = rbind(make_prev_df(params1), make_prev_df(params2), make_prev_df(params3))
+    #
+    # make_plots(prev_df, "ppv")
+    # make_plots(prev_df, "npv")
+    # make_plots(prev_df, "cpc")
+
+
+
+    # output$out_plot_ppv <- renderPlot({
+    #   plot_ppv
+    #   })
+    # output$out_plot_npv <- renderPlot({
+    #   plot_npv
+    #   })
+    # output$out_plot_cpc <- renderPlot({
+    #   plot_cpc
+    #   })
+    #Render table
+    output$out_table_res <-render_gt({
+      table_res
+    })
+
+    #Return outputs for html report
+    # return(
+    #   list(
+    #     plot_ppv = plot_ppv,
+    #     plot_npv = plot_npv,
+    #     plot_cpc = plot_cpc,
+    #     table_res = table_res
+    #   )
+    # )
+
+
+
+
 
 
     # observe({
@@ -119,19 +187,7 @@ mod_results_server <- function(id, results_list){# event_calculate,
     #     geom_point() +
     #     labs(x = "Sensitivity", y = "Specificity", title = "Scatter Plot")
     # })
-    #
-    # scatterplot2_plot <- reactive({
-    #   req(df_scatter())
-    #   ggplot(df_scatter(), aes(x=sensitivity, y=specificity)) +
-    #     geom_point() +
-    #     labs(x = "Sensitivity", y = "Specificity", title = "Scatter Plot")
-    #
-    # })
-    #
-    # output$scatterplot <- renderPlot({
-    #   scatterplot_plot()
-    #   })
-    #
+    #    #
     # output$scatterplot2 <- renderPlot({
     #   scatterplot2_plot()
     #   })

@@ -13,6 +13,18 @@
 #' @noRd
 app_server <- function(input, output, session) {
 
+  # i18n <- golem::get_golem_options(which = "translator")
+  # i18n$set_translation_language("en")
+  # keep track of language object as a reactive
+  # i18n_r <- reactive({
+  #   i18n
+  # })
+  # change language
+  # observeEvent(input[["selected_language"]], {
+  #   shiny.i18n::update_lang(session, input[["selected_language"]])
+  #   i18n_r()$set_translation_language(input[["selected_language"]])
+  # })
+
   # displayed_scenarios <- reactiveVal(c("scenario1"))
   # #Count and add a new scenario (up tp 3)
   # observeEvent(input$add_scenario, {
@@ -63,7 +75,7 @@ app_server <- function(input, output, session) {
       )
     }
   }
-  #Render scenario
+  #Render scenarios
   output$scenarios <- renderUI({
     scenario_list <- lapply(displayed_scenarios(), generate_scenario_ui, color_scenarios=color_scenarios)
     fluidRow(do.call(tagList, scenario_list))
@@ -96,272 +108,6 @@ app_server <- function(input, output, session) {
     # fluidRow(do.call(layout_column_wrap, results_list))
   })
 
-  # # Render scenarios
-#   output$scenarios <- renderUI({
-#     tagList(
-#       div(id="scenario1_div",
-#
-#           column(width=12,
-#                  card(
-#                    card_header(h4(strong("Scenario 1"))),
-#                    card_body(
-#                      mod_scenarios_data_ui("scenarios_data_1"),
-#
-#                  shinyjs::hidden(
-#                      div(id="scenario1_test_5_div",
-#                          fluidRow(
-#                            splitLayout(
-#                              cell_width="20%",
-#                                 card(
-#                                   card_header(h5(strong("Test 1"))),
-#                                   card_body(
-#                                     mod_tests_data_ui("scenario1_tests_data_1_5t")
-#                                 )),
-#                              card(
-#                                card_header(h5(strong("Test 2"))),
-#                                card_body(
-#                                  mod_tests_data_ui("scenario1_tests_data_2_5t")
-#                                )),
-#                              card(
-#                                card_header(h5(strong("Test 3"))),
-#                                card_body(
-#                                  mod_tests_data_ui("scenario1_tests_data_3_5t")
-#                                )),
-#                              card(
-#                                card_header(h5(strong("Test 4"))),
-#                                card_body(
-#                                  mod_tests_data_ui("scenario1_tests_data_4_5t")
-#                                )),
-#                              card(
-#                                card_header(h5(strong("Test 5"))),
-#                                card_body(
-#                                  mod_tests_data_ui("scenario1_tests_data_5_5t")
-#                                ))
-#                      )))
-#                      ),
-#                  shinyjs::hidden(
-#                    div(id="scenario1_test_3_div",
-#                        fluidRow(
-#                          splitLayout(
-#                            cell_width="20%",
-#                            card(
-#                              card_header(h5(strong("Test 1"))),
-#                              card_body(
-#                                mod_tests_data_ui("scenario1_tests_data_1_3t")
-#                              )),
-#                            card(
-#                              card_header(h5(strong("Test 2"))),
-#                              card_body(
-#                                mod_tests_data_ui("scenario1_tests_data_2_3t")
-#                              )),
-#                            card(
-#                              card_header(h5(strong("Test 3"))),
-#                              card_body(
-#                                mod_tests_data_ui("scenario1_tests_data_3_3t")
-#                              ))
-#               )
-#                  )
-#                    )
-#                  )
-#
-# )
-#
-#                 )),
-#
-#
-#       shinyjs::hidden(div(id="scenario2_div",
-#           column(width=12,
-#                  card(
-#                    card_header(h4(strong("Scenario 2"))),
-#                    card_body(
-#                      mod_scenarios_data_ui("scenarios_data_2"),
-#
-#
-#                  shinyjs::hidden(
-#                    div(id="scenario2_test_5_div",
-#                        fluidRow(
-#                          splitLayout(
-#                            cell_width="20%",
-#                            card(
-#                              card_header(h5(strong("Test 1"))),
-#                              card_body(
-#                                mod_tests_data_ui("scenario2_tests_data_1_5t")
-#                              )),
-#                            card(
-#                              card_header(h5(strong("Test 2"))),
-#                              card_body(
-#                                mod_tests_data_ui("scenario2_tests_data_2_5t")
-#                              )),
-#                            card(
-#                              card_header(h5(strong("Test 3"))),
-#                              card_body(
-#                                mod_tests_data_ui("scenario2_tests_data_3_5t")
-#                              )),
-#                            card(
-#                              card_header(h5(strong("Test 4"))),
-#                              card_body(
-#                                mod_tests_data_ui("scenario2_tests_data_4_5t")
-#                              )),
-#                            card(
-#                              card_header(h5(strong("Test 5"))),
-#                              card_body(
-#                                mod_tests_data_ui("scenario2_tests_data_5_5t")
-#                              ))
-#                          )))
-#                  ),
-#                  shinyjs::hidden(
-#                    div(id="scenario2_test_3_div",
-#                        fluidRow(
-#                          splitLayout(
-#                            cell_width="20%",
-#                            card(
-#                              card_header(h5(strong("Test 1"))),
-#                              card_body(
-#                                mod_tests_data_ui("scenario2_tests_data_1_3t")
-#                              )),
-#                            card(
-#                              card_header(h5(strong("Test 2"))),
-#                              card_body(
-#                                mod_tests_data_ui("scenario2_tests_data_2_3t")
-#                              )),
-#                            card(
-#                              card_header(h5(strong("Test 3"))),
-#                              card_body(
-#                                mod_tests_data_ui("scenario2_tests_data_3_3t")
-#                              ))
-#                          )
-#                        )
-#                    ))
-#                    )
-#                  )
-#
-#                  ))
-#       )),
-#       shinyjs::hidden(div(id="scenario3_div",
-#           column(width=12,
-#                  card(
-#                    card_header(h4(strong("Scenario 3"))),
-#                    card_body(
-#                      mod_scenarios_data_ui("scenarios_data_3"),
-#
-#
-#                    #
-#                  shinyjs::hidden(
-#                    div(id="scenario3_test_5_div",
-#                        fluidRow(
-#                          splitLayout(
-#                            cell_width="20%",
-#                            card(
-#                              card_header(h5(strong("Test 1"))),
-#                              card_body(
-#                                mod_tests_data_ui("scenario3_tests_data_1_5t")
-#                              )),
-#                            card(
-#                              card_header(h5(strong("Test 2"))),
-#                              card_body(
-#                                mod_tests_data_ui("scenario3_tests_data_2_5t")
-#                              )),
-#                            card(
-#                              card_header(h5(strong("Test 3"))),
-#                              card_body(
-#                                mod_tests_data_ui("scenario3_tests_data_3_5t")
-#                              )),
-#                            card(
-#                              card_header(h5(strong("Test 4"))),
-#                              card_body(
-#                                mod_tests_data_ui("scenario3_tests_data_4_5t")
-#                              )),
-#                            card(
-#                              card_header(h5(strong("Test 5"))),
-#                              card_body(
-#                                mod_tests_data_ui("scenario3_tests_data_5_5t")
-#                              ))
-#                          )))
-#                  ),
-#                  shinyjs::hidden(
-#                    div(id="scenario3_test_3_div",
-#                        fluidRow(
-#                          splitLayout(
-#                            cell_width="20%",
-#                            card(
-#                              card_header(h5(strong("Test 1"))),
-#                              card_body(
-#                                mod_tests_data_ui("scenario3_tests_data_1_3t")
-#                              )),
-#                            card(
-#                              card_header(h5(strong("Test 2"))),
-#                              card_body(
-#                                mod_tests_data_ui("scenario3_tests_data_2_3t")
-#                              )),
-#                            card(
-#                              card_header(h5(strong("Test 3"))),
-#                              card_body(
-#                                mod_tests_data_ui("scenario3_tests_data_3_3t")
-#                              ))
-#                          )
-#                        )
-#                    ))
-#                  #
-#
-# ))
-#           )
-#       ))
-#     )
-#   })
-#
-#
-#
-#   observe({
-#         num_scenarios <- length(displayed_scenarios())
-#
-#         scenario1_pathway = scenario1_vars()
-#         scenario1_tests_n <- scenario1_pathway$pathway_type
-#
-#         scenario2_pathway = scenario2_vars()
-#         scenario2_tests_n <- scenario2_pathway$pathway_type
-#
-#         scenario3_pathway = scenario3_vars()
-#         scenario3_tests_n <- scenario3_pathway$pathway_type
-#
-#         # shinyjs::hide(id = c("scenario1_div", "scenario2_div", "scenario3_div"))
-#         if (num_scenarios >= 1) {
-#           shinyjs::show(id = "scenario1_div")
-#           if (scenario1_tests_n=="full") {
-#             shinyjs::show(id = "scenario1_test_5_div")
-#             shinyjs::hide(id = "scenario1_test_3_div")
-#           } else {
-#             shinyjs::show(id = "scenario1_test_3_div")
-#             shinyjs::hide(id = "scenario1_test_5_div")
-#           }
-#         }
-#         if (num_scenarios >= 2) {
-#           shinyjs::show(id = "scenario2_div")
-#           if (scenario2_tests_n=="full") {
-#             shinyjs::show(id = "scenario2_test_5_div")
-#             shinyjs::hide(id = "scenario2_test_3_div")
-#           } else {
-#             shinyjs::show(id = "scenario2_test_3_div")
-#             shinyjs::hide(id = "scenario2_test_5_div")
-#           }
-#         }
-#         if (num_scenarios >= 3) {
-#           shinyjs::show(id = "scenario3_div")
-#           if (scenario3_tests_n=="full") {
-#             shinyjs::show(id = "scenario3_test_5_div")
-#             shinyjs::hide(id = "scenario3_test_3_div")
-#           } else {
-#             shinyjs::show(id = "scenario3_test_3_div")
-#             shinyjs::hide(id = "scenario3_test_5_div")
-#           }
-#         }
-#   })
-
-
-  # observe({
-  #   num_scenarios <- length(displayed_scenarios())
-  #   shinyjs::hide(selector = ".scenario_column")
-  #   shinyjs::show(selector = paste0("#scenario", 1:num_scenarios, "_div"))
-  # })
 
 
   #SERVER modules#
@@ -406,6 +152,12 @@ app_server <- function(input, output, session) {
     })
   })
 
+  observe({
+    mod_results_server("results_general",
+                       out_scenario1=if(exists("results_1_vars")) results_1_vars$out else NULL,
+                       out_scenario2=if(exists("results_2_vars")) results_2_vars$out else NULL,
+                       out_scenario3=if(exists("results_3_vars")) results_3_vars$out else NULL)
+  })
   # event_calculate <- eventReactive(input$calculate, {
   #   input$calculate
   # })
@@ -480,26 +232,26 @@ app_server <- function(input, output, session) {
                           values_box_scenarios1 = if(exists("results_1_vars")) results_1_vars$values_box else NULL,
                           prop_diagnosed_scenarios1 = if(exists("results_1_vars")) results_1_vars$prop_diagnosed else NULL,
                           cost_per_true_pos_scenarios1 = if(exists("results_1_vars")) results_1_vars$cost_per_true_pos else NULL,
-                          plot_ppv_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_ppv else NULL,
-                          plot_npv_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_npv else NULL,
-                          plot_cpc_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_cpc else NULL,
-                          table_res_scenarios1 = if(exists("results_1_vars")) results_1_vars$table_res else NULL,
+                          # plot_ppv_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_ppv else NULL,
+                          # plot_npv_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_npv else NULL,
+                          # plot_cpc_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_cpc else NULL,
+                          # table_res_scenarios1 = if(exists("results_1_vars")) results_1_vars$table_res else NULL,
                           fig_diagram_scenarios2 =  if(exists("results_2_vars")) results_2_vars$fig_diagram else NULL,
                           values_box_scenarios2 = if(exists("results_2_vars")) results_2_vars$values_box else NULL,
                           prop_diagnosed_scenarios2 = if(exists("results_2_vars")) results_2_vars$prop_diagnosed else NULL,
                           cost_per_true_pos_scenarios2 = if(exists("results_2_vars")) results_2_vars$cost_per_true_pos else NULL,
-                          plot_ppv_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_ppv else NULL,
-                          plot_npv_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_npv else NULL,
-                          plot_cpc_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_cpc else NULL,
-                          table_res_scenarios2 = if(exists("results_2_vars")) results_2_vars$table_res else NULL,
+                          # plot_ppv_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_ppv else NULL,
+                          # plot_npv_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_npv else NULL,
+                          # plot_cpc_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_cpc else NULL,
+                          # table_res_scenarios2 = if(exists("results_2_vars")) results_2_vars$table_res else NULL,
                           fig_diagram_scenarios3 = if(exists("results_3_vars")) results_3_vars$fig_diagram else NULL,
                           values_box_scenarios3 = if(exists("results_3_vars")) results_3_vars$values_box else NULL,
                           prop_diagnosed_scenarios3 = if(exists("results_3_vars")) results_3_vars$prop_diagnosed else NULL,
-                          cost_per_true_pos_scenarios3 = if(exists("results_3_vars")) results_3_vars$cost_per_true_pos else NULL,
-                          plot_ppv_scenarios3 = if(exists("results_3_vars")) results_3_vars$plot_ppv else NULL,
-                          plot_npv_scenarios3 = if(exists("results_3_vars")) results_3_vars$plot_npv else NULL,
-                          plot_cpc_scenarios3 = if(exists("results_3_vars")) results_3_vars$plot_cpc else NULL,
-                          table_res_scenarios3 = if(exists("results_3_vars")) results_3_vars$table_res else NULL
+                          cost_per_true_pos_scenarios3 = if(exists("results_3_vars")) results_3_vars$cost_per_true_pos else NULL#,
+                          # plot_ppv_scenarios3 = if(exists("results_3_vars")) results_3_vars$plot_ppv else NULL,
+                          # plot_npv_scenarios3 = if(exists("results_3_vars")) results_3_vars$plot_npv else NULL,
+                          # plot_cpc_scenarios3 = if(exists("results_3_vars")) results_3_vars$plot_cpc else NULL,
+                          # table_res_scenarios3 = if(exists("results_3_vars")) results_3_vars$table_res else NULL
                         ),
                         envir=new.env(parent = globalenv())
       )
