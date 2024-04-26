@@ -45,47 +45,49 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
 
     # paste0("scenario1", scenario_number)
 
-    tmp_params <- format_app_params_react(scenario_vars=results_data[[scenarios_n]], global_vars=results_data$pathways, advance_vars=results_data$advance, scn_lab=scenarios_n)
-
-    params <- make_params(
-      tmp_params$pathway,
-      tmp_params$prev,
-      tmp_params$test1,
-      tmp_params$test2,
-      tmp_params$test3,
-      tmp_params$test4,
-      tmp_params$test5,
-      tmp_params$daly_avert_per_tx,
-      tmp_params$tx_eff,
-      tmp_params$n,
-      tmp_params$scenario
-    )
-    out <- run_pathway(params)
-    #Make diagram
-    fig_diagram <- render_graph(make_pathway_diagram(params))
+    # tmp_params <- format_app_params_react(scenario_vars=results_data[[scenarios_n]], global_vars=results_data$pathways, advance_vars=results_data$advance, scn_lab=scenarios_n)
+    #
+    # params <- make_params(
+    #   tmp_params$pathway,
+    #   tmp_params$prev,
+    #   tmp_params$test1,
+    #   tmp_params$test2,
+    #   tmp_params$test3,
+    #   tmp_params$test4,
+    #   tmp_params$test5,
+    #   tmp_params$daly_avert_per_tx,
+    #   tmp_params$tx_eff,
+    #   tmp_params$n,
+    #   tmp_params$scenario
+    # )
+    # out <- run_pathway(params)
+    # #Make diagram
+    fig_diagram <- render_graph(make_pathway_diagram(results_data[[paste0("params_" ,scenarios_n)]]))
     #Proportion cases diagnosed:
-    prop_diagnosed <- round(out$prop_diagnosed*100, 1)
+    prop_diagnosed <- round(results_data[[paste0("out_" ,scenarios_n)]]$prop_diagnosed*100, 1)
     #Cost per case diagnosed:
-    cost_per_true_pos <- round(out$cost_per_true_pos*100, 2)
+    cost_per_true_pos <- round(results_data[[paste0("out_" ,scenarios_n)]]$cost_per_true_pos*100, 2)
     #Make boxes
     values_box <- fluidRow(
-      column(offset=0, width=12,layout_column_wrap(
-      width = 1/2,
-      # style = "display: flex; align-items: center; justify-content: center;",
-      value_box(
-        title = "Proportion cases diagnosed:",
-        value = paste0(prop_diagnosed, "%"),
-        showcase = bs_icon("search"),
-        theme = value_box_theme(bg="#489FA9", fg="#FFFFFF")
-      ),
-      value_box(
-        title = "Cost per case diagnosed:",
-        value = cost_per_true_pos,
-        showcase = bs_icon("currency-dollar"),
-        theme = value_box_theme(bg="#81969F", fg="#FFFFFF")
-      )
+      column(offset=0, width=12,
+             layout_column_wrap(
+                width = 1/2,
+                # style = "display: flex; align-items: center; justify-content: center;",
+                  value_box(
+                    title = "Proportion cases diagnosed:",
+                    value = paste0(prop_diagnosed, "%"),
+                    showcase = bs_icon("search"),
+                    theme = value_box_theme(bg="#489FA9", fg="#FFFFFF")
+                  ),
+                  value_box(
+                    title = "Cost per case diagnosed:",
+                    value = cost_per_true_pos,
+                    showcase = bs_icon("currency-dollar"),
+                    theme = value_box_theme(bg="#81969F", fg="#FFFFFF")
+                  )
+            )
+          )
     )
-      ))
     #Make plots
     # plot_ppv <- make_plots(params, "ppv")
     # plot_npv <- make_plots(params, "npv")
@@ -140,16 +142,16 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
 
 
 
-
+    #Render diagram
+    output$out_fig_diagram <- renderGrViz({
+      # output[[paste0("out_fig_diagram_", scenarios_n)]]  <- renderGrViz({
+      fig_diagram
+    })
     #Render boxes
     output$out_values_box <- renderUI({
       values_box
     })
-    #Render plots
-    output$out_fig_diagram <- renderGrViz({
-    # output[[paste0("out_fig_diagram_", scenarios_n)]]  <- renderGrViz({
-      fig_diagram
-    })
+
     # output$out_plot_ppv <- renderPlot({
     #   plot_ppv
     #   })
@@ -168,10 +170,10 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
       return(
         list(
           fig_diagram = fig_diagram,
-          prop_diagnosed = prop_diagnosed, #reactive({ })
-          cost_per_true_pos = cost_per_true_pos,
-          values_box = values_box,
-          out = out
+          # prop_diagnosed = prop_diagnosed, #reactive({ })
+          # cost_per_true_pos = cost_per_true_pos,
+          values_box = values_box#,
+          # out = out
           # plot_ppv = plot_ppv,
           # plot_npv = plot_npv,
           # plot_cpc = plot_cpc,

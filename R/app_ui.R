@@ -87,7 +87,13 @@ app_ui <- function(request) {
       ),
       nav_panel(title="Results", icon=bs_icon("bar-chart-line"),
         uiOutput("results"),
-        mod_results_ui("results_general"),
+        fluidRow(
+        card(
+          # card_header(h4(strong("General results"))),
+          card_body(
+            mod_results_ui("results_general")
+          )
+        )),
         uiOutput("report_button")
       ),
       nav_panel(title="Advance settings", icon=bs_icon("gear-fill"),

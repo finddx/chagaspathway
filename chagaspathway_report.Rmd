@@ -26,9 +26,10 @@ params:
   prop_diagnosed_scenarios3: 'NULL' 
   cost_per_true_pos_scenarios3: 'NULL'
   values_box_scenarios3: 'NULL'
-  # plot_ppv_scenarios3: 'NULL'
-  # plot_npv_scenarios3: 'NULL'
-  # plot_cpc_scenarios3: 'NULL'
+  table_res: 'NULL'
+  plot_ppv: 'NULL'
+  plot_npv: 'NULL'
+  plot_cpc: 'NULL'
   # table_res_scenarios3: 'NULL'
 ---
 
@@ -96,6 +97,16 @@ cat("\n")
 cat('</div>')
 ```
 
+```{r, results='asis', eval = num_scenarios >= 3}
+cat('<div style="text-align: center;">') 
+cat("\n")
+params[["plot_ppv"]]
+params[["plot_npv"]]
+params[["plot_cpc"]]
+params[["table_res"]]
+cat("\n")
+cat('</div>')
+```
 <!-- # ```{r, results='asis'} -->
 <!-- # plotlist = list() -->
 <!-- # if (num_scenarios >= 1) { -->

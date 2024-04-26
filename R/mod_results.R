@@ -10,38 +10,39 @@
 mod_results_ui <- function(id){
   ns <- NS(id)
   tagList(
-    card(
-      # card_header(h4(strong("User data"))),
-      full_screen=TRUE,
-      card_body(
-        column(width=12,align="center",
-               plotOutput(ns("out_plot_ppv"), width="100%")
+       card(
+        # card_header(h4(strong("User data"))),
+        full_screen=TRUE,
+        card_body(
+          column(width=12,align="center",
+                 plotOutput(ns("out_plot_ppv"), width="100%")
+          )
+        )),
+      card(
+        # card_header(h4(strong("User data"))),
+        full_screen=TRUE,
+        card_body(
+          column(width=12,align="center",
+                 plotOutput(ns("out_plot_npv"), width="100%")
+          )
+        )),
+      card(
+        # card_header(h4(strong("User data"))),
+        full_screen=TRUE,
+        card_body(
+          column(width=12,align="center",
+                 plotOutput(ns("out_plot_cpc"), width="100%")
+          )
+        )),
+
+      card(
+        # card_header(h4(strong("User data"))),
+        full_screen=TRUE,
+        card_body(
+          gt_output(ns("out_table_res"))
         )
-      )),
-    card(
-      # card_header(h4(strong("User data"))),
-      full_screen=TRUE,
-      card_body(
-        column(width=12,align="center",
-               plotOutput(ns("out_plot_npv"), width="100%")
-        )
-      )),
-    card(
-      # card_header(h4(strong("User data"))),
-      full_screen=TRUE,
-      card_body(
-        column(width=12,align="center",
-               plotOutput(ns("out_plot_cpc"), width="100%")
-        )
-      )),
-    fluidRow(
-    card(
-      # card_header(h4(strong("User data"))),
-      full_screen=TRUE,
-      card_body(
-        gt_output(ns("out_table_res"))
-      ))
-    )
+      )
+
 
   )
 }
@@ -53,49 +54,56 @@ mod_results_ui <- function(id){
 #'
 #'
 #'
-mod_results_server <- function(id, out_scenario1=NULL, out_scenario2=NULL, out_scenario3=NULL){# event_calculate,
+mod_results_server <- function(id, results_list){# event_calculate,out_scenario1=NULL, out_scenario2=NULL, out_scenario3=NULL
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+    results_data <- results_list()
 
-    out <- rbind(out_scenario1, out_scenario2, out_scenario3)
-    print(out)
+
+    # fig_diagram <- render_graph(make_pathway_diagram(results_data[[paste0("params_" ,scenarios_n)]]))
+
+
+
+
+    # if (!is.null(out_scenario1)){
+    out <- rbind(results_data$out_scenario1, results_data$out_scenario2, results_data$out_scenario3)
     table_res <- make_table_results(out)
 
-    # prev_df = rbind(make_prev_df(params1), make_prev_df(params2), make_prev_df(params3))
-    #
-    # make_plots(prev_df, "ppv")
-    # make_plots(prev_df, "npv")
-    # make_plots(prev_df, "cpc")
+    prev_df = rbind(make_prev_df(results_data$params_scenario1), make_prev_df(results_data$params_scenario1), make_prev_df(results_data$params_scenario3))
+    plot_ppv <- make_plots(prev_df, "ppv")
+    plot_npv <- make_plots(prev_df, "npv")
+    plot_cpc <- make_plots(prev_df, "cpc")
 
 
 
-    # output$out_plot_ppv <- renderPlot({
-    #   plot_ppv
-    #   })
-    # output$out_plot_npv <- renderPlot({
-    #   plot_npv
-    #   })
-    # output$out_plot_cpc <- renderPlot({
-    #   plot_cpc
-    #   })
+    #Render plots
+    output$out_plot_ppv <- renderPlot({
+      plot_ppv
+      })
+    output$out_plot_npv <- renderPlot({
+      plot_npv
+      })
+    output$out_plot_cpc <- renderPlot({
+      plot_cpc
+      })
     #Render table
     output$out_table_res <-render_gt({
       table_res
     })
 
-    #Return outputs for html report
-    # return(
-    #   list(
-    #     plot_ppv = plot_ppv,
-    #     plot_npv = plot_npv,
-    #     plot_cpc = plot_cpc,
-    #     table_res = table_res
-    #   )
-    # )
+    # Return outputs for html report
+    return(
+      list(
+        plot_ppv = plot_ppv,
+        plot_npv = plot_npv,
+        plot_cpc = plot_cpc,
+        table_res = table_res
+      )
+    )
 
 
-
+    # }
 
 
 
