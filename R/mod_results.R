@@ -104,14 +104,6 @@ mod_results_server <- function(id, results_list){# event_calculate,out_scenario1
       )
     )
 
-    # results_data <- reactive({
-    #   results_list()
-    # })
-    # observe({
-      # res_pathway <- results_data()$scenario1$pathway_type
-      # res_pathway <- results_data$scenario1$pathway_type
-
-
   })
 }
 

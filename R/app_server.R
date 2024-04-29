@@ -11,6 +11,7 @@
 #' @importFrom gt render_gt gt_output
 #' @importFrom finddxtemplate html_document_find
 #' @importFrom plotly ggplotly renderPlotly plotlyOutput
+#' @importFrom shinybusy show_modal_spinner remove_modal_progress update_modal_progress show_modal_progress_line
 #'
 #' @noRd
 app_server <- function(input, output, session) {
@@ -112,6 +113,8 @@ app_server <- function(input, output, session) {
 
 
   output$results_general_ui <- renderUI({
+    # show_modal_spinner()
+
     if(!is.null(results_data())){
       fluidRow(
         card(
@@ -287,6 +290,15 @@ app_server <- function(input, output, session) {
 
     filename <-  "chagaspathway_report.html",
     content = function(file) {
+
+      #Loading bar
+      show_modal_progress_line(color="#491E5D")
+      milestones <- c(0.1, 0.5, 0.9)
+      for (milestone in milestones) {
+        update_modal_progress(milestone, text="Loading...")
+        Sys.sleep(runif(1, 1, 3))
+      }
+
       tempReport <- file.path(tempdir(), "chagaspathway_report.Rmd")
       file.copy("chagaspathway_report.Rmd", tempReport, overwrite=TRUE)
       #Pass outputs to the report
@@ -296,22 +308,15 @@ app_server <- function(input, output, session) {
                         params=list(
                           num_scenarios=input$out_num_scenarios,
                           user_name = pathways$user_name(),
-
-                          # sensitivity_scenario1 = results_data()$sensitivity_scenario1,
-                          # scatterplot_plot=scatterplot_plot(),
-
                           fig_diagram_scenarios1 = if(exists("results_1_vars")) results_1_vars$fig_diagram else NULL,
                           values_box_scenarios1 = if(exists("results_1_vars")) results_1_vars$values_box else NULL,
-                          # prop_diagnosed_scenarios1 = if(exists("results_1_vars")) results_1_vars$prop_diagnosed else NULL,
-                          # cost_per_true_pos_scenarios1 = if(exists("results_1_vars")) results_1_vars$cost_per_true_pos else NULL,
+                          table_params_scenarios1 = if(exists("results_1_vars")) results_1_vars$table_params else NULL,
                           fig_diagram_scenarios2 =  if(exists("results_2_vars")) results_2_vars$fig_diagram else NULL,
                           values_box_scenarios2 = if(exists("results_2_vars")) results_2_vars$values_box else NULL,
-                          # prop_diagnosed_scenarios2 = if(exists("results_2_vars")) results_2_vars$prop_diagnosed else NULL,
-                          # cost_per_true_pos_scenarios2 = if(exists("results_2_vars")) results_2_vars$cost_per_true_pos else NULL,
+                          table_params_scenarios2 = if(exists("results_2_vars")) results_2_vars$table_params else NULL,
                           fig_diagram_scenarios3 = if(exists("results_3_vars")) results_3_vars$fig_diagram else NULL,
                           values_box_scenarios3 = if(exists("results_3_vars")) results_3_vars$values_box else NULL,
-                          # prop_diagnosed_scenarios3 = if(exists("results_3_vars")) results_3_vars$prop_diagnosed else NULL,
-                          # cost_per_true_pos_scenarios3 = if(exists("results_3_vars")) results_3_vars$cost_per_true_pos else NULL,
+                          table_params_scenarios3 = if(exists("results_3_vars")) results_3_vars$table_params else NULL,
                           table_res = if(exists("results_all")) results_all$table_res else NULL,
                           plot_ppv = if(exists("results_all")) results_all$plot_ppv else NULL,
                           plot_npv = if(exists("results_all")) results_all$plot_npv else NULL,
@@ -319,7 +324,10 @@ app_server <- function(input, output, session) {
                         ),
                         envir=new.env(parent = globalenv())
       )
+      remove_modal_progress()
+
     }
+
   )
 
 }

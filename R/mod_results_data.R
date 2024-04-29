@@ -36,14 +36,7 @@ mod_results_data_ui <- function(id){
 mod_results_data_server <- function(id, scenarios_n, results_list){# event_calculate,
   moduleServer( id, function(input, output, session){
     ns <- session$ns
-    # req(results_list)
-
     results_data <- results_list()
-    # print(results_data)#$test1$test_type())
-    # scenario_vars$test1$test_type()
-
-
-    # paste0("scenario1", scenario_number)
 
     # tmp_params <- format_app_params_react(scenario_vars=results_data[[scenarios_n]], global_vars=results_data$pathways, advance_vars=results_data$advance, scn_lab=scenarios_n)
     #
@@ -88,58 +81,8 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
             )
           )
     )
-    #Make plots
-    # plot_ppv <- make_plots(params, "ppv")
-    # plot_npv <- make_plots(params, "npv")
-    # plot_cpc <- make_plots(params, "cpc")
     #Table
-    # table_res <- make_table_results(out)
-
-
-
-    #NOT ANYMORE
-  # print(scenario_vars()$sensitivity)
-    # results_data <-
-    #   eventReactive(event_calculate(), {
-    #
-    #   scenario_vars <- reactiveValues(parameters=scenario_vars())
-    #
-    #   sensitivity <- scenario_vars$parameters$test1$test_type()
-    #   facility_type <- scenario_vars$parameters$pathway_type
-    #
-    #   list(sensitivity=sensitivity, sensitivity1=sensitivity1, facility_type=facility_type)#sensitivity2=sensitivity2,
-    #
-    # })
-    # print(scenario_vars()$test3$test_type())
-    # print(results_data[[scenarios_n]]$test1)
-    # print(results_data$scenario1$test1$test_type())
-
-
-    # output$value1 <- renderText({
-    #   paste0("<b>Sensitivity: </b>", results_data[[scenarios_n]]$test1$test_type())
-    # })
-    # output$value2 <- renderText({
-    #   paste0("<b>facility_type: </b>", results_data[[scenarios_n]]$pathway_type)
-    # })
-    # output$value3 <- renderText({
-    #   paste0("<b>facility_type: </b>", results_data[[scenarios_n]]$test5$test_type())
-    # })
-
-
-
-    #NOT ANYMORE
-    # output$outputs <- renderUI({
-    #   tagList(
-    #     grVizOutput(ns(paste0("out_fig_diagram_", scenarios_n)), width = "100%"),
-    #     uiOutput(ns(paste0("value3_", scenarios_n)), style="text-align: center; width: 100%;"),
-    #     uiOutput(ns(paste0("value4_", scenarios_n)), style="text-align: center; width: 100%;"),
-    #     plotOutput(ns(paste0("out_plot_ppv_", scenarios_n)), width="100%"),
-    #     plotOutput(ns(paste0("out_plot_npv_", scenarios_n)), width="100%"),
-    #     plotOutput(ns(paste0("out_plot_cpc_", scenarios_n)), width="100%")
-    #   )
-    # })
-
-
+    table_params <- make_table_params(results_data[[paste0("params_" ,scenarios_n)]])
 
 
     #Render diagram
@@ -152,32 +95,12 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
       values_box
     })
 
-    # output$out_plot_ppv <- renderPlot({
-    #   plot_ppv
-    #   })
-    # output$out_plot_npv <- renderPlot({
-    #   plot_npv
-    #   })
-    # output$out_plot_cpc <- renderPlot({
-    #   plot_cpc
-    #   })
-    # #Render table
-    # output$out_table_res <-render_gt({
-    #   table_res
-    # })
-
       #Return outputs for html report
       return(
         list(
           fig_diagram = fig_diagram,
-          # prop_diagnosed = prop_diagnosed, #reactive({ })
-          # cost_per_true_pos = cost_per_true_pos,
-          values_box = values_box#,
-          # out = out
-          # plot_ppv = plot_ppv,
-          # plot_npv = plot_npv,
-          # plot_cpc = plot_cpc,
-          # table_res = table_res
+          values_box = values_box,
+          table_params =table_params
         )
       )
 

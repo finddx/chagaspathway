@@ -10,27 +10,21 @@ params:
   values_box_scenarios1: 'NULL'
   prop_diagnosed_scenarios1: 'NULL' 
   cost_per_true_pos_scenarios1: 'NULL'
-  # plot_ppv_scenarios1: 'NULL'
-  # plot_npv_scenarios1: 'NULL'
-  # plot_cpc_scenarios1: 'NULL'
-  # table_res_scenarios1: 'NULL'
+  table_params_scenarios1: 'NULL' 
   fig_diagram_scenarios2: 'NULL'
   values_box_scenarios2: 'NULL'
   prop_diagnosed_scenarios2: 'NULL' 
   cost_per_true_pos_scenarios2: 'NULL'
-  # plot_ppv_scenarios2: 'NULL'
-  # plot_npv_scenarios2: 'NULL'
-  # plot_cpc_scenarios2: 'NULL'
-  # table_res_scenarios2: 'NULL'
+  table_params_scenarios2: 'NULL'
   fig_diagram_scenarios3: 'NULL'
   prop_diagnosed_scenarios3: 'NULL' 
   cost_per_true_pos_scenarios3: 'NULL'
   values_box_scenarios3: 'NULL'
+  table_params_scenarios3: 'NULL'
   table_res: 'NULL'
   plot_ppv: 'NULL'
   plot_npv: 'NULL'
   plot_cpc: 'NULL'
-  # table_res_scenarios3: 'NULL'
 ---
 
 
@@ -60,11 +54,8 @@ cat('<div style="text-align: center;">')
 cat('<h3 style="font-weight: bold;">Scenario 1</h3>') 
 cat("\n")
 params[["fig_diagram_scenarios1"]]
-params[["values_box_scenarios1"]]
-# params[["plot_ppv_scenarios1"]]
-# params[["plot_npv_scenarios1"]]
-# params[["plot_cpc_scenarios1"]]
-# params[["table_res_scenarios1"]]
+# params[["values_box_scenarios1"]]
+params[["table_params_scenarios1"]]
 cat("\n")
 cat('</div>')
 ```
@@ -74,11 +65,8 @@ cat('<div style="text-align: center;">')
 cat('<h3 style="font-weight: bold;">Scenario 2</h3>')
 cat("\n")
 params[["fig_diagram_scenarios2"]]
-params[["values_box_scenarios2"]]
-# params[["plot_ppv_scenarios2"]]
-# params[["plot_npv_scenarios2"]]
-# params[["plot_cpc_scenarios2"]]
-# params[["table_res_scenarios2"]]
+# params[["values_box_scenarios2"]]
+params[["table_params_scenarios2"]]
 cat("\n")
 cat('</div>')
 ```
@@ -88,22 +76,20 @@ cat('<div style="text-align: center;">')
 cat('<h3 style="font-weight: bold;">Scenario 3</h3>')
 cat("\n")
 params[["fig_diagram_scenarios3"]]
-params[["values_box_scenarios3"]]
-# params[["plot_ppv_scenarios3"]]
-# params[["plot_npv_scenarios3"]]
-# params[["plot_cpc_scenarios3"]]
-# params[["table_res_scenarios3"]]
+# params[["values_box_scenarios3"]]
+params[["table_params_scenarios3"]]
 cat("\n")
 cat('</div>')
 ```
 
-```{r, results='asis', eval = num_scenarios >= 3}
+```{r, results='asis'}
 cat('<div style="text-align: center;">') 
+cat('<h3 style="font-weight: bold;">General results</h3>')
 cat("\n")
+params[["table_res"]]
 params[["plot_ppv"]]
 params[["plot_npv"]]
 params[["plot_cpc"]]
-params[["table_res"]]
 cat("\n")
 cat('</div>')
 ```
