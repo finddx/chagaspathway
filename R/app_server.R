@@ -9,6 +9,8 @@
 #' @importFrom patientpathways make_params run_pathway make_plots make_pathway_diagram format_app_params_react make_table_params make_table_results make_prev_df
 #' @importFrom DiagrammeR render_graph grVizOutput renderGrViz
 #' @importFrom gt render_gt gt_output
+#' @importFrom finddxtemplate html_document_find
+#' @importFrom plotly ggplotly renderPlotly plotlyOutput
 #'
 #' @noRd
 app_server <- function(input, output, session) {
@@ -76,7 +78,7 @@ app_server <- function(input, output, session) {
     }
   }
   #Render scenarios
-  output$scenarios <- renderUI({
+  output$scenarios_ui <- renderUI({
     scenario_list <- lapply(displayed_scenarios(), generate_scenario_ui, color_scenarios=color_scenarios)
     fluidRow(do.call(tagList, scenario_list))
   })
@@ -102,13 +104,24 @@ app_server <- function(input, output, session) {
     }
   }
   #Render results
-  output$results <- renderUI({
+  output$results_ui <- renderUI({
     results_list <- lapply(displayed_scenarios(), generate_result_ui, color_scenarios=color_scenarios)
     fluidRow(do.call(tagList, results_list))
     # fluidRow(do.call(layout_column_wrap, results_list))
   })
 
 
+  output$results_general_ui <- renderUI({
+    if(!is.null(results_data())){
+      fluidRow(
+        card(
+          card_body(
+            mod_results_ui("results_general")
+          )
+        )
+      )
+    }
+  })
 
   #SERVER modules#
 
@@ -153,12 +166,9 @@ app_server <- function(input, output, session) {
   })
 
   observe({
-    results_all <- mod_results_server("results_general",
-                       results_list=results_data
-                       # out_scenario1=if(exists("results_1_vars")) results_1_vars$out else NULL,
-                       # out_scenario2=if(exists("results_2_vars")) results_2_vars$out else NULL,
-                       # out_scenario3=if(exists("results_3_vars")) results_3_vars$out else NULL
-                       )
+    assign("results_all", mod_results_server("results_general", results_list=results_data), envir=.GlobalEnv)
+    # results_all <- mod_results_server("results_general", results_list=results_data)
+
   })
   # event_calculate <- eventReactive(input$calculate, {
   #   input$calculate
@@ -196,7 +206,7 @@ app_server <- function(input, output, session) {
       )
       out_scenario1 <- run_pathway(params_scenario1)
 
-      if (exists("scenario2_vars")) {
+      if (exists("scenario2_vars") & length(displayed_scenarios())>=2) {
         result_list$scenario2 <- scenario2_vars()
 
         tmp_params_scenario2 <- format_app_params_react(scenario_vars=result_list$scenario2, global_vars=result_list$pathways, advance_vars=result_list$advance, scn_lab="Scenario 2")
@@ -217,7 +227,7 @@ app_server <- function(input, output, session) {
         out_scenario2 <- run_pathway(params_scenario2)
 
       }
-      if (exists("scenario3_vars")) {
+      if (exists("scenario3_vars") & length(displayed_scenarios())>=3) {
         result_list$scenario3 <- scenario3_vars()
 
         tmp_params_scenario3 <- format_app_params_react(scenario_vars=result_list$scenario3, global_vars=result_list$pathways, advance_vars=result_list$advance, scn_lab="Scenario 3")
@@ -243,11 +253,11 @@ app_server <- function(input, output, session) {
 
       out_list <- list(
         params_scenario1 = if(exists("scenario1_vars")) params_scenario1 else NULL,
-        params_scenario2 = if(exists("scenario2_vars")) params_scenario2 else NULL,
-        params_scenario3 = if(exists("scenario3_vars")) params_scenario3 else NULL,
+        params_scenario2 = if(exists("scenario2_vars") & length(displayed_scenarios())>=2) params_scenario2 else NULL,
+        params_scenario3 = if(exists("scenario3_vars") & length(displayed_scenarios())>=3) params_scenario3 else NULL,
         out_scenario1 = if(exists("scenario1_vars")) out_scenario1 else NULL,
-        out_scenario2 = if(exists("scenario2_vars")) out_scenario2 else NULL,
-        out_scenario3 = if(exists("scenario3_vars")) out_scenario3 else NULL
+        out_scenario2 = if(exists("scenario2_vars") & length(displayed_scenarios())>=2) out_scenario2 else NULL,
+        out_scenario3 = if(exists("scenario3_vars") & length(displayed_scenarios())>=3) out_scenario3 else NULL
       )
       return(out_list)
 
@@ -281,6 +291,7 @@ app_server <- function(input, output, session) {
       file.copy("chagaspathway_report.Rmd", tempReport, overwrite=TRUE)
       #Pass outputs to the report
       rmarkdown::render(tempReport,
+                        output_format = html_document_find(code_folding="none"),
                         output_file=file,
                         params=list(
                           num_scenarios=input$out_num_scenarios,
@@ -293,26 +304,18 @@ app_server <- function(input, output, session) {
                           values_box_scenarios1 = if(exists("results_1_vars")) results_1_vars$values_box else NULL,
                           # prop_diagnosed_scenarios1 = if(exists("results_1_vars")) results_1_vars$prop_diagnosed else NULL,
                           # cost_per_true_pos_scenarios1 = if(exists("results_1_vars")) results_1_vars$cost_per_true_pos else NULL,
-                          # plot_ppv_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_ppv else NULL,
-                          # plot_npv_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_npv else NULL,
-                          # plot_cpc_scenarios1 = if(exists("results_1_vars")) results_1_vars$plot_cpc else NULL,
-                          # table_res_scenarios1 = if(exists("results_1_vars")) results_1_vars$table_res else NULL,
                           fig_diagram_scenarios2 =  if(exists("results_2_vars")) results_2_vars$fig_diagram else NULL,
                           values_box_scenarios2 = if(exists("results_2_vars")) results_2_vars$values_box else NULL,
                           # prop_diagnosed_scenarios2 = if(exists("results_2_vars")) results_2_vars$prop_diagnosed else NULL,
                           # cost_per_true_pos_scenarios2 = if(exists("results_2_vars")) results_2_vars$cost_per_true_pos else NULL,
-                          # plot_ppv_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_ppv else NULL,
-                          # plot_npv_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_npv else NULL,
-                          # plot_cpc_scenarios2 = if(exists("results_2_vars")) results_2_vars$plot_cpc else NULL,
-                          # table_res_scenarios2 = if(exists("results_2_vars")) results_2_vars$table_res else NULL,
                           fig_diagram_scenarios3 = if(exists("results_3_vars")) results_3_vars$fig_diagram else NULL,
                           values_box_scenarios3 = if(exists("results_3_vars")) results_3_vars$values_box else NULL,
                           # prop_diagnosed_scenarios3 = if(exists("results_3_vars")) results_3_vars$prop_diagnosed else NULL,
                           # cost_per_true_pos_scenarios3 = if(exists("results_3_vars")) results_3_vars$cost_per_true_pos else NULL,
-                          table_res = if(exists("results_all")) results_all$table_res() else NULL,
-                          plot_ppv = if(exists("results_all")) results_all$plot_ppv() else NULL,
-                          plot_npv = if(exists("results_all")) results_all$plot_npv() else NULL,
-                          plot_cpc = if(exists("results_all")) results_all$plot_cpc() else NULL
+                          table_res = if(exists("results_all")) results_all$table_res else NULL,
+                          plot_ppv = if(exists("results_all")) results_all$plot_ppv else NULL,
+                          plot_npv = if(exists("results_all")) results_all$plot_npv else NULL,
+                          plot_cpc = if(exists("results_all")) results_all$plot_cpc else NULL
                         ),
                         envir=new.env(parent = globalenv())
       )

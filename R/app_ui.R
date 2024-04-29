@@ -78,7 +78,7 @@ app_ui <- function(request) {
           )
 
         ),
-        uiOutput("scenarios"),
+        uiOutput("scenarios_ui"),
         fluidRow(
           column(width=4,
                  uiOutput("calculate_button")
@@ -86,14 +86,8 @@ app_ui <- function(request) {
         )
       ),
       nav_panel(title="Results", icon=bs_icon("bar-chart-line"),
-        uiOutput("results"),
-        fluidRow(
-        card(
-          # card_header(h4(strong("General results"))),
-          card_body(
-            mod_results_ui("results_general")
-          )
-        )),
+        uiOutput("results_ui"),
+        uiOutput("results_general_ui"),
         uiOutput("report_button")
       ),
       nav_panel(title="Advance settings", icon=bs_icon("gear-fill"),
