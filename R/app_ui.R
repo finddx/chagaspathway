@@ -34,7 +34,7 @@ app_ui <- function(request) {
         danger = "#D44F4E",
       ),
       id="menubar",
-      title="Chagas Pathway",
+      title="Chagas Diagnostic Algorithms Model",
       bg="#491e5d",
       position="fixed-top",
       nav_panel(
@@ -42,7 +42,8 @@ app_ui <- function(request) {
         h3(strong("Introduction")),
         # h3(strong(i18n$t("Introduction"))),
         # selectInput("selected_language",label="Select language", choices=i18n$get_languages()),
-        p("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis volutpat justo. Phasellus dignissim, metus vitae malesuada faucibus, odio lorem varius arcu, nec efficitur libero tortor vel mi. Maecenas euismod ligula eget erat malesuada, vel pharetra dui consequat. Integer auctor eleifend velit, vel condimentum nulla vestibulum et. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque lacinia enim ac velit rhoncus, a pellentesque nulla mattis. Donec sit amet sapien quis lorem fermentum tempor. Duis posuere lectus vitae velit ultrices, eget consequat odio consequat. Vivamus ut ipsum ac neque fringilla iaculis. Sed non turpis arcu. Nulla ac consectetur risus, eget convallis velit. Sed a sapien id mauris mattis blandit. Sed lacinia ipsum sapien, eget egestas enim scelerisque sed. Sed tristique ultrices mauris, vitae sodales tortor tempus sed. Phasellus bibendum nisi at dui volutpat, a vehicula felis cursus. Sed vitae libero eu arcu rutrum elementum."),
+        p("This online applications will help you to estimate the effectiveness and cost of different diagnostic algorithms for Chagas disease. Further details are provided in the Information tab."),
+        p("You can model one, two, or three algorithms at the same time. These algorithms must follow one of the general structures displayed below."),
         fluidRow(
           column(4, align="left", offset=0, img(src="www/img/model1.png")),
           column(4, align="center", offset=0, img(src="www/img/model2.png")),
@@ -57,14 +58,15 @@ app_ui <- function(request) {
         #
         # ),
         br(),
-        h3(strong("Pathways data")),
+        h3(strong("General information")),
+        p("Please begin by entering information on the general context of Chagas diagnosis in your setting. Please note that other default parameters, such as the proportion of individuals who are treated and the prevalance of Chagas in your population, can be modified in the Advanced Settings tab."),
         fluidRow(
           column(width=12,
                  mod_pathways_data_ui("pathways_data")
                  )
         ),
-        p("This model assumes treatment is Y% effective at curing chronic chagas disease. This model also assumes that X% of patients with untreated chronic chagas develop a long-term complication. These values can be changed in [Advanced settings]"),
         h3(strong("Scenario specification")),
+        p("Please select how many scenarios (1-3) you would like to model. You will be asked to select which general pathway (parallel testing, serial testing with full confirmation, or serial testing with positive confirmation) you would like to model for each scenario, and to provide information on test performance and cost for each scenario."),
         fluidRow(
             card(
               card_body(
@@ -90,13 +92,13 @@ app_ui <- function(request) {
         uiOutput("results_general_ui"),
         uiOutput("report_button")
       ),
-      nav_panel(title="Advance settings", icon=bs_icon("gear-fill"),
-        h3(strong("Advance settings")),
+      nav_panel(title="Advanced settings", icon=bs_icon("gear-fill"),
+        h3(strong("Advanced settings")),
         mod_advance_data_ui("advance_data")
       ),
       nav_panel(title="Info",icon=bs_icon("info-circle-fill"),
         h4(strong("Acknowledgements")),
-        p("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis volutpat justo. Phasellus dignissim, metus vitae malesuada faucibus, odio lorem varius arcu, nec efficitur libero tortor vel mi. Maecenas euismod ligula eget erat malesuada, vel pharetra dui consequat. Integer auctor eleifend velit, vel condimentum nulla vestibulum et. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque lacinia enim ac velit rhoncus, a pellentesque nulla mattis. Donec sit amet sapien quis lorem fermentum tempor. Duis posuere lectus vitae velit ultrices, eget consequat odio consequat. Vivamus ut ipsum ac neque fringilla iaculis. Sed non turpis arcu. Nulla ac consectetur risus, eget convallis velit. Sed a sapien id mauris mattis blandit. Sed lacinia ipsum sapien, eget egestas enim scelerisque sed. Sed tristique ultrices mauris, vitae sodales tortor tempus sed. Phasellus bibendum nisi at dui volutpat, a vehicula felis cursus. Sed vitae libero eu arcu rutrum elementum."),
+        p("This application was built by the Impact Department and Data Science Unit at FIND, with support from DNDi."),
         h4(strong("User manual")),
         p("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis volutpat justo. Phasellus dignissim, metus vitae malesuada faucibus, odio lorem varius arcu, nec efficitur libero tortor vel mi. Maecenas euismod ligula eget erat malesuada, vel pharetra dui consequat. Integer auctor eleifend velit, vel condimentum nulla vestibulum et. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque lacinia enim ac velit rhoncus, a pellentesque nulla mattis. Donec sit amet sapien quis lorem fermentum tempor. Duis posuere lectus vitae velit ultrices, eget consequat odio consequat. Vivamus ut ipsum ac neque fringilla iaculis. Sed non turpis arcu. Nulla ac consectetur risus, eget convallis velit. Sed a sapien id mauris mattis blandit. Sed lacinia ipsum sapien, eget egestas enim scelerisque sed. Sed tristique ultrices mauris, vitae sodales tortor tempus sed. Phasellus bibendum nisi at dui volutpat, a vehicula felis cursus. Sed vitae libero eu arcu rutrum elementum."))
     )
