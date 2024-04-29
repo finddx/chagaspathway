@@ -34,7 +34,7 @@ app_ui <- function(request) {
         danger = "#D44F4E",
       ),
       id="menubar",
-      title="Chagas Diagnostic Algorithms Model",
+      title="Chagas Diagnostic Algorithms",
       bg="#491e5d",
       position="fixed-top",
       nav_panel(
