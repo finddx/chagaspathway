@@ -12,7 +12,7 @@ mod_tests_data_ui <- function(id){
   tagList(
     # fluidRow(column(12,
     #                 align='center',tags$style(HTML(".distribute { display: flex; justify-content: space-between; }")),
-    radioButtons(ns("test_type"), label=HTML("<b> Test type </b>"), choices=c("RDT", "Serological test"), inline=TRUE, selected="RDT", width="100%"
+    radioButtons(ns("test_type"), label=HTML("<b> Test type </b>"), choiceNames=c("RDT", "Laboratory-based"), choiceValues=c("RDT", "Serological test"), inline=TRUE, selected="RDT", width="100%"
     #              )
     # )
     ),#selected = character(0)

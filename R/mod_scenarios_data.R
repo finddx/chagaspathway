@@ -10,7 +10,7 @@
 mod_scenarios_data_ui <- function(id){
   ns <- NS(id)
   tagList(
-    radioButtons(ns("pathway_type"), label=HTML("<b> Pathway type </b>"), choices=c("full", "parallel", "rule-out"), inline=TRUE, selected="full", width="100%"),
+    radioButtons(ns("pathway_type"), label=HTML("<b> Pathway type </b>"), choiceNames=c("Parallel", "Serial (full conf.)", "Serial (positive conf.)"), choiceValues=c("parallel", "full", "rule-out"), inline=TRUE, selected="parallel", width="100%"),
     uiOutput(ns("tests"))
   )
 }
