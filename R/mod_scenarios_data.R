@@ -30,7 +30,7 @@ mod_scenarios_data_server <- function(id, scenarios_n){#, list_tests
       } else if (input$pathway_type == "parallel") {
         test_n <- c(1,2,3)
       } else {
-        test_n <- c(1,2)
+        test_n <- c(1,2,3)
       }
       # else {
       #   test_n <- c(1,2,3)
