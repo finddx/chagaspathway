@@ -45,10 +45,9 @@ app_ui <- function(request) {
         p("This online applications will help you to estimate the effectiveness and cost of different diagnostic algorithms for Chagas disease. Further details are provided in the Information tab."),
         p("You can model one, two, or three algorithms at the same time. These algorithms must follow one of the general structures displayed below."),
         fluidRow(
-          column(4, align="left", offset=0, img(src="www/img/model1.png")),
-          column(4, align="center", offset=0, img(src="www/img/model2.png")),
-          column(4, align="right", offset=0, img(src="www/img/model3.png"))
-
+          # column(4, align="left", offset=0, img(src="www/img/model1.png")),
+          # column(4, align="center", offset=0, img(src="www/img/model2.png")),
+          column(12, align="right", offset=0, img(src="www/img/model-diag.png", width="100%"))
         ),
         #   div(
         #     class="col-md-12",
