@@ -59,7 +59,7 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
     #Proportion cases diagnosed:
     prop_diagnosed <- round(results_data[[paste0("out_" ,scenarios_n)]]$prop_diagnosed*100, 1)
     #Cost per case diagnosed:
-    cost_per_true_pos <- round(results_data[[paste0("out_" ,scenarios_n)]]$cost_per_true_pos*100, 2)
+    cost_per_true_pos <- round(results_data[[paste0("out_" ,scenarios_n)]]$cost_per_true_pos, 2)
     #NPV:
     ppv <- round(results_data[[paste0("out_" ,scenarios_n)]]$ppv*100, 1)
     #PPV:
