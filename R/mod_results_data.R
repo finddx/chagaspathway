@@ -60,6 +60,10 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
     prop_diagnosed <- round(results_data[[paste0("out_" ,scenarios_n)]]$prop_diagnosed*100, 1)
     #Cost per case diagnosed:
     cost_per_true_pos <- round(results_data[[paste0("out_" ,scenarios_n)]]$cost_per_true_pos*100, 2)
+    #NPV:
+    ppv <- round(results_data[[paste0("out_" ,scenarios_n)]]$ppv*100, 1)
+    #PPV:
+    npv <- round(results_data[[paste0("out_" ,scenarios_n)]]$npv*100, 1)
     #Make boxes
     values_box <- fluidRow(
       column(offset=0, width=12,
@@ -79,7 +83,25 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
                     theme = value_box_theme(bg="#81969F", fg="#FFFFFF")
                   )
             )
-          )
+          ),
+      column(offset=0, width=12,
+             layout_column_wrap(
+               width = 1/2,
+               # style = "display: flex; align-items: center; justify-content: center;",
+               value_box(
+                 title = "Positive predictive value:",
+                 value = paste0(ppv, "%"),
+                 showcase = bs_icon("plus-circle-fill"),
+                 theme = value_box_theme(bg="#354159", fg="#FFFFFF")
+               ),
+               value_box(
+                 title = "Negative predictive value:",
+                 value = paste0(npv, "%"),
+                 showcase = bs_icon("dash-circle-fill"),
+                 theme = value_box_theme(bg="#C7C5A7", fg="#FFFFFF")
+               )
+             )
+      )
     )
     #Table
     table_params <- make_table_params(results_data[[paste0("params_" ,scenarios_n)]])
