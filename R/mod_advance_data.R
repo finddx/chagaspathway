@@ -28,7 +28,12 @@ mod_advance_data_ui <- function(id){
       card(
         card_header(h4(strong("Costing parameters"))),
           card_body(
-          column(3, numericInput(ns("cost_visit"), label=HTML("<b> Per-patient cost of attending a medical visit </b>"), value=0, width="100%"))
+            layout_column_wrap(
+              style = "display: flex; align-items: flex-end;",
+              numericInput(ns("cost_visit"), label=HTML("<b> Per-patient cost of attending a medical visit </b>"), value=0, width="100%"),
+              numericInput(ns("cost_sys_low"), label=HTML("<b> Per-test health system fixed costs, low complexity </b>"), value=8.53, width="100%"),
+              numericInput(ns("cost_sys_high"), label=HTML("<b> Per-test health system fixed costs, high complexity </b>"), value=12.35, width="100%")
+            )
           )
      )
     )
@@ -48,7 +53,9 @@ mod_advance_data_server <- function(id){
         treat_effect = reactive({ input$treat_effect / 100 }),
         untreated_pats = reactive({ input$untreated_pats / 100 }),
         avg_dalys = reactive({ input$avg_dalys }),
-        cost_visit = reactive({ input$cost_visit })
+        cost_visit = reactive({ input$cost_visit }),
+        cost_sys_low = reactive({ input$cost_sys_low }),
+        cost_sys_high = reactive({ input$cost_sys_high })
       )
     )
 
