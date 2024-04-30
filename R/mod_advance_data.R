@@ -16,10 +16,10 @@ mod_advance_data_ui <- function(id){
         card_body(
           layout_column_wrap(
             style = "display: flex; align-items: flex-end;",
-            numericInput(ns("prev_chagas"), label=HTML("<b> Prevalence of Chagas in care-seeking population (0-100%) </b>"), min=0, max=100, value=50, width="100%"),
+            numericInput(ns("prev_chagas"), label=HTML("<b> Prevalence of Chagas in care-seeking population (0-100%) </b>"), min=0, max=100, value=5, width="100%"),
             numericInput(ns("treat_effect"), label=HTML("<b> Treatment effectiveness (0-100%) </b>"), min=0, max=100, value=50, width="100%"),
-            numericInput(ns("untreated_pats"), label=HTML("<b> Percent untreated patients developing long-term morbidities (0-100%) </b>"), min=0, max=100, value=50, width="100%"),
-           numericInput(ns("avg_dalys"), label=HTML("<b> Average DALYs associated with untreated, long-term comorbidities </b>"), value=2, width="100%")
+            numericInput(ns("untreated_pats"), label=HTML("<b> Percent untreated patients developing long-term morbidities (0-100%) </b>"), min=0, max=100, value=20, width="100%"),
+           numericInput(ns("avg_dalys"), label=HTML("<b> Average DALYs associated with untreated Chagas </b>"), value=0.05, width="100%")
           )
         )
       )
@@ -28,7 +28,7 @@ mod_advance_data_ui <- function(id){
       card(
         card_header(h4(strong("Costing parameters"))),
           card_body(
-          column(3, numericInput(ns("cost_visit"), label=HTML("<b> Per-patient cost of attending a medical visit </b>"), value=50, width="100%"))
+          column(3, numericInput(ns("cost_visit"), label=HTML("<b> Per-patient cost of attending a medical visit </b>"), value=0, width="100%"))
           )
      )
     )

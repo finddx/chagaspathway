@@ -17,11 +17,11 @@ mod_tests_data_ui <- function(id){
     # )
     ),#selected = character(0)
     textInput(ns("label"), label=HTML("<b> Label </b>"), width="100%"),
-    radioButtons(ns("facility_type"), label=HTML("<b> Facility type </b>"), choices=c("High complexity", "Low complexity"), inline=TRUE, selected="High complexity", width="100%"),
+    radioButtons(ns("facility_type"), label=HTML("<b> Facility type </b>"), choices=c("High complexity", "Low complexity"), inline=TRUE, selected="Low complexity", width="100%"),
     # radioButtons(ns("sample_type"), label=HTML("<b> Sample type </b>"), choices=c("Capillary", "Whole blood (NB: if low complexity, can only be capillary)"),  inline=TRUE, selected=NULL, width="100%"),
-    numericInput(ns("sens"), label=HTML("<b> Sensitivity (0-100%) </b>"), min=0,  max=100, value=80, width="100%"),
-    numericInput(ns("spec"), label=HTML("<b> Specificity (0-100%) </b>"), min=0, max=100, value=90, width="100%"),
-    numericInput(ns("cost_test"), label=HTML("<b> Cost per test (USD) </b>"), value=2, width="100%")
+    numericInput(ns("sens"), label=HTML("<b> Sensitivity (0-100%) </b>"), min=0,  max=100, value=85, width="100%"),
+    numericInput(ns("spec"), label=HTML("<b> Specificity (0-100%) </b>"), min=0, max=100, value=95, width="100%"),
+    numericInput(ns("cost_test"), label=HTML("<b> Cost per test (USD) </b>"), value=7.5, width="100%")
   )
 }
 
