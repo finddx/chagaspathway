@@ -83,7 +83,12 @@ app_ui <- function(request) {
       ),
       nav_panel(title="Advanced settings", icon=bs_icon("gear-fill"),
         h3(strong("Advanced settings")),
-        mod_advance_data_ui("advance_data")
+        mod_advance_data_ui("advance_data"),
+        fluidRow(
+          column(width=4,
+                 uiOutput("recalculate_button")
+          )
+        )
       ),
       nav_panel(title="Info",icon=bs_icon("info-circle-fill"),
         h4(strong("Acknowledgements")),

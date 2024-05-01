@@ -56,10 +56,11 @@ mod_results_ui <- function(id){
 #'
 #'
 #'
-mod_results_server <- function(id, results_list){# event_calculate,out_scenario1=NULL, out_scenario2=NULL, out_scenario3=NULL
+mod_results_server <- function(id, results_list){#=NULL
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+    req(results_list())
     results_data <- results_list()
 
     #Calculate plots
@@ -81,7 +82,7 @@ mod_results_server <- function(id, results_list){# event_calculate,out_scenario1
     plot_cpc <- ggplotly(make_plots(prev_df, "cpc")) %>%
       layout(legend=list(orientation="h", x=ifelse(is.null(results_data$params_scenario2) & is.null(results_data$params_scenario3), 0.4, ifelse(!is.null(results_data$params_scenario2) & is.null(results_data$params_scenario3), 0.3, 0.2)), y=-0.2))
     #Render plots
-    output$out_plot_ppv <- renderPlotly({# renderPlot({
+    output$out_plot_ppv <- renderPlotly({
       plot_ppv
       })
     output$out_plot_npv <- renderPlotly({
@@ -91,7 +92,7 @@ mod_results_server <- function(id, results_list){# event_calculate,out_scenario1
       plot_cpc
       })
 
-    #Calculate table
+    # #Calculate table
     out <- rbind(results_data$out_scenario1, results_data$out_scenario2, results_data$out_scenario3)
     table_res <- make_table_results(out)
     #Render table

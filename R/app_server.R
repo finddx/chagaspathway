@@ -28,15 +28,6 @@ app_server <- function(input, output, session) {
   #   shiny.i18n::update_lang(session, input[["selected_language"]])
   #   i18n_r()$set_translation_language(input[["selected_language"]])
   # })
-
-  # displayed_scenarios <- reactiveVal(c("scenario1"))
-  # #Count and add a new scenario (up tp 3)
-  # observeEvent(input$add_scenario, {
-  #   if (length(displayed_scenarios()) < 3){
-  #     current_scenario <- paste0("scenario", length(displayed_scenarios()) + 1)
-  #     displayed_scenarios(c(displayed_scenarios(), current_scenario))
-  #   }
-  # })
   #Disable add scenario button
   # observe({
   #   if (length(displayed_scenarios()) >= 3) {
@@ -68,14 +59,12 @@ app_server <- function(input, output, session) {
       scenario_number <- as.numeric(gsub("\\D", "", scenario_id))
       bg_color <- color_scenarios[scenario_number]
       tagList(
-        # column(width=12,
                card(
                  card_header(h4(strong(paste("Scenario", scenario_number))), style=paste0("background-color: " , bg_color, "; color: #ffffff;")),
                  card_body(
                    mod_scenarios_data_ui(paste0("scenarios_data_", scenario_number))
                  )
                )
-        # )
       )
     }
   }
@@ -114,8 +103,6 @@ app_server <- function(input, output, session) {
 
 
   output$results_general_ui <- renderUI({
-    # show_modal_spinner()
-
     if(!is.null(results_data())){
       fluidRow(
         card(
@@ -170,7 +157,7 @@ app_server <- function(input, output, session) {
   })
 
   observe({
-    assign("results_all", mod_results_server("results_general", results_list=results_data), envir=.GlobalEnv)
+    assign("results_all", mod_results_server("results_general", results_list=results_data), envir=.GlobalEnv)#
     # results_all <- mod_results_server("results_general", results_list=results_data)
 
   })
@@ -181,12 +168,66 @@ app_server <- function(input, output, session) {
 
   #RESULTS#
 
-  #Assign inputs to a list
+  # validate_event <- reactive({
+  #   req(input$calculate) || req(input$recalculate)
+  # })
+  # observeEvent(validate_event(),
+  #              {results_data <- calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios) }
+  # )
+
+
+
+
+
+
+
+  # observe({
+  #   if (!is.null(input$recalculate)) {
+  #     results_data <- calculate_pathways(scenario1=scenario1_vars(), scenario2=scenario2_vars(), scenario3=scenario3_vars(), advance=advance(), pathways=pathways(), displayed_scenarios=displayed_scenarios())
+  #   } else if (!is.null(input$calculate)) {
+  #     results_data <- calculate_pathways(scenario1=scenario1_vars(), scenario2=scenario2_vars(), scenario3=scenario3_vars(), advance=advance(), pathways=pathways(), displayed_scenarios=displayed_scenarios())
+  #   }
+  # })
+
+  # results_recalculate <- eventReactive(input$recalculate, {
+  #   calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
+  # })
+  # Event reaction for "Calculate" button
+  # results_calculate <- eventReactive(input$calculate, {
+  #   calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
+  # })
+  # Combine the results from both buttons
+  # results_data <- reactive({
+  #   if (!is.null(input$recalculate)) {
+  #     results_recalculate()
+  #   } else if (!is.null(input$calculate)) {
+  #     results_calculate()
+  #   }
+  # })
+
+
+
   results_data <-
     eventReactive(input$calculate, {
-      # validate(need(!is.null(scenario1_vars()$test1$test_type), "Test value is NULL"))
-
       calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
+    })
+
+      # results_data <- eventReactive(
+      #   list(input$calculate,input$recalculate),ignoreInit = T, {
+      #   calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
+      # })
+
+  # xxchange <- reactive({
+  #   paste(input$calculate, input$recalculate)
+  # })
+  # results_data <- eventReactive(xxchange(), {
+  #   calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
+  # })
+
+  #Assign inputs to a list
+  # results_data <-
+  #   eventReactive(input$calculate, {
+      # validate(need(!is.null(scenario1_vars()$test1$test_type), "Test value is NULL"))
 
       # result_list <- list(scenario1 = scenario1_vars())
       #
@@ -264,8 +305,7 @@ app_server <- function(input, output, session) {
       #   out_scenario3 = if(exists("scenario3_vars") & length(displayed_scenarios())>=3) out_scenario3 else NULL
       # )
       # return(out_list)
-
-    })
+    # })
 
 
   output$calculate_button <- renderUI({
@@ -274,13 +314,19 @@ app_server <- function(input, output, session) {
     }
   })
 
-  output$report_button <- renderUI({
-    if(!is.null(results_data())){
-      column(width=4, offset=4,
-             downloadButton("report", label="Generate report", style="text-align: center; width: 100%;", icon=NULL)
-      )
+  output$recalculate_button <- renderUI({
+    if(length(displayed_scenarios())>=1){
+      actionButton("recalculate", "Recalculate pathways", width="100%")
     }
   })
+
+  # output$report_button <- renderUI({
+  #   if(!is.null(results_data())){
+  #     column(width=4, offset=4,
+  #            downloadButton("report", label="Generate report", style="text-align: center; width: 100%;", icon=NULL)
+  #     )
+  #   }
+  # })
 
   # observe({
   #   tmp_params <- format_app_params_react(scenario_vars=results_data()$scenario1, global_vars=results_data()$pathways, advance_vars=results_data()$advance)

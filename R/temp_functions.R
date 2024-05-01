@@ -1,10 +1,14 @@
 
-calculate_pathways <- function(scenario1, scenario2=NULL, scenario3=NULL, advance, pathways, displayed_scenarios){
+calculate_pathways <- function(scenario1=NULL, scenario2=NULL, scenario3=NULL, advance, pathways, displayed_scenarios){
 
-  result_list <- list(scenario1 = scenario1())
-
+  # result_list <- list(scenario1 = scenario1())
+  result_list <- list(pathways = pathways)
   result_list$advance <- advance
-  result_list$pathways <- pathways
+  # result_list$pathways <- pathways
+
+  if (length(displayed_scenarios())>=1) {
+
+  result_list$scenario1 <- scenario1()
 
   tmp_params_scenario1 <- format_app_params_react(scenario_vars=result_list$scenario1, global_vars=result_list$pathways, advance_vars=result_list$advance, scn_lab="Scenario 1")
 
@@ -22,8 +26,9 @@ calculate_pathways <- function(scenario1, scenario2=NULL, scenario3=NULL, advanc
     tmp_params_scenario1$scenario
   )
   out_scenario1 <- run_pathway(params_scenario1)
+  }
 
-  if (exists("scenario2_vars") & length(displayed_scenarios())>=2) {
+  if (length(displayed_scenarios())>=2) {#exists("scenario2_vars") &
     result_list$scenario2 <- scenario2()
 
     tmp_params_scenario2 <- format_app_params_react(scenario_vars=result_list$scenario2, global_vars=result_list$pathways, advance_vars=result_list$advance, scn_lab="Scenario 2")
@@ -43,8 +48,9 @@ calculate_pathways <- function(scenario1, scenario2=NULL, scenario3=NULL, advanc
     )
     out_scenario2 <- run_pathway(params_scenario2)
 
-  }
-  if (exists("scenario3_vars") & length(displayed_scenarios())>=3) {
+}
+
+  if ( length(displayed_scenarios())>=3) { #exists("scenario3_vars") &
     result_list$scenario3 <- scenario3()
 
     tmp_params_scenario3 <- format_app_params_react(scenario_vars=result_list$scenario3, global_vars=result_list$pathways, advance_vars=result_list$advance, scn_lab="Scenario 3")
@@ -66,15 +72,25 @@ calculate_pathways <- function(scenario1, scenario2=NULL, scenario3=NULL, advanc
 
   }
 
-  # result_list
-
+  # & length(displayed_scenarios())>=2) & length(displayed_scenarios())>=3 exists("scenario2_vars")
   out_list <- list(
-    params_scenario1 = if(exists("scenario1_vars")) params_scenario1 else NULL,
-    params_scenario2 = if(exists("scenario2_vars") & length(displayed_scenarios())>=2) params_scenario2 else NULL,
-    params_scenario3 = if(exists("scenario3_vars") & length(displayed_scenarios())>=3) params_scenario3 else NULL,
-    out_scenario1 = if(exists("scenario1_vars")) out_scenario1 else NULL,
-    out_scenario2 = if(exists("scenario2_vars") & length(displayed_scenarios())>=2) out_scenario2 else NULL,
-    out_scenario3 = if(exists("scenario3_vars") & length(displayed_scenarios())>=3) out_scenario3 else NULL
+    params_scenario1 = if(length(displayed_scenarios())>=1) params_scenario1 else NULL,
+    params_scenario2 = if(length(displayed_scenarios())>=2) params_scenario2 else NULL,
+    params_scenario3 = if(length(displayed_scenarios())>=3) params_scenario3 else NULL,
+    out_scenario1 = if(length(displayed_scenarios())>=1) out_scenario1 else NULL,
+    out_scenario2 = if(length(displayed_scenarios())>=2) out_scenario2 else NULL,
+    out_scenario3 = if(length(displayed_scenarios())>=3) out_scenario3 else NULL
   )
+  #
+  # out_list <- list(
+  #   params_scenario1 = params_scenario1,
+  #   params_scenario2 = params_scenario2,
+  #   params_scenario3 =  params_scenario3,
+  #   out_scenario1 = out_scenario1,
+  #   out_scenario2 =  out_scenario2,
+  #   out_scenario3 = out_scenario3
+  # )
+
   return(out_list)
+
 }

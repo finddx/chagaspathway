@@ -47,13 +47,6 @@ mod_advance_data_server <- function(id){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    # output$calculate_button_adv <- renderUI({
-    #   if(length(displayed_scenarios())>=1){
-    #     actionButton("recalculate", "Recalculate pathways", width="100%")
-    #   }
-    # })
-
-
     return(
       list(
         prev_chagas = reactive({ input$prev_chagas / 100 }),
