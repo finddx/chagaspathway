@@ -10,9 +10,6 @@
 mod_results_data_ui <- function(id){
   ns <- NS(id)
   tagList(
-    # uiOutput(ns("value1"), style="text-align: center; width: 100%;"),
-    # uiOutput(ns("value2"), style="text-align: center; width: 100%;"),
-    # uiOutput(ns("value3"), style="text-align: center; width: 100%;"),
     card(
       # card_header(h4(strong("User data"))),
       full_screen=TRUE,
@@ -24,9 +21,7 @@ mod_results_data_ui <- function(id){
       full_screen=TRUE,
       card_body(
     uiOutput(ns("out_values_box"))
-      ))#,
-
-    # uiOutput(ns("outputs"))
+      ))
   )
 }
 
@@ -87,7 +82,6 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
       column(offset=0, width=12,
              layout_column_wrap(
                width = 1/2,
-               # style = "display: flex; align-items: center; justify-content: center;",
                value_box(
                  title = "Positive predictive value:",
                  value = paste0(ppv, "%"),
@@ -109,7 +103,6 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
 
     #Render diagram
     output$out_fig_diagram <- renderGrViz({
-      # output[[paste0("out_fig_diagram_", scenarios_n)]]  <- renderGrViz({
       fig_diagram
     })
     #Render boxes
@@ -117,14 +110,14 @@ mod_results_data_server <- function(id, scenarios_n, results_list){# event_calcu
       values_box
     })
 
-      #Return outputs for html report
-      return(
-        list(
-          fig_diagram = fig_diagram,
-          values_box = values_box,
-          table_params =table_params
-        )
+    #Return outputs for html report
+    return(
+      list(
+        fig_diagram = fig_diagram,
+        values_box = values_box,
+        table_params =table_params
       )
+    )
 
 
   })

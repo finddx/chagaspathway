@@ -10,30 +10,32 @@
 mod_results_ui <- function(id){
   ns <- NS(id)
   tagList(
+    layout_column_wrap(
        card(
-        # card_header(h4(strong("User data"))),
+        card_header(h4(strong("PPV plot"))),
         full_screen=TRUE,
         card_body(
-          column(width=12,align="center",
+          # column(width=4,align="center",
                  plotlyOutput(ns("out_plot_ppv"), width="100%")
-          )
+          # )
         )),
       card(
-        # card_header(h4(strong("User data"))),
+        card_header(h4(strong("NPV plot"))),
         full_screen=TRUE,
         card_body(
-          column(width=12,align="center",
+          # column(width=4,align="center",
                  plotlyOutput(ns("out_plot_npv"), width="100%")#plotOutput
-          )
+          # )
         )),
       card(
-        # card_header(h4(strong("User data"))),
+        card_header(h4(strong("OPC plot"))),
         full_screen=TRUE,
         card_body(
-          column(width=12,align="center",
+          # column(width=4,align="center",
                  plotlyOutput(ns("out_plot_cpc"), width="100%")
-          )
-        )),
+          # )
+        ))
+      ),
 
       card(
         # card_header(h4(strong("User data"))),
@@ -72,9 +74,12 @@ mod_results_server <- function(id, results_list){# event_calculate,out_scenario1
       df_params [[3]] <- make_prev_df(results_data$params_scenario3)
     }
     prev_df <- do.call(rbind, df_params)
-    plot_ppv <- ggplotly(make_plots(prev_df, "ppv"))
-    plot_npv <- ggplotly(make_plots(prev_df, "npv"))
-    plot_cpc <- ggplotly(make_plots(prev_df, "cpc"))
+    plot_ppv <- ggplotly(make_plots(prev_df, "ppv")) %>%
+      layout(legend=list(orientation="h", x=ifelse(is.null(results_data$params_scenario2) & is.null(results_data$params_scenario3), 0.4, ifelse(!is.null(results_data$params_scenario2) & is.null(results_data$params_scenario3), 0.3, 0.2)), y=-0.2))
+    plot_npv <- ggplotly(make_plots(prev_df, "npv")) %>%
+      layout(legend=list(orientation="h", x=ifelse(is.null(results_data$params_scenario2) & is.null(results_data$params_scenario3), 0.4, ifelse(!is.null(results_data$params_scenario2) & is.null(results_data$params_scenario3), 0.3, 0.2)), y=-0.2))
+    plot_cpc <- ggplotly(make_plots(prev_df, "cpc")) %>%
+      layout(legend=list(orientation="h", x=ifelse(is.null(results_data$params_scenario2) & is.null(results_data$params_scenario3), 0.4, ifelse(!is.null(results_data$params_scenario2) & is.null(results_data$params_scenario3), 0.3, 0.2)), y=-0.2))
     #Render plots
     output$out_plot_ppv <- renderPlotly({# renderPlot({
       plot_ppv

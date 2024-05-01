@@ -42,20 +42,10 @@ app_ui <- function(request) {
         h3(strong("Introduction")),
         # h3(strong(i18n$t("Introduction"))),
         # selectInput("selected_language",label="Select language", choices=i18n$get_languages()),
-        p("This online applications will help you to estimate the effectiveness and cost of different diagnostic algorithms for Chagas disease. Further details are provided in the Information tab."),
-        p("You can model one, two, or three algorithms at the same time. These algorithms must follow one of the general structures displayed below."),
+        p(HTML("This online applications will help you to estimate the effectiveness and cost of different diagnostic algorithms for Chagas disease. Further details are provided in the Information tab.<br>You can model one, two, or three algorithms at the same time. These algorithms must follow one of the general structures displayed below.")),
         fluidRow(
-          # column(4, align="left", offset=0, img(src="www/img/model1.png")),
-          # column(4, align="center", offset=0, img(src="www/img/model2.png")),
-          column(12, align="right", offset=0, img(src="www/img/model-diag.png", width="100%"))
+          column(12, align="center", offset=0, img(src="www/img/model-diag.png", width="100%"))#, height="400vh"
         ),
-        #   div(
-        #     class="col-md-12",
-        #     img(src='img/model1.png'),
-        #     img(src='img/model2.png', style="margin-left:50px;"),
-        #     img(src='img/model3.png', style="margin-left:50px;")
-        #
-        # ),
         br(),
         h3(strong("General information")),
         p("Please begin by entering information on the general context of Chagas diagnosis in your setting. Please note that other default parameters, such as the proportion of individuals who are treated and the prevalance of Chagas in your population, can be modified in the Advanced Settings tab."),
