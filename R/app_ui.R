@@ -7,7 +7,7 @@
 #' @importFrom bslib page_navbar bs_theme nav_panel bs_add_rules bs_theme card card_body card_header value_box
 #' @importFrom bsicons bs_icon
 #' @importFrom shinyWidgets radioGroupButtons
-#' @importFrom shinyjs useShinyjs show hide hidden disable
+#' @importFrom shinyjs useShinyjs show hide hidden disable toggle
 #' @importFrom shinyBS bsCollapse bsCollapsePanel
 #' @importFrom shiny.i18n usei18n
 
@@ -54,6 +54,15 @@ app_ui <- function(request) {
                  mod_pathways_data_ui("pathways_data")
                  )
         ),
+        fluidRow(
+          column(width=4,
+                 actionButton("advance_toggle", tags$h3(tags$strong("Advance settings")),style = "text-decoration: none; border: none; background: none; padding: 0; margin: 0; cursor: pointer; outline: none; color: inherit;", onmouseover ="this.style.color = '#491E5D';", onclick = "this.style.color = '#491E5D';", onmouseout = "this.style.color = 'inherit';")          )
+        ),
+        hidden(div(
+          id="div_advance",
+          mod_advance_data_ui("advance_data")
+          )
+        ),
         h3(strong("Scenario specification")),
         p("Please select how many scenarios (1-3) you would like to model. You will be asked to select which general pathway (parallel testing, serial testing with full confirmation, or serial testing with positive confirmation) you would like to model for each scenario, and to provide information on test performance and cost for each scenario."),
         fluidRow(
@@ -81,15 +90,15 @@ app_ui <- function(request) {
         uiOutput("results_general_ui"),
         uiOutput("report_button")
       ),
-      nav_panel(title="Advanced settings", icon=bs_icon("gear-fill"),
-        h3(strong("Advanced settings")),
-        mod_advance_data_ui("advance_data"),
-        fluidRow(
-          column(width=4,
-                 uiOutput("recalculate_button")
-          )
-        )
-      ),
+      # nav_panel(title="Advanced settings", icon=bs_icon("gear-fill"),
+      #   h3(strong("Advanced settings")),
+      #   mod_advance_data_ui("advance_data"),
+      #   fluidRow(
+      #     column(width=4,
+      #            uiOutput("recalculate_button")
+      #     )
+      #   )
+      # ),
       nav_panel(title="Info",icon=bs_icon("info-circle-fill"),
         h4(strong("Acknowledgements")),
         p("This application was built by the Impact Department and Data Science Unit at FIND, with support from DNDi."),

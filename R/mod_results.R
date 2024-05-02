@@ -56,13 +56,12 @@ mod_results_ui <- function(id){
 #'
 #'
 #'
-mod_results_server <- function(id, results_list){#=NULL
+mod_results_server <- function(id, results_list){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    req(results_list())
+    # req(results_list())
     results_data <- results_list()
-
     #Calculate plots
     df_params <- list()
     if (!is.null(results_data$params_scenario1)) {
@@ -76,11 +75,12 @@ mod_results_server <- function(id, results_list){#=NULL
     }
     prev_df <- do.call(rbind, df_params)
     plot_ppv <- ggplotly(make_plots(prev_df, "ppv")) %>%
-      layout(legend=list(orientation="h", x=ifelse(is.null(results_data$params_scenario2) & is.null(results_data$params_scenario3), 0.4, ifelse(!is.null(results_data$params_scenario2) & is.null(results_data$params_scenario3), 0.3, 0.2)), y=-0.2))
+      layout(legend=list(orientation="h", x=0.4, y=-0.2))
+      # layout(legend=list(orientation="h", x=ifelse(is.null(results_data$params_scenario2) & is.null(results_data$params_scenario3), 0.4, ifelse(!is.null(results_data$params_scenario2) & is.null(results_data$params_scenario3), 0.3, 0.2)), y=-0.2))
     plot_npv <- ggplotly(make_plots(prev_df, "npv")) %>%
-      layout(legend=list(orientation="h", x=ifelse(is.null(results_data$params_scenario2) & is.null(results_data$params_scenario3), 0.4, ifelse(!is.null(results_data$params_scenario2) & is.null(results_data$params_scenario3), 0.3, 0.2)), y=-0.2))
+      layout(legend=list(orientation="h", x=0.4, y=-0.2))
     plot_cpc <- ggplotly(make_plots(prev_df, "cpc")) %>%
-      layout(legend=list(orientation="h", x=ifelse(is.null(results_data$params_scenario2) & is.null(results_data$params_scenario3), 0.4, ifelse(!is.null(results_data$params_scenario2) & is.null(results_data$params_scenario3), 0.3, 0.2)), y=-0.2))
+      layout(legend=list(orientation="h", x=0.4, y=-0.2))
     #Render plots
     output$out_plot_ppv <- renderPlotly({
       plot_ppv

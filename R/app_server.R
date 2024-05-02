@@ -4,7 +4,7 @@
 #'     DO NOT REMOVE.
 #' @import shiny
 #' @importFrom ggplot2 ggplot geom_point
-#' @importFrom shinyjs useShinyjs show hide hidden disable
+#' @importFrom shinyjs useShinyjs show hide hidden disable runjs
 #' @importFrom shinyBS bsCollapse bsCollapsePanel
 #' @importFrom patientpathways make_params run_pathway make_plots make_pathway_diagram format_app_params_react make_table_params make_table_results make_prev_df
 #' @importFrom DiagrammeR render_graph grVizOutput renderGrViz
@@ -139,6 +139,7 @@ app_server <- function(input, output, session) {
 
   #Generate server Result-scenario for each displayed scenario
   observe({
+    # if(!is.null(results_data())){
     lapply(displayed_scenarios(), function(result_id) {
       if (result_id %in% displayed_scenarios()) {
         result_number <- as.numeric(gsub("\\D", "", result_id))
@@ -154,12 +155,14 @@ app_server <- function(input, output, session) {
         )
       }
     })
+    # }
   })
 
   observe({
+    # if(!is.null(results_data())){
     assign("results_all", mod_results_server("results_general", results_list=results_data), envir=.GlobalEnv)#
     # results_all <- mod_results_server("results_general", results_list=results_data)
-
+    # }
   })
   # event_calculate <- eventReactive(input$calculate, {
   #   input$calculate
@@ -168,145 +171,59 @@ app_server <- function(input, output, session) {
 
   #RESULTS#
 
-  # validate_event <- reactive({
-  #   req(input$calculate) || req(input$recalculate)
-  # })
-  # observeEvent(validate_event(),
-  #              {results_data <- calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios) }
-  # )
-
-
-
-
-
-
-
-  # observe({
-  #   if (!is.null(input$recalculate)) {
-  #     results_data <- calculate_pathways(scenario1=scenario1_vars(), scenario2=scenario2_vars(), scenario3=scenario3_vars(), advance=advance(), pathways=pathways(), displayed_scenarios=displayed_scenarios())
-  #   } else if (!is.null(input$calculate)) {
-  #     results_data <- calculate_pathways(scenario1=scenario1_vars(), scenario2=scenario2_vars(), scenario3=scenario3_vars(), advance=advance(), pathways=pathways(), displayed_scenarios=displayed_scenarios())
-  #   }
-  # })
-
-  # results_recalculate <- eventReactive(input$recalculate, {
-  #   calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
-  # })
-  # Event reaction for "Calculate" button
-  # results_calculate <- eventReactive(input$calculate, {
-  #   calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
-  # })
-  # Combine the results from both buttons
-  # results_data <- reactive({
-  #   if (!is.null(input$recalculate)) {
-  #     results_recalculate()
-  #   } else if (!is.null(input$calculate)) {
-  #     results_calculate()
-  #   }
-  # })
-
-
-
+  #Assign inputs to a list
   results_data <-
     eventReactive(input$calculate, {
       calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
     })
+  # observe({
+  #   tmp_params <- format_app_params_react(scenario_vars=results_data()$scenario1, global_vars=results_data()$pathways, advance_vars=results_data()$advance)
+  # })
 
-      # results_data <- eventReactive(
-      #   list(input$calculate,input$recalculate),ignoreInit = T, {
-      #   calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
-      # })
+  # results_calculate <- eventReactive(input$calculate, {
+  #   calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
+  # })
+  # results_recalculate <- eventReactive(input$recalculate, {
+  #   calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
+  # })
+  # results_data <- reactive({
+  #   if (!is.null(input$calculate) && input$calculate > 0) {
+  #     results_calculate()
+  #   } else if (!is.null(input$recalculate) && input$recalculate > 0) {
+  #     results_recalculate()
+  #   }
+  # })
+#
+#   toListen <- reactive({
+#     list(input$calculate,input$recalculate)
+#   })
+#   results_data <- eventReactive(ignoreInit = TRUE, toListen(),
+#                {
+#                  calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
+#                })
+
+  # results_data <-  eventReactive(toListen(), {
+  #   if(is.null(input$calculate) && is.null(input$recalculate)){
+  #     return()
+  #   }
+  #   calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
+  # })
+
 
   # xxchange <- reactive({
   #   paste(input$calculate, input$recalculate)
   # })
-  # results_data <- eventReactive(xxchange(), {
+  # results_data <- eventReactive(xxchange(),ignoreInit = T, {
   #   calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
   # })
 
-  #Assign inputs to a list
-  # results_data <-
-  #   eventReactive(input$calculate, {
-      # validate(need(!is.null(scenario1_vars()$test1$test_type), "Test value is NULL"))
 
-      # result_list <- list(scenario1 = scenario1_vars())
-      #
-      # result_list$advance <- advance
-      # result_list$pathways <- pathways
-      #
-      # tmp_params_scenario1 <- format_app_params_react(scenario_vars=result_list$scenario1, global_vars=result_list$pathways, advance_vars=result_list$advance, scn_lab="Scenario 1")
-      #
-      # params_scenario1 <- make_params(
-      #   tmp_params_scenario1$pathway,
-      #   tmp_params_scenario1$prev,
-      #   tmp_params_scenario1$test1,
-      #   tmp_params_scenario1$test2,
-      #   tmp_params_scenario1$test3,
-      #   tmp_params_scenario1$test4,
-      #   tmp_params_scenario1$test5,
-      #   tmp_params_scenario1$daly_avert_per_tx,
-      #   tmp_params_scenario1$tx_eff,
-      #   tmp_params_scenario1$n,
-      #   tmp_params_scenario1$scenario
-      # )
-      # out_scenario1 <- run_pathway(params_scenario1)
-      #
-      # if (exists("scenario2_vars") & length(displayed_scenarios())>=2) {
-      #   result_list$scenario2 <- scenario2_vars()
-      #
-      #   tmp_params_scenario2 <- format_app_params_react(scenario_vars=result_list$scenario2, global_vars=result_list$pathways, advance_vars=result_list$advance, scn_lab="Scenario 2")
-      #
-      #   params_scenario2 <- make_params(
-      #     tmp_params_scenario2$pathway,
-      #     tmp_params_scenario2$prev,
-      #     tmp_params_scenario2$test1,
-      #     tmp_params_scenario2$test2,
-      #     tmp_params_scenario2$test3,
-      #     tmp_params_scenario2$test4,
-      #     tmp_params_scenario2$test5,
-      #     tmp_params_scenario2$daly_avert_per_tx,
-      #     tmp_params_scenario2$tx_eff,
-      #     tmp_params_scenario2$n,
-      #     tmp_params_scenario2$scenario
-      #   )
-      #   out_scenario2 <- run_pathway(params_scenario2)
-      #
-      # }
-      # if (exists("scenario3_vars") & length(displayed_scenarios())>=3) {
-      #   result_list$scenario3 <- scenario3_vars()
-      #
-      #   tmp_params_scenario3 <- format_app_params_react(scenario_vars=result_list$scenario3, global_vars=result_list$pathways, advance_vars=result_list$advance, scn_lab="Scenario 3")
-      #
-      #   params_scenario3 <- make_params(
-      #     tmp_params_scenario3$pathway,
-      #     tmp_params_scenario3$prev,
-      #     tmp_params_scenario3$test1,
-      #     tmp_params_scenario3$test2,
-      #     tmp_params_scenario3$test3,
-      #     tmp_params_scenario3$test4,
-      #     tmp_params_scenario3$test5,
-      #     tmp_params_scenario3$daly_avert_per_tx,
-      #     tmp_params_scenario3$tx_eff,
-      #     tmp_params_scenario3$n,
-      #     tmp_params_scenario3$scenario
-      #   )
-      #   out_scenario3 <- run_pathway(params_scenario3)
-      #
-      # }
-      #
-      # # result_list
-      #
-      # out_list <- list(
-      #   params_scenario1 = if(exists("scenario1_vars")) params_scenario1 else NULL,
-      #   params_scenario2 = if(exists("scenario2_vars") & length(displayed_scenarios())>=2) params_scenario2 else NULL,
-      #   params_scenario3 = if(exists("scenario3_vars") & length(displayed_scenarios())>=3) params_scenario3 else NULL,
-      #   out_scenario1 = if(exists("scenario1_vars")) out_scenario1 else NULL,
-      #   out_scenario2 = if(exists("scenario2_vars") & length(displayed_scenarios())>=2) out_scenario2 else NULL,
-      #   out_scenario3 = if(exists("scenario3_vars") & length(displayed_scenarios())>=3) out_scenario3 else NULL
-      # )
-      # return(out_list)
-    # })
+  #BUTTONS#
 
+  observeEvent(input$advance_toggle,{
+    shinyjs::toggle("div_advance")
+
+  })
 
   output$calculate_button <- renderUI({
     if(length(displayed_scenarios())>=1){
@@ -314,23 +231,19 @@ app_server <- function(input, output, session) {
     }
   })
 
-  output$recalculate_button <- renderUI({
-    if(length(displayed_scenarios())>=1){
-      actionButton("recalculate", "Recalculate pathways", width="100%")
-    }
-  })
-
-  # output$report_button <- renderUI({
-  #   if(!is.null(results_data())){
-  #     column(width=4, offset=4,
-  #            downloadButton("report", label="Generate report", style="text-align: center; width: 100%;", icon=NULL)
-  #     )
+  # output$recalculate_button <- renderUI({
+  #   if(length(displayed_scenarios())>=1){
+  #     actionButton("recalculate", "Recalculate pathways", width="100%")
   #   }
   # })
 
-  # observe({
-  #   tmp_params <- format_app_params_react(scenario_vars=results_data()$scenario1, global_vars=results_data()$pathways, advance_vars=results_data()$advance)
-  # })
+  output$report_button <- renderUI({
+    if(!is.null(results_data())){
+      column(width=4, offset=4,
+             downloadButton("report", label="Generate report", style="text-align: center; width: 100%;", icon=NULL)
+      )
+    }
+  })
 
   #Generate html report
   output$report <- downloadHandler(
