@@ -26,9 +26,9 @@ mod_pathways_data_ui <- function(id){
             style = "display: flex; align-items: flex-end;",
             # radioButtons(ns("population"), label=HTML("<b> Population </b>"), choices=c("General", "Women of childbearing age", "Children"), inline=TRUE, selected="General", width="100%"),
             radioButtons(ns("fixed_cost"), label=HTML("<b> Include fixed costs? </b>"), choices=c("Yes", "No"), inline=TRUE, selected="Yes", width="100%"),
-            numericInput(ns("ltfu"), label=HTML("<b> Loss to follow-up (0-100%) </b> </br> Expected LTFU following patient or sample referral from low complexity to high complexity facility."), min=0, max=100, value=15, width="100%"),
-            numericInput(ns("link_treatment_low"), label=HTML("<b> Linkage to treatment low complexity (0-100%) </b> </br> Expected linkage to treatment if final diagnosis is made after testing at low complexity facility."), min=0, max=100, value=85, width="100%"),
-             numericInput(ns("link_treatment_high"), label=HTML("<b> Linkage to treatment high complexity (0-100%) </b> </br> Expected linkage to treatment if final diagnosis is made after testing at high complexity facility"), min=0, max=100, value=95, width="100%")
+            numericInput(ns("ltfu"), label=HTML("<b> Loss to follow-up (0-100%) </b> </br> Expected LTFU following patient or sample referral for testing/additional visit."), min=0, max=100, value=15, width="100%"),
+            numericInput(ns("link_treatment_low"), label=HTML("<b> Linkage to treatment low complexity (0-100%) </b> </br> Expected linkage to treatment if final diagnosis is made at low complexity facility."), min=0, max=100, value=85, width="100%"),
+             numericInput(ns("link_treatment_high"), label=HTML("<b> Linkage to treatment high complexity (0-100%) </b> </br> Expected linkage to treatment if final diagnosis is made at high complexity facility"), min=0, max=100, value=95, width="100%")
             )
         )
       )

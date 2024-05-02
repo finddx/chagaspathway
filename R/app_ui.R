@@ -48,7 +48,7 @@ app_ui <- function(request) {
         ),
         br(),
         h3(strong("General information")),
-        p("Please begin by entering information on the general context of Chagas diagnosis in your setting. Please note that other default parameters, such as the proportion of individuals who are treated and the prevalance of Chagas in your population, can be modified in the Advanced Settings tab."),
+        p("Please begin by entering information on the general context of Chagas diagnosis in your setting. Please note that other default parameters, such as the proportion of individuals who are treated and the prevalance of Chagas in your population, can be modified in the Advanced Settings section."),
         fluidRow(
           column(width=12,
                  mod_pathways_data_ui("pathways_data")
@@ -56,7 +56,7 @@ app_ui <- function(request) {
         ),
         fluidRow(
           column(width=4,
-                 actionButton("advance_toggle", tags$h3(tags$strong("Advance settings")),style = "text-decoration: none; border: none; background: none; padding: 0; margin: 0; cursor: pointer; outline: none; color: inherit;", onmouseover ="this.style.color = '#491E5D';", onclick = "this.style.color = '#491E5D';", onmouseout = "this.style.color = 'inherit';")          )
+                 actionButton("advance_toggle", tags$h3(tags$strong("Advanced settings")),style = "text-decoration: none; border: none; background: none; padding: 0; margin: 0; cursor: pointer; outline: none; color: inherit;", onmouseover ="this.style.color = '#491E5D';", onclick = "this.style.color = '#491E5D';", onmouseout = "this.style.color = 'inherit';")          )
         ),
         hidden(div(
           id="div_advance",
@@ -101,7 +101,7 @@ app_ui <- function(request) {
       # ),
       nav_panel(title="Info",icon=bs_icon("info-circle-fill"),
         h4(strong("Acknowledgements")),
-        p("This application was built by the Impact Department and Data Science Unit at FIND, with support from DNDi."),
+        p("This application was built by the Impact Department and Data Science Unit at FIND. We gratefully acknowledge the support and contribution of our many partners. The multicentric prospective study in Argentina is being conducted by our partners, CONICET, sponsored by the National Institute of Health, INP (National Institute of Parasitology), Fatala within ANLIS, with the support of FIND and DNDi."),
         h4(strong("User manual")),
         p("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis volutpat justo. Phasellus dignissim, metus vitae malesuada faucibus, odio lorem varius arcu, nec efficitur libero tortor vel mi. Maecenas euismod ligula eget erat malesuada, vel pharetra dui consequat. Integer auctor eleifend velit, vel condimentum nulla vestibulum et. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque lacinia enim ac velit rhoncus, a pellentesque nulla mattis. Donec sit amet sapien quis lorem fermentum tempor. Duis posuere lectus vitae velit ultrices, eget consequat odio consequat. Vivamus ut ipsum ac neque fringilla iaculis. Sed non turpis arcu. Nulla ac consectetur risus, eget convallis velit. Sed a sapien id mauris mattis blandit. Sed lacinia ipsum sapien, eget egestas enim scelerisque sed. Sed tristique ultrices mauris, vitae sodales tortor tempus sed. Phasellus bibendum nisi at dui volutpat, a vehicula felis cursus. Sed vitae libero eu arcu rutrum elementum."))
     )

@@ -30,9 +30,9 @@ mod_advance_data_ui <- function(id){
           card_body(
             layout_column_wrap(
               style = "display: flex; align-items: flex-end;",
-              numericInput(ns("cost_visit"), label=HTML("<b> Per-patient cost of attending a medical visit </b>"), value=0, width="100%"),
-              numericInput(ns("cost_sys_low"), label=HTML("<b> Per-test health system fixed costs, low complexity </b>"), value=8.53, width="100%"),
-              numericInput(ns("cost_sys_high"), label=HTML("<b> Per-test health system fixed costs, high complexity </b>"), value=12.35, width="100%")
+              numericInput(ns("cost_visit"), label=HTML("<b> Per-visit patient costs </b>"), value=0, width="100%"),
+              numericInput(ns("cost_sys_low"), label=HTML("<b> Per-visit health system costs, low complexity </b>"), value=8.53, width="100%"),
+              numericInput(ns("cost_sys_high"), label=HTML("<b> Per-visit health system costs, high complexity </b>"), value=12.35, width="100%")
             )
           )
      )
