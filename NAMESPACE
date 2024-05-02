@@ -2,9 +2,7 @@
 
 export(run_app)
 import(bslib)
-import(covrpage)
 import(ggplot2)
-import(rhub)
 import(shiny)
 importFrom(DiagrammeR,grVizOutput)
 importFrom(DiagrammeR,renderGrViz)

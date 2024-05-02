@@ -8,5 +8,3 @@ appId: 11918299
 bundleId:
 url: https://finddx.shinyapps.io/chagaspathway/
 version: 1
-asMultiple: FALSE
-asStatic: FALSE

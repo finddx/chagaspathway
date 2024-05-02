@@ -56,7 +56,8 @@ app_ui <- function(request) {
         ),
         fluidRow(
           column(width=4,
-                 actionButton("advance_toggle", tags$h3(tags$strong("Advanced settings")),style = "text-decoration: none; border: none; background: none; padding: 0; margin: 0; cursor: pointer; outline: none; color: inherit;", onmouseover ="this.style.color = '#491E5D';", onclick = "this.style.color = '#491E5D';", onmouseout = "this.style.color = 'inherit';")          )
+                 actionButton("advance_toggle", label=div(style = "display: flex; align-items: center; justify-content: space-between;", tags$h3(tags$strong("Advance settings")), span(icon("caret-down"), style = "margin-left: 5px;")), style = "text-decoration: none; border: none; background: none; padding: 0; margin: 0; cursor: pointer; outline: none; color: inherit;", onmouseover ="this.style.color = '#491E5D';", onclick = "this.style.color = '#491E5D';", onmouseout = "this.style.color = 'inherit';")
+                 )
         ),
         hidden(div(
           id="div_advance",
