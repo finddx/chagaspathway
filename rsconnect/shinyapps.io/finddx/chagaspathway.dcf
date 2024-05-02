@@ -1,0 +1,12 @@
+name: chagaspathway
+title: chagaspathway
+username: finddx
+account: finddx
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11918299
+bundleId:
+url: https://finddx.shinyapps.io/chagaspathway/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
