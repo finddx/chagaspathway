@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.475">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Chagas Diagnostic Algorithms: User Manual</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="user-manual_files/libs/clipboard/clipboard.min.js"></script>
+<script src="user-manual_files/libs/quarto-html/quarto.js"></script>
+<script src="user-manual_files/libs/quarto-html/popper.min.js"></script>
+<script src="user-manual_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="user-manual_files/libs/quarto-html/anchor.min.js"></script>
+<link href="user-manual_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="user-manual_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="user-manual_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="user-manual_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="user-manual_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#providing-feedback" id="toc-providing-feedback" class="nav-link" data-scroll-target="#providing-feedback">Providing feedback</a></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
+  </ul></li>
+  <li><a href="#chagas-diagnostic-algorithm-model" id="toc-chagas-diagnostic-algorithm-model" class="nav-link" data-scroll-target="#chagas-diagnostic-algorithm-model">Chagas Diagnostic Algorithm Model</a>
+  <ul class="collapse">
+  <li><a href="#algorithm-details" id="toc-algorithm-details" class="nav-link" data-scroll-target="#algorithm-details">Algorithm Details</a>
+  <ul class="collapse">
+  <li><a href="#parallel-testing" id="toc-parallel-testing" class="nav-link" data-scroll-target="#parallel-testing">Parallel testing</a></li>
+  <li><a href="#serial-testing-with-positive-confirmation" id="toc-serial-testing-with-positive-confirmation" class="nav-link" data-scroll-target="#serial-testing-with-positive-confirmation">Serial testing with positive confirmation</a></li>
+  <li><a href="#serial-testing-with-full-confirmation" id="toc-serial-testing-with-full-confirmation" class="nav-link" data-scroll-target="#serial-testing-with-full-confirmation">Serial testing with full confirmation</a></li>
+  </ul></li>
+  <li><a href="#test-performance" id="toc-test-performance" class="nav-link" data-scroll-target="#test-performance">Test performance</a></li>
+  <li><a href="#visits-and-loss-to-follow-up" id="toc-visits-and-loss-to-follow-up" class="nav-link" data-scroll-target="#visits-and-loss-to-follow-up">Visits and loss to follow-up</a></li>
+  <li><a href="#calculating-costs" id="toc-calculating-costs" class="nav-link" data-scroll-target="#calculating-costs">Calculating Costs</a></li>
+  <li><a href="#linkage-to-treatment-and-averting-dalys" id="toc-linkage-to-treatment-and-averting-dalys" class="nav-link" data-scroll-target="#linkage-to-treatment-and-averting-dalys">Linkage to treatment and averting DALYs</a></li>
+  </ul></li>
+  <li><a href="#chagas-diagnostic-algorithm-application" id="toc-chagas-diagnostic-algorithm-application" class="nav-link" data-scroll-target="#chagas-diagnostic-algorithm-application">Chagas Diagnostic Algorithm Application</a>
+  <ul class="collapse">
+  <li><a href="#general-comments" id="toc-general-comments" class="nav-link" data-scroll-target="#general-comments">General Comments</a></li>
+  <li><a href="#entering-data-general-information" id="toc-entering-data-general-information" class="nav-link" data-scroll-target="#entering-data-general-information">Entering data: General Information</a></li>
+  <li><a href="#entering-data-advanced-settings" id="toc-entering-data-advanced-settings" class="nav-link" data-scroll-target="#entering-data-advanced-settings">Entering data: Advanced Settings</a></li>
+  <li><a href="#entering-data-scenario-specification" id="toc-entering-data-scenario-specification" class="nav-link" data-scroll-target="#entering-data-scenario-specification">Entering Data: Scenario Specification</a></li>
+  <li><a href="#viewing-results" id="toc-viewing-results" class="nav-link" data-scroll-target="#viewing-results">Viewing results</a></li>
+  <li><a href="#downloading-report" id="toc-downloading-report" class="nav-link" data-scroll-target="#downloading-report">Downloading report</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Chagas Diagnostic Algorithms: User Manual</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Welcome to the Chagas Diagnostic Algorithms application to estimate the effectiveness and cost of different diagnostic algorithms for Chagas disease. Here, we provide detailed information on the model structure and use of the online application.</p>
+<p>Please see the section <a href="#chagas-diagnostic-algorithm-model">Chagas Diagnostic Algorithm Model</a> for more information on model structure and assumptions.</p>
+<p>Please see the section <a href="#chagas-diagnostic-algorithm-application">Chagas Diagnostic Algorithm Application</a> for a step-by-step guide to using the online application.</p>
+<section id="providing-feedback" class="level2">
+<h2 class="anchored" data-anchor-id="providing-feedback">Providing feedback</h2>
+<p>We welcome feedback on the application, including suggestions for adaptations to the model or the online interface, through <a href="https://forms.gle/h584XtkKmsATiCUf7">our anonymous survey</a>. You may answer as many or as few questions as you wish, and you may provide feedback more than once.</p>
+<p>For more in depth questions or comments on the model, please contact Kyra Grantz at <a href="Kyra.Grantz@finddx.org">Kyra.Grantz@finddx.org</a>.</p>
+</section>
+<section id="acknowledgements" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p>This application was built by the Impact Department and Data Science Unit at FIND. We gratefully acknowledge the support and contribution of our many partners. The multicentric prospective study in Argentina is being conducted by our partners, CONICET, sponsored by the National Institute of Health, INP (National Institute of Parasitology), Fatala within ANLIS, with the support of FIND and DNDi.</p>
+</section>
+</section>
+<section id="chagas-diagnostic-algorithm-model" class="level1">
+<h1>Chagas Diagnostic Algorithm Model</h1>
+<p>In this section, we provide information on how the underlying model calculates performance and costs of the different diagnostic algorithms.</p>
+<section id="algorithm-details" class="level2">
+<h2 class="anchored" data-anchor-id="algorithm-details">Algorithm Details</h2>
+<p>There are three generic algorithms the user can select to model: parallel testing, serial testing with confirmatory testing of positives only, or serial testing with full confirmatory testing.</p>
+<section id="parallel-testing" class="level3">
+<h3 class="anchored" data-anchor-id="parallel-testing">Parallel testing</h3>
+<p>See <a href="#fig-parallel">Figure&nbsp;1</a> for a schematic representation of parallel testing. In this algorithm, all individuals are initially tested with two tests (Test 1 and 2). If both tests are positive, the individual is diagnosed with Chagas and is referred for treatment. If both tests are negative, the individual is diagnosed as Chagas-free, and no further testing is done.</p>
+<p>If the initial two tests are discordant (one is positive and one is negative), the patient is referred for an additional confirmatory test (Test 3). If Test 3 is positive, the individual is diagnosed with Chagas and referred for treatment.</p>
+<div id="fig-parallel" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/parallel.png" class="fig img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: Parallel testing algorithm</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="serial-testing-with-positive-confirmation" class="level3">
+<h3 class="anchored" data-anchor-id="serial-testing-with-positive-confirmation">Serial testing with positive confirmation</h3>
+<p>See <a href="#fig-serialpos">Figure&nbsp;2</a> for a schematic representation of parallel testing of serial testing with positive confirmatory testing. In this algorithm, all individuals are initially tested with Test 1. Any individual negative on Test 1 is diagnosed as Chagas-free, and no further testing is done. Those positive on Test 1 are then referred for confirmatory testing with Test 2.</p>
+<p>If Test 2 is positive, the patient is considered diagnosed with Chagas and referred for treatment. If Test 2 is negative (that is, Test 1 and Test 2 are discordant), the patient is referred for an additional confirmatory test (Test 3). If Test 3 is positive, the individual is diagnosed with Chagas and referred for treatment.</p>
+<p>Compared to parallel testing, this algorithm tends to have lower costs, due to the reduced number of tests performed, but can result in more false negative (missed) diagnoses, due to the lack of confirmatory testing after Test 1.</p>
+<div id="fig-serialpos" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/serial-pos.png" class="fig img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;2: Serial testing with confirmatory testing of positive tests only.</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="serial-testing-with-full-confirmation" class="level3">
+<h3 class="anchored" data-anchor-id="serial-testing-with-full-confirmation">Serial testing with full confirmation</h3>
+<p>See <a href="#fig-serialfull">Figure&nbsp;3</a> for a schematic representation of parallel testing of serial testing with full confirmatory testing. As with serial testing with positive confirmation only (<a href="#fig-serialpos">Figure&nbsp;2</a>), this algorithm begins with all individuals tested with Test 1. Individuals positive on Test 1 are tested with Test 2; if Test 2 is positive, the patient is diagnosed and referred for treatment and if Test 2 is negative, Test 3 is conducted as a tie-breaker.</p>
+<p>This algorithm differs from serial testing with positive confirmation in that individuals testing negative with Test 1 are also referred for confirmatory testing with Test 4. Individuals negative on Test 4 are diagnosed as Chagas-free, and individuals positive on Test 4 are referred for confirmatory testing with Test 5. If Test 5 is positive, the individual is diagnosed with Chagas and referred for treatment.</p>
+<p>Therefore, this algorithm reduces the risk of false negative diagnosis compared to serial testing with positive confirmation only. However, this algorithm can be more expensive and can have higher loss to follow-up if multiple visits are needed.</p>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note if Tests 2 and 4 are the same test, and Tests 3 and 5 are the same test, the full serial algorithm is functionally the same as the parallel testing algorithm, except for the possibility of loss to follow-up between Tests 1 and Tests 2/4 (if the tests are serological or conducted at different facility levels).</p>
+</div>
+</div>
+<div id="fig-serialfull" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="images/serial-full.png" class="fig img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;3: Serial testing with full confirmatory testing.</figcaption><p></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="test-performance" class="level2">
+<h2 class="anchored" data-anchor-id="test-performance">Test performance</h2>
+<p>Our model assumes that the performance of subsequent tests are independent to one another. That is, we make no adjustment for possible correlation in false negative or false positive results between tests. For this reason, we recommend only modeling performance of tests detecting different antigen or serological targets.</p>
+<p>For a given test <span class="math inline">\(i\)</span> with sensitivity <span class="math inline">\(\rho_i\)</span> and specificity <span class="math inline">\(\phi_i\)</span>, in a population of size <span class="math inline">\(n\)</span> with prevalence <span class="math inline">\(p\)</span>, we calculate the following testing outcomes:</p>
+<table class="table">
+<tbody>
+<tr class="odd">
+<td>True positives</td>
+<td><span class="math inline">\(np\rho_i\)</span></td>
+</tr>
+<tr class="even">
+<td>False negatives</td>
+<td><span class="math inline">\(np(1-\rho_i)\)</span></td>
+</tr>
+<tr class="odd">
+<td>True negatives</td>
+<td><span class="math inline">\(n(1-p)\phi_i\)</span></td>
+</tr>
+<tr class="even">
+<td>False positives</td>
+<td><span class="math inline">\(n(1-p)(1-\phi_i)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Under our assumption of test independence (and ignoring possible loss to follow-up), we would calculate the following test results if we were then to test all individuals with a test <span class="math inline">\(j\)</span> of sensitivity <span class="math inline">\(\rho_j\)</span> and specificity <span class="math inline">\(\phi_j\)</span>:</p>
+<table class="table">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 33%">
+<col style="width: 30%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Test <span class="math inline">\(i\)</span> result:</td>
+<td>Positive with test <span class="math inline">\(j\)</span></td>
+<td>Negative with test <span class="math inline">\(j\)</span></td>
+</tr>
+<tr class="even">
+<td>True positives <span class="math inline">\(np\rho_i\)</span></td>
+<td><span class="math inline">\(np\rho_i * \rho_j\)</span></td>
+<td><span class="math inline">\(np\rho_i * (1-\rho_j)\)</span></td>
+</tr>
+<tr class="odd">
+<td>False negatives <span class="math inline">\(np(1-\rho_i)\)</span></td>
+<td><span class="math inline">\(np(1-\rho_i) * \rho_j\)</span></td>
+<td><span class="math inline">\(np(1-\rho_i) * (1-\rho_j)\)</span></td>
+</tr>
+<tr class="even">
+<td>True negatives <span class="math inline">\(n(1-p)\phi_i\)</span></td>
+<td><span class="math inline">\(n(1-p)\phi_i * (1-\phi_j)\)</span></td>
+<td><span class="math inline">\(n(1-p)\phi_i * \phi_j\)</span></td>
+</tr>
+<tr class="odd">
+<td>False positives <span class="math inline">\(n(1-p)(1-\phi_i)\)</span></td>
+<td><span class="math inline">\(n(1-p)(1-\phi_i) * (1-\phi_j)\)</span></td>
+<td><span class="math inline">\(n(1-p)(1-\phi_i) * \phi_j\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>We repeat these calculations, based on the above algorithms dictating whether subsequent tests are performed, to calculate the testing outcomes for each population. From this, we can calculate the total number of Chagas diagnoses (true and false diagnoses) to evaluate algorithm performance.</p>
+</section>
+<section id="visits-and-loss-to-follow-up" class="level2">
+<h2 class="anchored" data-anchor-id="visits-and-loss-to-follow-up">Visits and loss to follow-up</h2>
+<p>Our model defines a visit as any clinical encounter for a patient to provide a sample for Chagas testing. <strong>Note</strong> that our model does not consider costs related to visits solely for delivering test results or clinical evaluation, nor does our model consider the use of sample referrals to reduce patient visits.</p>
+<p>Patients must attend one visit at either a low- or high-complexity facility to have their initial samples collected for Test 1 (or Tests 1 and 2 simultaneously, if parallel testing). Whether subsequent tests require additional visits depends on the test characteristics and facility level.</p>
+<p>For any subsequent test, an additional visit is required if either (1) the preceding test was a serological test, so the expected turnaround time is longer than a single patient’s visit or (2) if the preceding test was conducted at a different facility level (e.g., at a low-complexity facility prior to referral at a high complexity facility).</p>
+<p>In other words, subsequent tests are only considered to be conducted at the same visit if the initial test is an RDT, so the results can be returned to the patient within the same clinical encounter, and if the tests are conducted at the same facility level, so no referral to a higher-level facility is required to collect the patient sample or conduct the test.</p>
+<p>The total number of visits per patient is calculated by dividing the total number of visits required in the population by the number of initial care seeking patients in the population. Although an algorithm may require up to 3 visits per patient to receive a diagnosis, the average number of visits required is typically much lower, as most patients do not require the maximum number of visits.</p>
+<p>Loss to follow-up in the diagnostic cascade occurs whenever a patient has to return for a subsequent visit. The probability of being lost to follow-up upon return for a subsequent visit is the same for all individuals in the model, regardless of their disease status (Chagas-infected or not) and regardless of test or facility type for each visit.</p>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Increasing loss to follow-up will decrease the average number of visits and costs of an algorithm, even if all other parameters are unchanged. Therefore, it is always important to weigh cost savings against potential reductions in overall algorithm performance (number of patients being diagnosed).</p>
+</div>
+</div>
+</section>
+<section id="calculating-costs" class="level2">
+<h2 class="anchored" data-anchor-id="calculating-costs">Calculating Costs</h2>
+<p>Our model allows for a fully-loaded costing of the diagnostic algorithm which incorporates the full laboratory costs of tests and the costs of visits to the health system and to patients.</p>
+<p><span class="math display">\[
+\text{Total Costs} = \text{Testing costs} + \text{Health system costs} + \text{Patient costs}
+\]</span></p>
+<p>A test cost for each test in the algorithm must be supplied, which should include test consumables, staffing time, and equipment needed to collect and process samples and conduct that test for one patient. To calculate total testing costs, these per-test costs are multiplied by the total number of patients receiving each test.</p>
+<p>Health system and patient costs are calculated on a per-visit basis. Health system costs may include things like staffing time, consumables, and overhead (fixed) costs associated with a patient encounter. In our model, the health system costs of a visit at a low complexity and high complexity facility can differ. Patient costs may include things like transportation, food, and accommodation costs and wages lost associated with attending a care visit. In our model, this value is assumed to be the same whether a visit is at a low or high complexity facility. To calculate total total health system and patient costs, the appropriate per-visit costs are multiplied by the total number of visits at the appropriate facility level.</p>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that including visits costs is optional in the model. The user may also choose to include only direct testing costs (i.e., test kit and consumable costs) by excluding staffing time and equipment costs from the test cost values.</p>
+</div>
+</div>
+</section>
+<section id="linkage-to-treatment-and-averting-dalys" class="level2">
+<h2 class="anchored" data-anchor-id="linkage-to-treatment-and-averting-dalys">Linkage to treatment and averting DALYs</h2>
+<p>We assume that all individuals who receive a positive diagnosis have some probability of being referred for treatment. This probability can differ based on whether the patient received their final diagnosis at a low complexity facility or a high complexity facility, to account for possible additional referrals or visits required to receive treatment at a low complexity facility. Patients with true and false positive diagnoses have the same probability of being referred to treatment.</p>
+<p>The model considers that treatment, when effective, can reduce the disability-adjusted life years (DALYs) lost to Chagas among true positive diagnosed cases. Treatment is considered to have a certain effectiveness at achieving seroreversion, which then leads to an average DALYs averted per patient. The average DALYs averted per patient can be adjusted in the model to represent different populations or settings, but no adjustment is made within the model for variation in DALYs averted within the patient population.</p>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that our model does not include costs related to treatment, including an additional confirmatory testing or medical evaluations prior to initiating treatment. Users may use information on the number of individuals diagnosed and referred to treatment to calculate their own costs related to treatment if they wish.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="chagas-diagnostic-algorithm-application" class="level1">
+<h1>Chagas Diagnostic Algorithm Application</h1>
+<p>Below, we provide a step-by-step guide for using the Chagas Diagnostic Algorithm application. Please refer to the <a href="#chagas-diagnostic-algorithm-model">Chagas Diagnostic Algorithm Model</a> section, above, for more details on the underlying model and assumptions.</p>
+<section id="general-comments" class="level3">
+<h3 class="anchored" data-anchor-id="general-comments">General Comments</h3>
+<ul>
+<li><p>The application requires an internet connection to load and run the model. If you have a poor internet connection, please reach out to Kyra Grantz (Kyra.Grantz@finddx.org) for information on how to install and run the application without internet.</p></li>
+<li><p>The application is not able to save your work. If you close or refresh the page, you will have to re-enter all data.</p></li>
+<li><p>However, once you have entered data and generated results, you can download a report from the results tab to have a permanent copy of your work. See <a href="#downloading-report">Downloading report</a> for more details.</p></li>
+<li><p>Most diagrams and figures displayed in the application are expandable. Click on the two arrows in the bottom right of the figure to view the figure in full size.</p></li>
+</ul>
+</section>
+<section id="entering-data-general-information" class="level3">
+<h3 class="anchored" data-anchor-id="entering-data-general-information">Entering data: General Information</h3>
+<p>In this section, you will enter information the general context of Chagas diagnosis in your setting. Keep in mind the specific population (e.g., general adult symptomatic population, pregnant women screened at ANC) and context you are modeling.</p>
+<p><strong>User name:</strong> Optionally, you can provide your name to be added to any reports generated from the model.</p>
+<p><strong>Include health system and patient visit costs?</strong>: Select yes if you would like to include visits costs to the health system and patient when calculating the costs of each algorithm. If no is selected, algorithm cost will include on testing costs. See <a href="#calculating-costs">Calculating Costs</a> for more details.</p>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Because of the large variability in patient costs by population and context, the patient cost for each visit is set to US $0 by default, even if you choose to include visit costs. This value can be adjusted in Advanced Settings. See <a href="#entering-data-advanced-settings">Entering data: Advanced Settings</a> for more details.</p>
+</div>
+</div>
+<p><strong>Loss to follow-up:</strong> Enter the average percent of patients that are lost to follow-up when asked to return for a subsequent visit. See <a href="#visits-and-loss-to-follow-up">Visits and loss to follow-up</a> for more details.</p>
+<p><strong>Linkage to treatment:</strong> Enter the average percent of patients who, once diagnosed with Chagas, are successfully referred to and initiate treatment. Two values are required: one for patients whose final diagnosis is made at a <strong>Low Complexity Facility</strong> and one for patients whose final diagnosis is made at a <strong>High Complexity Facility</strong>. See <a href="#linkage-to-treatment-and-averting-dalys">Linkage to treatment and averting DALYs</a> for more details.</p>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Linkage to treatment can be set equal to 0% if you are not interested in including treatment-related and DALY-related outcomes.</p>
+</div>
+</div>
+</section>
+<section id="entering-data-advanced-settings" class="level3">
+<h3 class="anchored" data-anchor-id="entering-data-advanced-settings">Entering data: Advanced Settings</h3>
+<p>There are various parameters regarding Chagas burden and costs that can optionally be updated in the Advanced Settings module. Click the heading “<strong>Advanced Settings</strong>” to review and modify these parameters if desired.</p>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We have provided default parameters for all Advanced Setting parameters, to represent Chagas disease epidemiology and costs for testing in a symptomatic general adult population in Argentina. Please review these values to ensure they match your population and context.</p>
+</div>
+</div>
+<p><strong>Prevalence of Chagas in care-seeking population:</strong> Among individuals accessing testing in your population, what is the prevalence of Chagas disease? Typically, the prevalence in a population actively seeking care and diagnosis due to Chagas symptoms is higher than the prevalence of Chagas in the general population. However, if you are considering broad screening (e.g., of pregnant women at ANC without symptoms), you may use a value closer to or equal to the general prevalence.</p>
+<p><strong>Treatment effectiveness</strong>: among those in your population who initiate treatment, what percent achieve cure (seroreversion)?</p>
+<p><strong>Percent untreated patients developing long-term morbidities</strong>: among individuals in your population with Chagas who do not receive any treatment, what proportion continue to develop a long-term morbidity or disability (including death)</p>
+<p><strong>Average DALYs associated with untreated Chagas</strong>: among individuals in your population with Chagas who do not receive any treatment, what are the average lifetime DALYs lost due to Chagas infection</p>
+<p><strong>Per-visit patient costs</strong>: what costs are borne by the patient to attend a medical visit for Chagas diagnosis? Typically, this can include things like average transportation costs, food costs, and lost wages. Do <strong>not</strong> include the out-of-pocket cost to the patient of Chagas diagnosis. See <a href="#calculating-costs">Calculating Costs</a> for more details.</p>
+<p><strong>Per-visit health system costs</strong>: what costs are borne by the health system for a patient to attend a medical visit for Chagas diagnosis? Typically, this can include things like staffing time, overhead costs (facility costs, utilities, etc.), and any supplies or consumables used that are not used directly for collecting a sample and conducting a test. Two values are required: one for visits made at a <strong>Low Complexity Facility</strong> and one for visits made at a <strong>High Complexity Facility</strong>. See <a href="#calculating-costs">Calculating Costs</a> for more details.</p>
+</section>
+<section id="entering-data-scenario-specification" class="level3">
+<h3 class="anchored" data-anchor-id="entering-data-scenario-specification">Entering Data: Scenario Specification</h3>
+<p>The Chagas Diagnostic Algorithm application allows for modeling of up to 3 scenarios simultaneously. These can be scenarios of different general algorithms (see <a href="#algorithm-details">Algorithm Details</a> for more details), scenarios of the same general algorithm with different tests, or a mixture thereof.</p>
+<p>After you select the number of scenarios you would like to model, click “<strong>Create Scenarios</strong>” to generate the data entry modules for each scenario.</p>
+<p><u>For each scenario,</u> you will need to enter the following information:</p>
+<p><strong>Pathway type:</strong> Select the general algorithm structure you would like to model in this scenario (either <a href="#parallel-testing">Parallel testing</a>, <a href="#serial-testing-with-positive-confirmation">Serial testing with positive confirmation</a>, or <a href="#serial-testing-with-full-confirmation">Serial testing with full confirmation</a>). After you select pathway type, the app will automatically update to display the number of required tests that must be entered for that algorithm.</p>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the general algorithm figures at the top of the application homepage to remind yourself of the sequence in which each test is conducted.</p>
+</div>
+</div>
+<p><u>For each test</u> in the algorithm<u>,</u> you will need to enter the following information:</p>
+<p><strong>Test type:</strong> select whether the test is a rapid diagnostic test (<strong>RDT</strong>) or whether the test is a <strong>laboratory-based</strong> serological or molecular test with longer turn-around time. For the purposes of this test, a true point-of-care test with results provided in the same clinical encounter would be considered an <strong>RDT</strong>.</p>
+<p><strong>Label:</strong> optionally, provide a name or label for this test to be used in figures and tables in the results.</p>
+<p><strong>Facility type</strong>: select whether the patient visit and test is conducted at a <strong>Low Complexity</strong> or <strong>High Complexity</strong> facility. Note that the model cannot explicitly consider sample referrals (i.e., the patient visit occurs at a low complexity facility but the sample is sent to a high complexity facility for testing). In these situations, you should select the highest facility level involved (i.e., a high complexity facility).</p>
+<p><strong>Sensitivity</strong>: enter the average test sensitivity for your population.</p>
+<p><strong>Specificity:</strong> enter the average test specificity for your population.</p>
+<p><strong>Cost per test</strong>: enter the total laboratory costs associated with conducting this test for one patient. This should include the costs of any tests kits and consumables, as well as per-test staffing and equipment costs. See <a href="#calculating-costs">Calculating Costs</a> for more details.</p>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Test performance and cost can vary by context and population. Make sure to consider your specific population of interest and adjust these values as necessary.</p>
+</div>
+</div>
+</section>
+<section id="viewing-results" class="level3">
+<h3 class="anchored" data-anchor-id="viewing-results">Viewing results</h3>
+<p>Once you have finished entering the required information, click “<strong>Calculate Pathways</strong>” to run the model and generate results. View model results on the <em>Results</em> tab.</p>
+<div class="callout-caution callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>If you receive an error that says “<em>Disconnected from the server. Reload</em>”, this likely means that you did not enter a required value (test sensitivity, specificity, or cost). Please reload the page and make sure to enter all information.</p>
+</div>
+</div>
+</div>
+<section id="key-results" class="level4">
+<h4 class="anchored" data-anchor-id="key-results">Key results</h4>
+<p>There are five key results displayed for each scenario at the top of the page:</p>
+<ul>
+<li><p>Pathway diagram: a schematic representation of the diagnostic algorithm being modeled</p></li>
+<li><p>Proportion cases diagnosed: of all Chagas cases in the initial care seeking population, what percent received a diagnosis of Chagas disease from the diagnostic algorithm</p></li>
+<li><p>Cost per case diagnosed: dividing the total costs of the diagnostic algorithm by the number of true Chagas cases diagnosed</p></li>
+<li><p>Positive predictive value: of all positive test results, what percent were truly Chagas-positive</p></li>
+<li><p>Negative predictive value: of all negative test results, what percent were truly Chagas-negative</p></li>
+</ul>
+</section>
+<section id="figures" class="level4">
+<h4 class="anchored" data-anchor-id="figures">Figures</h4>
+<p>Three figures are displayed, showing the positive predictive value (PPV), negative predictive value (NPV), and cost per case diagnosed (CPC) of each scenario across a range of Chagas prevalence in the care seeking population. You can hover over lines in these figures to trace exact values.</p>
+<p>Use these figures to explore potential trade-offs between PPV (i.e., ensuring the group of individuals testing positive truly have Chagas disease), NPV (i.e., ensuring true Chagas cases are not inappropriately classified as Chagas-negative), and CPC as prevalence changes.</p>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can zoom in on specific features of the figures. First, expand the figure by clicking the two arrows in the bottom right corner. Then, click and drag your cursor to create a rectangle around the region of the plot you would like to zoom in on. You can zoom out by clicking the House icon in the upper right.</p>
+</div>
+</div>
+</section>
+<section id="detailed-results" class="level4">
+<h4 class="anchored" data-anchor-id="detailed-results">Detailed results</h4>
+<p>Finally, a table will include detailed results of algorithm performance, costs, and downstream (treatment-related) outcomes for each scenario. Note that this table may include missing (blank or NA) values if you choose to not provide information on costs or treatment linkage and DALYs.</p>
+<p>Use this table for detailed explorations of differences between the number of true and false diagnoses or missed Chagas cases between patients. You may also use this table to calculate additional costs associated with linkage to treatment and further evaluation (see <a href="#calculating-costs">Calculating Costs</a>).</p>
+</section>
+</section>
+<section id="downloading-report" class="level3">
+<h3 class="anchored" data-anchor-id="downloading-report">Downloading report</h3>
+<p>You can download a report (HTML format) from the <em>Results</em> tab by clicking “<strong>Generate report</strong>” at the bottom of the page. The report will contain the algorithm diagrams and a summary of the key parameters entered for each scenario. It will also contain the same tables and figures displayed on the <em>Results</em> dashboard.</p>
+<p>While typically generating a report will only take a few seconds, please note it may take longer (up to a few minutes) on slower internet connections.</p>
+<p>HTML files can be saved to your computer and shared like any other file. HTML files can be opened with any web browser (Google Chrome, Safari, Firefox, etc.).</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

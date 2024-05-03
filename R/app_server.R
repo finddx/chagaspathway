@@ -114,6 +114,10 @@ app_server <- function(input, output, session) {
     }
   })
 
+  output$user_manual <- renderUI({
+    tags$iframe(style="height:100%;width:100%", src = "www/html/user-manual.html")
+  })
+
   #SERVER modules#
 
   pathways <- mod_pathways_data_server("pathways_data")
