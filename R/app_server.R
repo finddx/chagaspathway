@@ -176,8 +176,8 @@ app_server <- function(input, output, session) {
     })
 
   #Show modal results
-  observe({
-    if (!is.null(results_data())) {
+  observeEvent(input$calculate, {
+    # if (!is.null(results_data())) {
       showModal(modalDialog(
         title = "Functions executed correctly!",
         # "Functions executed correctly!",
@@ -186,7 +186,7 @@ app_server <- function(input, output, session) {
         )
       ))
 
-    }
+    # }
   })
 
   # observe({
