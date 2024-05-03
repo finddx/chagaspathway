@@ -15,28 +15,21 @@ mod_results_ui <- function(id){
         card_header(h4(strong("PPV plot"))),
         full_screen=TRUE,
         card_body(
-          # column(width=4,align="center",
-                 plotlyOutput(ns("out_plot_ppv"), width="100%")
-          # )
+          plotlyOutput(ns("out_plot_ppv"), width="100%")
         )),
       card(
         card_header(h4(strong("NPV plot"))),
         full_screen=TRUE,
         card_body(
-          # column(width=4,align="center",
-                 plotlyOutput(ns("out_plot_npv"), width="100%")#plotOutput
-          # )
+          plotlyOutput(ns("out_plot_npv"), width="100%")
         )),
       card(
         card_header(h4(strong("OPC plot"))),
         full_screen=TRUE,
         card_body(
-          # column(width=4,align="center",
-                 plotlyOutput(ns("out_plot_cpc"), width="100%")
-          # )
+          plotlyOutput(ns("out_plot_cpc"), width="100%")
         ))
       ),
-
       card(
         # card_header(h4(strong("User data"))),
         full_screen=TRUE,

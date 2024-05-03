@@ -44,8 +44,33 @@ app_ui <- function(request) {
         # selectInput("selected_language",label="Select language", choices=i18n$get_languages()),
         p(HTML("This online applications will help you to estimate the effectiveness and cost of different diagnostic algorithms for Chagas disease. Further details are provided in the Information tab.<br>You can model one, two, or three algorithms at the same time. These algorithms must follow one of the general structures displayed below.")),
         fluidRow(
-          column(12, align="center", offset=0, img(src="www/img/model-diag.png", width="100%"))#, height="400vh"
+        layout_column_wrap(
+          card(
+            # card_header(h4(strong("PPV plot"))),
+            full_screen=TRUE,
+            card_body(
+              img(src="www/img/parallel.png", width="100%"))
+            ),
+          card(
+            # card_header(h4(strong("NPV plot"))),
+            full_screen=TRUE,
+            card_body(
+              img(src="www/img/serial-pos.png", width="100%"))
+            ),
+          card(
+            # card_header(h4(strong("OPC plot"))),
+            full_screen=TRUE,
+            card_body(
+              img(src="www/img/serial-full.png", width="100%"))
+            )
+        )
         ),
+        # fluidRow(
+        #   column(12, align="center", offset=0, img(src="www/img/model-diag.png", width="100%"))#, height="400vh"
+        # ),
+
+
+
         br(),
         h3(strong("General information")),
         p("Please begin by entering information on the general context of Chagas diagnosis in your setting. Please note that other default parameters, such as the proportion of individuals who are treated and the prevalance of Chagas in your population, can be modified in the Advanced Settings section."),

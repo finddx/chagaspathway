@@ -159,10 +159,7 @@ app_server <- function(input, output, session) {
   })
 
   observe({
-    # if(!is.null(results_data())){
-    assign("results_all", mod_results_server("results_general", results_list=results_data), envir=.GlobalEnv)#
-    # results_all <- mod_results_server("results_general", results_list=results_data)
-    # }
+    assign("results_all", mod_results_server("results_general", results_list=results_data), envir=.GlobalEnv)
   })
   # event_calculate <- eventReactive(input$calculate, {
   #   input$calculate
@@ -174,51 +171,35 @@ app_server <- function(input, output, session) {
   #Assign inputs to a list
   results_data <-
     eventReactive(input$calculate, {
+
       calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
     })
+
+  #Show modal results
+  observe({
+    if (!is.null(results_data())) {
+      showModal(modalDialog(
+        title = "Functions executed correctly!",
+        # "Functions executed correctly!",
+        footer = tagList(
+          actionButton("results_button", "Go to Results tab", class = "btn-secondary")
+        )
+      ))
+
+    }
+  })
+
   # observe({
   #   tmp_params <- format_app_params_react(scenario_vars=results_data()$scenario1, global_vars=results_data()$pathways, advance_vars=results_data()$advance)
   # })
 
-  # results_calculate <- eventReactive(input$calculate, {
-  #   calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
-  # })
-  # results_recalculate <- eventReactive(input$recalculate, {
-  #   calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
-  # })
-  # results_data <- reactive({
-  #   if (!is.null(input$calculate) && input$calculate > 0) {
-  #     results_calculate()
-  #   } else if (!is.null(input$recalculate) && input$recalculate > 0) {
-  #     results_recalculate()
-  #   }
-  # })
-#
-#   toListen <- reactive({
-#     list(input$calculate,input$recalculate)
-#   })
-#   results_data <- eventReactive(ignoreInit = TRUE, toListen(),
-#                {
-#                  calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
-#                })
-
-  # results_data <-  eventReactive(toListen(), {
-  #   if(is.null(input$calculate) && is.null(input$recalculate)){
-  #     return()
-  #   }
-  #   calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
-  # })
-
-
-  # xxchange <- reactive({
-  #   paste(input$calculate, input$recalculate)
-  # })
-  # results_data <- eventReactive(xxchange(),ignoreInit = T, {
-  #   calculate_pathways(scenario1=scenario1_vars, scenario2=scenario2_vars, scenario3=scenario3_vars, advance=advance, pathways=pathways, displayed_scenarios=displayed_scenarios)
-  # })
-
 
   #BUTTONS#
+
+  observeEvent(input$results_button,{
+    removeModal()
+    updateNavbarPage(session, "menubar", selected = "Results")
+  })
 
   observeEvent(input$advance_toggle,{
     shinyjs::toggle("div_advance")
@@ -230,12 +211,6 @@ app_server <- function(input, output, session) {
       actionButton("calculate", "Calculate pathways", width="100%")
     }
   })
-
-  # output$recalculate_button <- renderUI({
-  #   if(length(displayed_scenarios())>=1){
-  #     actionButton("recalculate", "Recalculate pathways", width="100%")
-  #   }
-  # })
 
   output$report_button <- renderUI({
     if(!is.null(results_data())){
@@ -252,10 +227,10 @@ app_server <- function(input, output, session) {
     content = function(file) {
 
       #Loading bar
-      show_modal_progress_line(color="#491E5D")
-      milestones <- c(0.1, 0.5, 0.9)
-      for (milestone in milestones) {
-        update_modal_progress(milestone, text="Loading...")
+      show_modal_progress_line(color="#491E5D", text="Generating report...")
+      milestones <- c(10, 50, 70, 90)
+      for (i in milestones) {
+        update_modal_progress(i/100, text = paste("Generating report...", sprintf("%02d%%", i)))
         Sys.sleep(runif(1, 1, 3))
       }
 
