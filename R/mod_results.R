@@ -24,7 +24,7 @@ mod_results_ui <- function(id){
           plotlyOutput(ns("out_plot_npv"), width="100%")
         )),
       card(
-        card_header(h4(strong("OPC plot"))),
+        card_header(h4(strong("CPC plot"))),
         full_screen=TRUE,
         card_body(
           plotlyOutput(ns("out_plot_cpc"), width="100%")
