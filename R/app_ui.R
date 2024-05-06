@@ -126,7 +126,8 @@ app_ui <- function(request) {
       #   )
       # ),
       nav_panel(title="Info",icon=bs_icon("info-circle-fill"),
-                uiOutput("user_manual")
+                htmlOutput("user_manual")
+
       )
         # h4(strong("Acknowledgements")),
         # p("This application was built by the Impact Department and Data Science Unit at FIND. We gratefully acknowledge the support and contribution of our many partners. The multicentric prospective study in Argentina is being conducted by our partners, CONICET, sponsored by the National Institute of Health, INP (National Institute of Parasitology), Fatala within ANLIS, with the support of FIND and DNDi."),
