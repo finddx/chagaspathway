@@ -260,9 +260,16 @@ app_server <- function(input, output, session) {
                         envir=new.env(parent = globalenv())
       )
       remove_modal_progress()
-
     }
-
   )
+
+  output$user_manual <- renderUI({
+    tags$iframe(
+                src= "www/manual/user_manual.html",
+                width="100%",
+                scrolling = "no",
+                onload = "this.style.height=this.contentDocument.body.scrollHeight + 250 +'px';"
+                )
+  })
 
 }
