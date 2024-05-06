@@ -267,14 +267,9 @@ app_server <- function(input, output, session) {
     tags$iframe(
                 src= "www/manual/user_manual.html",
                 width="100%",
-<<<<<<< Updated upstream
                 height=800
                 # scrolling = "no"
                 # onload = "this.style.height=this.contentDocument.body.scrollHeight + 250 +'px';"
-=======
-                scrolling = "yes",
-                onload = "this.style.height=this.contentDocument.body.scrollHeight + 250 +'px';"
->>>>>>> Stashed changes
                 )
   })
 
