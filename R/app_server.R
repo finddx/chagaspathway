@@ -17,17 +17,31 @@
 #' @noRd
 app_server <- function(input, output, session) {
 
-  # i18n <- golem::get_golem_options(which = "translator")
-  # i18n$set_translation_language("en")
-  # keep track of language object as a reactive
-  # i18n_r <- reactive({
+  i18n <- golem::get_golem_options(which = "translator")
+  i18n$set_translation_language("English")
+
+
+  # i18n <- reactive({
+  #   selected <- input$selected_language
+  #   if (length(selected) > 0 && selected %in% i18n$get_languages()) {
+  #     i18n$set_translation_language(selected)
+  #   }
   #   i18n
   # })
-  # change language
-  # observeEvent(input[["selected_language"]], {
-  #   shiny.i18n::update_lang(session, input[["selected_language"]])
-  #   i18n_r()$set_translation_language(input[["selected_language"]])
-  # })
+
+
+  #keep track of language object as a reactive
+  i18n_r <- reactive({
+    i18n
+  })
+  #change language
+  observeEvent(input$selected_language, {
+
+    shiny.i18n::update_lang(session, language=input$selected_language)
+    i18n_r()$set_translation_language(input$selected_language)
+  })
+
+
   #Disable add scenario button
   # observe({
   #   if (length(displayed_scenarios()) >= 3) {
@@ -44,8 +58,8 @@ app_server <- function(input, output, session) {
       displayed_scenarios(seq_len(num_scenarios))
     } else {
       showModal(modalDialog(
-        title = "Invalid number of scenarios",
-        "Please enter a number between 1 and 3"
+        title = i18n$t("Invalid number of scenarios"),
+        i18n$t("Please enter a number between 1 and 3")
       ))
     }
   })

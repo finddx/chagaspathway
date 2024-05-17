@@ -92,3 +92,9 @@ calculate_pathways <- function(scenario1=NULL, scenario2=NULL, scenario3=NULL, a
 
 }
 
+
+# tr <- function(key) {
+#   i18n <- golem::get_golem_options(which = "translator")
+#
+#   i18n$t(key)
+# }
