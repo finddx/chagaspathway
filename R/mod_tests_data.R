@@ -7,30 +7,31 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_tests_data_ui <- function(id){
+mod_tests_data_ui <- function(id, i18n){
   ns <- NS(id)
   tagList(
-    # fluidRow(column(12,
-    #                 align='center',tags$style(HTML(".distribute { display: flex; justify-content: space-between; }")),
-    radioButtons(ns("test_type"), label=HTML("<b> Test type </b>"), choiceNames=c("RDT", "Laboratory-based"), choiceValues=c("RDT", "Serological test"), inline=TRUE, selected="RDT", width="100%"
-    #              )
-    # )
-    ),#selected = character(0)
-    textInput(ns("label"), label=HTML("<b> Label </b>"), width="100%"),
-    radioButtons(ns("facility_type"), label=HTML("<b> Facility type </b>"), choices=c("High complexity", "Low complexity"), inline=TRUE, selected="Low complexity", width="100%"),
+    radioButtons(ns("test_type"), label=strong("Test type"), choiceNames=c("RDT", "Laboratory-based"), choiceValues=c("RDT", "Serological test"), inline=TRUE, selected="RDT", width="100%"
+    ),
+    textInput(ns("label"), label=strong(i18n$t("Label")), width="100%"),
+    radioButtons(ns("facility_type"), label=strong("Facility type"), choiceNames=c("High complexity", "Low complexity"), choiceValues=c("High complexity", "Low complexity"), inline=TRUE, selected="Low complexity", width="100%"),
     # radioButtons(ns("sample_type"), label=HTML("<b> Sample type </b>"), choices=c("Capillary", "Whole blood (NB: if low complexity, can only be capillary)"),  inline=TRUE, selected=NULL, width="100%"),
-    numericInput(ns("sens"), label=HTML("<b> Sensitivity (0-100%) </b>"), min=0,  max=100, value=85, width="100%"),
-    numericInput(ns("spec"), label=HTML("<b> Specificity (0-100%) </b>"), min=0, max=100, value=95, width="100%"),
-    numericInput(ns("cost_test"), label=HTML("<b> Cost per test (USD) </b>"), value=7.5, width="100%")
+    numericInput(ns("sens"), label=strong(i18n$t("Sensitivity (0-100%)")), min=0,  max=100, value=85, width="100%"),
+    numericInput(ns("spec"), label=strong(i18n$t("Specificity (0-100%)")), min=0, max=100, value=95, width="100%"),
+    numericInput(ns("cost_test"), label=strong(i18n$t("Cost per test (USD)")), value=7.5, width="100%")
   )
 }
 
 #' tests_data Server Functions
 #'
 #' @noRd
-mod_tests_data_server <- function(id){
+mod_tests_data_server <- function(id, i18n_r){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
+
+    observe({
+      updateRadioButtons(session, "test_type", label=i18n_r()$t("Test type"), choiceNames=i18n_r()$t(c("RDT", "Laboratory-based")), choiceValues=c("RDT", "Serological test"))
+      updateRadioButtons(session, "facility_type", label=i18n_r()$t("Facility type"), choiceNames=i18n_r()$t(c("High complexity", "Low complexity")), choiceValues=c("High complexity", "Low complexity"))
+    })
 
     return(
       list(

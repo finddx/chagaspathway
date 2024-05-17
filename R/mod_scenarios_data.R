@@ -10,7 +10,7 @@
 mod_scenarios_data_ui <- function(id){
   ns <- NS(id)
   tagList(
-    radioButtons(ns("pathway_type"), label=HTML("<b> Pathway type </b>"), choiceNames=c("Parallel", "Serial (positive conf.)", "Serial (full conf.)"), choiceValues=c("parallel", "rule-out", "full"), inline=TRUE, selected="parallel", width="100%"),
+    radioButtons(ns("pathway_type"), label=strong("Pathway type"), choiceNames=c("Parallel", "Serial (positive conf.)", "Serial (full conf.)"), choiceValues=c("parallel", "rule-out", "full"), inline=TRUE, selected="parallel", width="100%"),
     uiOutput(ns("tests"))
   )
 }
@@ -18,9 +18,13 @@ mod_scenarios_data_ui <- function(id){
 #' scenarios_data Server Functions
 #'
 #' @noRd
-mod_scenarios_data_server <- function(id, scenarios_n){#, list_tests
+mod_scenarios_data_server <- function(id, scenarios_n, i18n, i18n_r){#, list_tests
   moduleServer( id, function(input, output, session){
     ns <- session$ns
+
+    observe({
+      updateRadioButtons(session, "pathway_type", label=i18n_r()$t("Pathway type"), choiceNames=i18n_r()$t(c("Parallel", "Serial (positive conf.)", "Serial (full conf.)")), choiceValues=c("parallel", "rule-out", "full"))
+    })
 
     #Define N of tests
     test_n_out <- reactive({
@@ -43,13 +47,12 @@ mod_scenarios_data_server <- function(id, scenarios_n){#, list_tests
       if (test_id %in% test_n_out()) {
         test_number <- as.numeric(gsub("\\D", "", test_id))
         tagList(
-          # column(width=ifelse(length(test_n_out())==3,4,ifelse(length(test_n_out())==2,6,2)), id=paste0("tests_data_", gsub("\\D", "", test_id)),
-                 card(
-                   card_header(h5(strong(paste("Test", test_number)))),
-                   card_body(
-                     mod_tests_data_ui(ns(paste0(scenarios_n, "_tests_data_", test_number)))
-                   )
-                 )
+          card(
+            card_header(h5(strong(paste("Test", test_number)))),
+            card_body(
+              mod_tests_data_ui(ns(paste0(scenarios_n, "_tests_data_", test_number)), i18n=i18n)
+              )
+            )
         )
       }
     }
@@ -59,83 +62,12 @@ mod_scenarios_data_server <- function(id, scenarios_n){#, list_tests
       fluidRow(do.call(layout_column_wrap, test_list))
     })
 
-    # output$tests <- renderUI({
-    #   tagList(
-    #     div(id="tests_5_div",
-    #         fluidRow(
-    #           splitLayout(
-    #             cell_width="20%",
-    #                card(
-    #                  card_header(h5(strong("Test 1"))),
-    #                  card_body(
-    #                    mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_1_5t")))
-    #                )),
-    #             card(
-    #               card_header(h5(strong("Test 2"))),
-    #               card_body(
-    #                 mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_2_5t")))
-    #               )),
-    #             card(
-    #               card_header(h5(strong("Test 3"))),
-    #               card_body(
-    #                 mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_3_5t")))
-    #               )),
-    #             card(
-    #               card_header(h5(strong("Test 4"))),
-    #               card_body(
-    #                 mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_4_5t")))
-    #               )),
-    #             card(
-    #               card_header(h5(strong("Test 5"))),
-    #               card_body(
-    #                 mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_5_5t")))
-    #               ))
-    #     ))),
-    #     shinyjs::hidden(
-    #       div(id="tests_3_div",
-    #         fluidRow(
-    #           splitLayout(
-    #             cell_width="33%",
-    #             card(
-    #               card_header(h5(strong("Test 1"))),
-    #               card_body(
-    #                 mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_1_3t")))
-    #               )),
-    #             card(
-    #               card_header(h5(strong("Test 2"))),
-    #               card_body(
-    #                 mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_2_3t")))
-    #               )),
-    #             card(
-    #               card_header(h5(strong("Test 3"))),
-    #               card_body(
-    #                 mod_tests_data_ui(ns(paste0(scenarios_n,"_tests_data_3_3t")))
-    #               ))
-    #         )
-    #         )
-    #       )
-    # ))
-    # })
-    # observe({
-    #       num_tests <- length(test_n_out())
-    #       if (num_tests==5) {
-    #         shinyjs::show(id="tests_5_div", asis=TRUE)
-    #         shinyjs::hide(id="tests_3_div", asis=TRUE)
-    #       } else if(num_tests==3){
-    #         shinyjs::show(id ="tests_3_div", asis=TRUE)
-    #         shinyjs::hide(id="tests_5_div", asis=TRUE)
-    #       }
-    # })
-
-
-
-
     create_scenario_list <- function(test_count, pathway_type) {
       test_list <- list()
       for (i in 1:test_count) {
         test_name <- paste0("test", i)
         module_name <- paste0(scenarios_n,  "_tests_data_", i)#, "_", test_count, "t"
-        test_list[[test_name]] <- mod_tests_data_server(module_name)
+        test_list[[test_name]] <- mod_tests_data_server(module_name, i18n_r=i18n_r)
       }
       test_list$pathway_type <- pathway_type
       return(test_list)
@@ -147,11 +79,6 @@ mod_scenarios_data_server <- function(id, scenarios_n){#, list_tests
     return(
       scenarios_list
     )
-
-    # pathway_list <- list()
-    # pathway_list$pathway_type <- reactive({ input$pathway_type })
-
-
 
   })
 }

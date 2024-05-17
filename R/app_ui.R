@@ -79,7 +79,7 @@ app_ui <- function(request) {
         p(i18n$t("Please begin by entering information on the general context of Chagas diagnosis in your setting. Please note that other default parameters, such as the proportion of individuals who are treated and the prevalance of Chagas in your population, can be modified in the Advanced Settings section.")),
         fluidRow(
           column(width=12,
-                 mod_pathways_data_ui("pathways_data", i18n)
+                 mod_pathways_data_ui("pathways_data", i18n=i18n)
                  )
         ),
         fluidRow(
@@ -89,7 +89,7 @@ app_ui <- function(request) {
         ),
         hidden(div(
           id="div_advance",
-          mod_advance_data_ui("advance_data")
+          mod_advance_data_ui("advance_data", i18n=i18n)
           )
         ),
         h3(strong(i18n$t("Scenario specification"))),

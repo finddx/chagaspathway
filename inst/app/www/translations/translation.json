@@ -70,44 +70,108 @@
             "Español": "¿Incluye los costes del sistema sanitario y de las visitas de los pacientes?"
         },
         {
-            "English": "Fever",
-            "Español": "Fiebre"
+            "English": "Yes",
+            "Español": "Si"
         },
         {
-            "English": "Headache",
-            "Español": "Dolor de cabeza"
+            "English": "No",
+            "Español": "No"
         },
         {
             "English": "Fatigue",
             "Español": "Fatiga"
         },
         {
-            "English": "Shortness of breath",
-            "Español": "Dificultad para respirar"
+            "English": "Population and natural history parameters",
+            "Español": "Parámetros poblacionales y de historia natural"
         },
         {
-            "English": "Cough",
-            "Español": "Tos"
+            "English": "Prevalence of Chagas in care-seeking population (0-100%)",
+            "Español": "Prevalencia de Chagas en la población atendida (0-100%)"
         },
         {
-            "English": "Loss of taste or smell",
-            "Español": "Pérdida del gusto u olfato"
+            "English": "Treatment effectiveness (0-100%)",
+            "Español": "Efectividad del tratamiento (0-100%)"
         },
         {
-            "English": "Digestive symptoms (abdominal pain, diarrhea, vomiting)",
-            "Español": "Síntomas digestivos (dolor abdominal, diarrea, vómito)"
+            "English": "Percent untreated patients developing long-term morbidities (0-100%)",
+            "Español": "Porcentaje de pacientes no tratados que desarrollan morbilidades a largo plazo (0-100%)"
         },
         {
-            "English": "I did not present any of these symptoms",
-            "Español": "No presenté ninguno de estos síntomas"
+            "English": "Average DALYs associated with untreated Chagas",
+            "Español": "Promedio de DALYs asociados al Chagas no tratado"
         },
         {
-            "English": "Loss of smell",
-            "Español": "Pérdida del olfato"
+            "English": "Costing parameters",
+            "Español": "Parámetros de costes"
         },
         {
-            "English": "Loss of taste",
-            "Español": "Pérdida del gusto"
+            "English": "Per-visit patient costs",
+            "Español": "Costo por visita del paciente"
+        },
+        {
+            "English": "Per-visit health system costs, low complexity",
+            "Español": "Costo del sistema sanitario por visita, baja complejidad"
+        },
+        {
+            "English": "Per-visit health system costs, high complexity",
+            "Español": "Costo del sistema sanitario por visita, alta complejidad"
+        },
+        {
+            "English": "Pathway type",
+            "Español": "Tipo de vía"
+        },
+        {
+            "English": "Parallel",
+            "Español": "En paralelo"
+        },
+        {
+            "English": "Serial (positive conf.)",
+            "Español": "En serie (conf. positiva)"
+        },
+        {
+            "English": "Serial (full conf.)",
+            "Español": "En serie (conf. completa)"
+        },
+        {
+            "English": "Label",
+            "Español": "Nombre"
+        },
+        {
+            "English": "Sensitivity (0-100%)",
+            "Español": "Sensibilidad (0-100%)"
+        },
+        {
+            "English": "Specificity (0-100%)",
+            "Español": "Especificidad (0-100%)"
+        },
+        {
+            "English": "Cost per test (USD)",
+            "Español": "Costo por test (USD)"
+        },
+        {
+            "English": "Test type",
+            "Español": "Tipo de test"
+        },
+        {
+            "English": "RDT",
+            "Español": "RDT"
+        },
+        {
+            "English": "Laboratory-based",
+            "Español": "Basado en el laboratorio"
+        },
+        {
+            "English": "Facility type",
+            "Español": "Tipo de instalación"
+        },
+        {
+            "English": "High complexity",
+            "Español": "Alta complejidad"
+        },
+        {
+            "English": "Low complexity",
+            "Español": "Baja complejidad"
         }
     ]
 }

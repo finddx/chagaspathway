@@ -130,7 +130,7 @@ app_server <- function(input, output, session) {
 
   #SERVER modules#
 
-  pathways <- mod_pathways_data_server("pathways_data")
+  pathways <- mod_pathways_data_server("pathways_data", i18n_r=i18n_r)
   advance <- mod_advance_data_server("advance_data")
 
   #Generate server Scenario for each displayed scenario
@@ -143,7 +143,9 @@ app_server <- function(input, output, session) {
           paste0("scenario", scenario_number, "_vars"),
           mod_scenarios_data_server(
             id = paste0("scenarios_data_", scenario_number),
-            scenarios_n = paste0("scenario", scenario_number)
+            scenarios_n = paste0("scenario", scenario_number),
+            i18n=i18n,
+            i18n_r=i18n_r
           ),
           envir = .GlobalEnv
         )
