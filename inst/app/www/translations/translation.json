@@ -70,6 +70,30 @@
             "Español": "¿Incluye los costes del sistema sanitario y de las visitas de los pacientes?"
         },
         {
+            "English": "Loss to follow-up (0-100%)",
+            "Español": "Pérdidas durante el seguimiento (0-100%)"
+        },
+        {
+            "English": "Expected LTFU following patient or sample referral for testing/additional visit.",
+            "Español": "LTFU esperado tras la remisión del paciente o de la muestra para la realización de pruebas/visita adicional."
+        },
+        {
+            "English": "Linkage to treatment low complexity (0-100%)",
+            "Español": "Vinculación al tratamiento baja complejidad (0-100%)"
+        },
+        {
+            "English": "Expected linkage to treatment if final diagnosis is made at low complexity facility.",
+            "Español": "Vinculación esperada al tratamiento si el diagnóstico final se realiza en una instalación de baja complejidad."
+        },
+        {
+            "English": "Linkage to treatment high complexity (0-100%)",
+            "Español": "Vinculación al tratamiento alta complejidad (0-100%)"
+        },
+        {
+            "English": "Expected linkage to treatment if final diagnosis is made at high complexity facility",
+            "Español": "Vinculación esperada al tratamiento si el diagnóstico final se realiza en una instalación de alta complejidad."
+        },
+        {
             "English": "Yes",
             "Español": "Si"
         },
@@ -99,7 +123,7 @@
         },
         {
             "English": "Average DALYs associated with untreated Chagas",
-            "Español": "Promedio de DALYs asociados al Chagas no tratado"
+            "Español": "Promedio de DALYs asociados a Chagas no tratado"
         },
         {
             "English": "Costing parameters",
@@ -172,6 +196,34 @@
         {
             "English": "Low complexity",
             "Español": "Baja complejidad"
-        }
+        },
+        {
+            "English": "Calculate pathways",
+            "Español": "Calcular vías"
+        },
+        {
+            "English": "Generate report",
+            "Español": "Generar reporte"
+        },
+        {
+            "English": "Generating report...",
+            "Español": "Generando reporte..."
+        },
+        {
+            "English": "Functions executed correctly!",
+            "Español": "¡Funciones ejecutadas correctamente!"
+        },
+        {
+            "English": "Go to Results tab",
+            "Español": "Vaya a la pestaña Resultados"
+        },
+        {
+            "English": "Scenario",
+            "Español": "Escenario"
+        },
+        {
+            "English": "Results scenario",
+            "Español": "Resultados escenario"
+        } 
     ]
 }

@@ -36,9 +36,6 @@ mod_scenarios_data_server <- function(id, scenarios_n, i18n, i18n_r){#, list_tes
       } else {
         test_n <- c(1,2,3)
       }
-      # else {
-      #   test_n <- c(1,2,3)
-      # }
       return(test_n)
     })
 

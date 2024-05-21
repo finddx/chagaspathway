@@ -41,10 +41,9 @@ app_ui <- function(request) {
       position="fixed-top",
       nav_panel(
         "Pathways",icon = bs_icon("arrows-move"),
-        # h3(strong("Introduction")),
+        fluidRow(column(3, offset=9, selectInput("selected_language",label="Select language/Selecciona el idioma", choices=i18n$get_languages(),  selected=i18n$get_key_translation(), width="100%"))),
         h3(strong(i18n$t("Introduction"))),
         uiOutput("select_lang"),
-        selectInput("selected_language",label="Select language", choices=i18n$get_languages(),  selected=i18n$get_key_translation()),
         p(i18n$t("This online applications will help you to estimate the effectiveness and cost of different diagnostic algorithms for Chagas disease. Further details are provided in the Information tab. You can model one, two, or three algorithms at the same time. These algorithms must follow one of the general structures displayed below.")),
         fluidRow(
         layout_column_wrap(
@@ -68,12 +67,6 @@ app_ui <- function(request) {
             )
         )
         ),
-        # fluidRow(
-        #   column(12, align="center", offset=0, img(src="www/img/model-diag.png", width="100%"))#, height="400vh"
-        # ),
-
-
-
         br(),
         h3(strong(i18n$t("General information"))),
         p(i18n$t("Please begin by entering information on the general context of Chagas diagnosis in your setting. Please note that other default parameters, such as the proportion of individuals who are treated and the prevalance of Chagas in your population, can be modified in the Advanced Settings section.")),
@@ -114,7 +107,7 @@ app_ui <- function(request) {
                 )
         )
       ),
-      nav_panel(title=i18n$t("Results"), icon=bs_icon("bar-chart-line"),
+      nav_panel(value="results_tab",title=i18n$t("Results"), icon=bs_icon("bar-chart-line"),
         uiOutput("results_ui"),
         uiOutput("results_general_ui"),
         uiOutput("report_button")
@@ -132,6 +125,19 @@ app_ui <- function(request) {
                 htmlOutput("user_manual")
 
       )
+      # ,
+      # nav_spacer(),
+      # nav_item(
+      #   align = "right",
+      #     fluidRow(div(
+      #              style = "display: flex; align-items: center;",
+      #              tags$span("Select language/Selecciona el idioma", style = "margin-right: 10px;"),
+      #              selectInput("selected_lge", NULL, choices=i18n$get_languages(),selected=i18n$get_key_translation())
+      #            ))
+      # )
+
+
+
         # h4(strong("Acknowledgements")),
         # p("This application was built by the Impact Department and Data Science Unit at FIND. We gratefully acknowledge the support and contribution of our many partners. The multicentric prospective study in Argentina is being conducted by our partners, CONICET, sponsored by the National Institute of Health, INP (National Institute of Parasitology), Fatala within ANLIS, with the support of FIND and DNDi."),
         # h4(strong("User manual")),
