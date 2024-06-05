@@ -56,7 +56,7 @@ app_server <- function(input, output, session) {
                card(
                  card_header(h4(strong(paste(i18n$t("Scenario"), scenario_number))), style=paste0("background-color: " , bg_color, "; color: #ffffff;")),
                  card_body(
-                   mod_scenarios_data_ui(paste0("scenarios_data_", scenario_number))
+                   mod_scenarios_data_ui(paste0("scenarios_data_", scenario_number), i18n=i18n)
                  )
                )
       )
@@ -124,8 +124,7 @@ app_server <- function(input, output, session) {
           mod_scenarios_data_server(
             id = paste0("scenarios_data_", scenario_number),
             scenarios_n = paste0("scenario", scenario_number),
-            i18n=i18n,
-            i18n_r=i18n_r
+            i18n=i18n
           ),
           envir = .GlobalEnv
         )

@@ -7,10 +7,10 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_scenarios_data_ui <- function(id){
+mod_scenarios_data_ui <- function(id, i18n){
   ns <- NS(id)
   tagList(
-    radioButtons(ns("pathway_type"), label=strong("Pathway type"), choiceNames=c("Parallel", "Serial (positive conf.)", "Serial (full conf.)"), choiceValues=c("parallel", "rule-out", "full"), inline=TRUE, selected="parallel", width="100%"),
+    radioButtons(ns("pathway_type"), label=strong(i18n$t("Pathway type")), choiceNames=c(i18n$t("Parallel"), i18n$t("Serial (positive conf.)"), i18n$t("Serial (full conf.)")), choiceValues=c("parallel", "rule-out", "full"), inline=TRUE, selected="parallel", width="100%"),
     uiOutput(ns("tests"))
   )
 }
@@ -18,13 +18,13 @@ mod_scenarios_data_ui <- function(id){
 #' scenarios_data Server Functions
 #'
 #' @noRd
-mod_scenarios_data_server <- function(id, scenarios_n, i18n, i18n_r){#, list_tests
-  moduleServer( id, function(input, output, session){
+mod_scenarios_data_server <- function(id, scenarios_n, i18n){#, list_tests
+  moduleServer(id, function(input, output, session){
     ns <- session$ns
 
-    observe({
-      updateRadioButtons(session, "pathway_type", label=i18n_r()$t("Pathway type"), choiceNames=i18n_r()$t(c("Parallel", "Serial (positive conf.)", "Serial (full conf.)")), choiceValues=c("parallel", "rule-out", "full"))
-    })
+    # observe({
+    #   updateRadioButtons(session, "pathway_type", label=i18n_r()$t("Pathway type"), choiceNames=i18n_r()$t(c("Parallel", "Serial (positive conf.)", "Serial (full conf.)")), choiceValues=c("parallel", "rule-out", "full"))
+    # })
 
     #Define N of tests
     test_n_out <- reactive({
@@ -64,7 +64,7 @@ mod_scenarios_data_server <- function(id, scenarios_n, i18n, i18n_r){#, list_tes
       for (i in 1:test_count) {
         test_name <- paste0("test", i)
         module_name <- paste0(scenarios_n,  "_tests_data_", i)#, "_", test_count, "t"
-        test_list[[test_name]] <- mod_tests_data_server(module_name, i18n_r=i18n_r)
+        test_list[[test_name]] <- mod_tests_data_server(module_name)
       }
       test_list$pathway_type <- pathway_type
       return(test_list)
