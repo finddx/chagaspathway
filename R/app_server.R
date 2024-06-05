@@ -17,23 +17,17 @@
 #' @noRd
 app_server <- function(input, output, session) {
 
-  # i18n <- golem::get_golem_options(which = "translator")
-  # i18n$set_translation_language("en")
-  # keep track of language object as a reactive
-  # i18n_r <- reactive({
-  #   i18n
-  # })
-  # change language
-  # observeEvent(input[["selected_language"]], {
-  #   shiny.i18n::update_lang(session, input[["selected_language"]])
-  #   i18n_r()$set_translation_language(input[["selected_language"]])
-  # })
-  #Disable add scenario button
-  # observe({
-  #   if (length(displayed_scenarios()) >= 3) {
-  #     shinyjs::disable("add_scenario")
-  #   }
-  # })
+  i18n <- golem::get_golem_options(which="translator")
+  i18n$set_translation_language("English")
+  #keep track of language object as a reactive
+  i18n_r <- reactive({
+    i18n
+  })
+  #change language
+  observeEvent(input$selected_language, {
+    shiny.i18n::update_lang(session, language=input$selected_language)
+    i18n_r()$set_translation_language(input$selected_language)
+  })
 
   #Track number of Scenarios
   displayed_scenarios <- reactiveVal()
@@ -44,8 +38,8 @@ app_server <- function(input, output, session) {
       displayed_scenarios(seq_len(num_scenarios))
     } else {
       showModal(modalDialog(
-        title = "Invalid number of scenarios",
-        "Please enter a number between 1 and 3"
+        title = i18n$t("Invalid number of scenarios"),
+        i18n$t("Please enter a number between 1 and 3")
       ))
     }
   })
@@ -60,9 +54,9 @@ app_server <- function(input, output, session) {
       bg_color <- color_scenarios[scenario_number]
       tagList(
                card(
-                 card_header(h4(strong(paste("Scenario", scenario_number))), style=paste0("background-color: " , bg_color, "; color: #ffffff;")),
+                 card_header(h4(strong(paste(i18n$t("Scenario"), scenario_number))), style=paste0("background-color: " , bg_color, "; color: #ffffff;")),
                  card_body(
-                   mod_scenarios_data_ui(paste0("scenarios_data_", scenario_number))
+                   mod_scenarios_data_ui(paste0("scenarios_data_", scenario_number), i18n=i18n)
                  )
                )
       )
@@ -84,7 +78,7 @@ app_server <- function(input, output, session) {
           column(width=ifelse(length(displayed_scenarios())==1,12,ifelse(length(displayed_scenarios())==2,6,4)),
                  # id=paste0("results_data_", gsub("\\D", "", result_id)),
                  card(
-                   card_header(h4(strong(paste("Results scenario", result_number))), style=paste0("background-color: ", bg_color, "; color: #ffffff;")),
+                   card_header(h4(strong(paste(i18n$t("Results scenario"), result_number))), style=paste0("background-color: ", bg_color, "; color: #ffffff;")),
                    card_body(
                      mod_results_data_ui(paste0("results_data_", result_number))
                    )
@@ -116,7 +110,7 @@ app_server <- function(input, output, session) {
 
   #SERVER modules#
 
-  pathways <- mod_pathways_data_server("pathways_data")
+  pathways <- mod_pathways_data_server("pathways_data", i18n_r=i18n_r)
   advance <- mod_advance_data_server("advance_data")
 
   #Generate server Scenario for each displayed scenario
@@ -129,7 +123,8 @@ app_server <- function(input, output, session) {
           paste0("scenario", scenario_number, "_vars"),
           mod_scenarios_data_server(
             id = paste0("scenarios_data_", scenario_number),
-            scenarios_n = paste0("scenario", scenario_number)
+            scenarios_n = paste0("scenario", scenario_number),
+            i18n=i18n
           ),
           envir = .GlobalEnv
         )
@@ -179,10 +174,10 @@ app_server <- function(input, output, session) {
   observeEvent(input$calculate, {
     # if (!is.null(results_data())) {
       showModal(modalDialog(
-        title = "Functions executed correctly!",
+        title = i18n$t("Functions executed correctly!"),
         # "Functions executed correctly!",
         footer = tagList(
-          actionButton("results_button", "Go to Results tab", class = "btn-secondary")
+          actionButton("results_button", i18n$t("Go to Results tab"), class="btn-secondary")
         )
       ))
 
@@ -198,7 +193,7 @@ app_server <- function(input, output, session) {
 
   observeEvent(input$results_button,{
     removeModal()
-    updateNavbarPage(session, "menubar", selected = "Results")
+    updateNavbarPage(session, "menubar", selected="results_tab")
   })
 
   observeEvent(input$advance_toggle,{
@@ -208,14 +203,14 @@ app_server <- function(input, output, session) {
 
   output$calculate_button <- renderUI({
     if(length(displayed_scenarios())>=1){
-      actionButton("calculate", "Calculate pathways", width="100%")
+      actionButton("calculate", i18n$t("Calculate pathways"), width="100%")
     }
   })
 
   output$report_button <- renderUI({
     if(!is.null(results_data())){
       column(width=4, offset=4,
-             downloadButton("report", label="Generate report", style="text-align: center; width: 100%;", icon=NULL)
+             downloadButton("report", label=i18n$t("Generate report"), style="text-align: center; width: 100%;", icon=NULL)
       )
     }
   })
@@ -227,10 +222,10 @@ app_server <- function(input, output, session) {
     content = function(file) {
 
       #Loading bar
-      show_modal_progress_line(color="#491E5D", text="Generating report...")
+      show_modal_progress_line(color="#491E5D", text=i18n$t("Generating report..."))
       milestones <- c(10, 50, 70, 90)
       for (i in milestones) {
-        update_modal_progress(i/100, text = paste("Generating report...", sprintf("%02d%%", i)))
+        update_modal_progress(i/100, text = paste(i18n$t("Generating report..."), sprintf("%02d%%", i)))
         Sys.sleep(runif(1, 1, 3))
       }
 

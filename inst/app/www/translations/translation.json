@@ -2,20 +2,40 @@
     "languages": ["English", "Español"],
     "translation": [
         {
-            "English": "Chagas Pathway",
-            "Español": "Vía de Chagas"
-        },
-        {
             "English": "Introduction",
             "Español": "Introducción"
         },
         {
-            "English": "Pathways data",
-            "Español": "Datos sobre las vías"
+            "English": "Results",
+            "Español": "Resultados"
+        },
+        {
+            "English": "Info",
+            "Español": "Info"
+        },
+        {
+            "English": "This online applications will help you to estimate the effectiveness and cost of different diagnostic algorithms for Chagas disease. Further details are provided in the Information tab. You can model one, two, or three algorithms at the same time. These algorithms must follow one of the general structures displayed below.",
+            "Español": "Esta aplicación en línea le ayudará a estimar la eficacia y el coste de diferentes algoritmos para el diagnóstico de la enfermedad de Chagas. Encontrará más detalles en la pestaña Información. Puede modelar uno, dos o tres algoritmos al mismo tiempo. Estos algoritmos deben seguir una de las estructuras generales que se muestran a continuación."
+        },
+        {
+            "English": "General information",
+            "Español": "Información general"
+        },
+        {
+            "English": "Please begin by entering information on the general context of Chagas diagnosis in your setting. Please note that other default parameters, such as the proportion of individuals who are treated and the prevalance of Chagas in your population, can be modified in the Advanced Settings section.",
+            "Español": "Por favor, comience introduciendo información sobre el contexto general del diagnóstico de Chagas en su entorno. Tenga en cuenta que otros parámetros predeterminados, como la proporción de individuos que reciben tratamiento y la prevalencia de Chagas en su población, pueden modificarse en la sección Configuración avanzada."
+        },
+        {
+            "English": "Advance settings",
+            "Español": "Configuración avanzada"
         },
         {
             "English": "Scenario specification",
             "Español": "Especificación del escenario"
+        },
+        {
+            "English": "Please select how many scenarios (1-3) you would like to model. You will be asked to select which general pathway (parallel testing, serial testing with full confirmation, or serial testing with positive confirmation) you would like to model for each scenario, and to provide information on test performance and cost for each scenario.",
+            "Español": "Seleccione cuántos escenarios (1-3) desea modelar. Se le pedirá que seleccione qué vía general (pruebas paralelas, pruebas en serie con confirmación completa o pruebas en serie con confirmación positiva) desea modelar para cada escenario, y que proporcione información sobre el rendimiento y el coste de las pruebas para cada escenario."
         },
         {
             "English": "Select the number of scenarios (up to 3)",
@@ -26,72 +46,184 @@
             "Español": "Crear escenarios"
         },
         {
-            "English": "Advance settings",
-            "Español": "Ajustes avanzados"
+            "English": "Invalid number of scenarios",
+            "Español": "Número inválido de escenarios"
         },
         {
-            "English": "Info",
-            "Español": "Info"
+            "English": "Please enter a number between 1 and 3",
+            "Español": "Introduzca un número entre 1 y 3"
         },
         {
-            "English": "Acknowledgements",
-            "Español": "Agradecimientos"
+            "English": "User data",
+            "Español": "Datos de usuario"
         },
         {
-            "English": "User manual",
-            "Español": "Manual de usuario"
+            "English": "User name",
+            "Español": "Nombre de usuario"
         },
         {
-            "English": "Conditions",
-            "Español": "Condiciones"
+            "English": "General data",
+            "Español": "Datos generales"
         },
         {
-            "English": "Complications",
-            "Español": "Complicaciones"
+            "English": "Include health system and patient visit costs?",
+            "Español": "¿Incluye los costes del sistema sanitario y de las visitas de los pacientes?"
         },
         {
-            "English": "Did you present any of the following symptoms in the first 10 days following symptoms onset?",
-            "Español": "¿Presentó alguno de los siguientes síntomas en los primeros 10 días tras el inicio de la sintomatología por la infección"
+            "English": "Loss to follow-up (0-100%)",
+            "Español": "Pérdidas durante el seguimiento (0-100%)"
         },
         {
-            "English": "Fever",
-            "Español": "Fiebre"
+            "English": "Expected LTFU following patient or sample referral for testing/additional visit.",
+            "Español": "LTFU esperado tras la remisión del paciente o de la muestra para la realización de pruebas/visita adicional."
         },
         {
-            "English": "Headache",
-            "Español": "Dolor de cabeza"
+            "English": "Linkage to treatment low complexity (0-100%)",
+            "Español": "Vinculación al tratamiento baja complejidad (0-100%)"
+        },
+        {
+            "English": "Expected linkage to treatment if final diagnosis is made at low complexity facility.",
+            "Español": "Vinculación esperada al tratamiento si el diagnóstico final se realiza en una instalación de baja complejidad."
+        },
+        {
+            "English": "Linkage to treatment high complexity (0-100%)",
+            "Español": "Vinculación al tratamiento alta complejidad (0-100%)"
+        },
+        {
+            "English": "Expected linkage to treatment if final diagnosis is made at high complexity facility",
+            "Español": "Vinculación esperada al tratamiento si el diagnóstico final se realiza en una instalación de alta complejidad."
+        },
+        {
+            "English": "Yes",
+            "Español": "Si"
+        },
+        {
+            "English": "No",
+            "Español": "No"
         },
         {
             "English": "Fatigue",
             "Español": "Fatiga"
         },
         {
-            "English": "Shortness of breath",
-            "Español": "Dificultad para respirar"
+            "English": "Population and natural history parameters",
+            "Español": "Parámetros poblacionales y de historia natural"
         },
         {
-            "English": "Cough",
-            "Español": "Tos"
+            "English": "Prevalence of Chagas in care-seeking population (0-100%)",
+            "Español": "Prevalencia de Chagas en la población atendida (0-100%)"
         },
         {
-            "English": "Loss of taste or smell",
-            "Español": "Pérdida del gusto u olfato"
+            "English": "Treatment effectiveness (0-100%)",
+            "Español": "Efectividad del tratamiento (0-100%)"
         },
         {
-            "English": "Digestive symptoms (abdominal pain, diarrhea, vomiting)",
-            "Español": "Síntomas digestivos (dolor abdominal, diarrea, vómito)"
+            "English": "Percent untreated patients developing long-term morbidities (0-100%)",
+            "Español": "Porcentaje de pacientes no tratados que desarrollan morbilidades a largo plazo (0-100%)"
         },
         {
-            "English": "I did not present any of these symptoms",
-            "Español": "No presenté ninguno de estos síntomas"
+            "English": "Average DALYs associated with untreated Chagas",
+            "Español": "Promedio de DALYs asociados a Chagas no tratado"
         },
         {
-            "English": "Loss of smell",
-            "Español": "Pérdida del olfato"
+            "English": "Costing parameters",
+            "Español": "Parámetros de costes"
         },
         {
-            "English": "Loss of taste",
-            "Español": "Pérdida del gusto"
-        }
+            "English": "Per-visit patient costs",
+            "Español": "Costo por visita del paciente"
+        },
+        {
+            "English": "Per-visit health system costs, low complexity",
+            "Español": "Costo del sistema sanitario por visita, baja complejidad"
+        },
+        {
+            "English": "Per-visit health system costs, high complexity",
+            "Español": "Costo del sistema sanitario por visita, alta complejidad"
+        },
+        {
+            "English": "Pathway type",
+            "Español": "Tipo de vía"
+        },
+        {
+            "English": "Parallel",
+            "Español": "En paralelo"
+        },
+        {
+            "English": "Serial (positive conf.)",
+            "Español": "En serie (conf. positiva)"
+        },
+        {
+            "English": "Serial (full conf.)",
+            "Español": "En serie (conf. completa)"
+        },
+        {
+            "English": "Label",
+            "Español": "Nombre"
+        },
+        {
+            "English": "Sensitivity (0-100%)",
+            "Español": "Sensibilidad (0-100%)"
+        },
+        {
+            "English": "Specificity (0-100%)",
+            "Español": "Especificidad (0-100%)"
+        },
+        {
+            "English": "Cost per test (USD)",
+            "Español": "Costo por test (USD)"
+        },
+        {
+            "English": "Test type",
+            "Español": "Tipo de test"
+        },
+        {
+            "English": "RDT",
+            "Español": "RDT"
+        },
+        {
+            "English": "Laboratory-based",
+            "Español": "Basado en el laboratorio"
+        },
+        {
+            "English": "Facility type",
+            "Español": "Tipo de instalación"
+        },
+        {
+            "English": "High complexity",
+            "Español": "Alta complejidad"
+        },
+        {
+            "English": "Low complexity",
+            "Español": "Baja complejidad"
+        },
+        {
+            "English": "Calculate pathways",
+            "Español": "Calcular vías"
+        },
+        {
+            "English": "Generate report",
+            "Español": "Generar reporte"
+        },
+        {
+            "English": "Generating report...",
+            "Español": "Generando reporte..."
+        },
+        {
+            "English": "Functions executed correctly!",
+            "Español": "¡Funciones ejecutadas correctamente!"
+        },
+        {
+            "English": "Go to Results tab",
+            "Español": "Vaya a la pestaña Resultados"
+        },
+        {
+            "English": "Scenario",
+            "Español": "Escenario"
+        },
+        {
+            "English": "Results scenario",
+            "Español": "Resultados escenario"
+        } 
     ]
 }

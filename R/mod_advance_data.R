@@ -7,32 +7,32 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_advance_data_ui <- function(id){
+mod_advance_data_ui <- function(id, i18n){
   ns <- NS(id)
   tagList(
     fluidRow(
       card(
-        card_header(h4(strong("Population and natural history parameters"))),
+        card_header(h4(strong(i18n$t("Population and natural history parameters")))),
         card_body(
           layout_column_wrap(
             style = "display: flex; align-items: flex-end;",
-            numericInput(ns("prev_chagas"), label=HTML("<b> Prevalence of Chagas in care-seeking population (0-100%) </b>"), min=0, max=100, value=5, width="100%"),
-            numericInput(ns("treat_effect"), label=HTML("<b> Treatment effectiveness (0-100%) </b>"), min=0, max=100, value=50, width="100%"),
-            numericInput(ns("untreated_pats"), label=HTML("<b> Percent untreated patients developing long-term morbidities (0-100%) </b>"), min=0, max=100, value=20, width="100%"),
-           numericInput(ns("avg_dalys"), label=HTML("<b> Average DALYs associated with untreated Chagas </b>"), value=0.05, width="100%")
+            numericInput(ns("prev_chagas"), label=strong(i18n$t("Prevalence of Chagas in care-seeking population (0-100%)")), min=0, max=100, value=5, width="100%"),
+            numericInput(ns("treat_effect"), label=strong(i18n$t("Treatment effectiveness (0-100%)")), min=0, max=100, value=50, width="100%"),
+            numericInput(ns("untreated_pats"), label=strong(i18n$t("Percent untreated patients developing long-term morbidities (0-100%)")), min=0, max=100, value=20, width="100%"),
+           numericInput(ns("avg_dalys"), label=strong(i18n$t("Average DALYs associated with untreated Chagas")), value=0.05, width="100%")
           )
         )
       )
      ),
     fluidRow(
       card(
-        card_header(h4(strong("Costing parameters"))),
+        card_header(h4(strong(i18n$t("Costing parameters")))),
           card_body(
             layout_column_wrap(
               style = "display: flex; align-items: flex-end;",
-              numericInput(ns("cost_visit"), label=HTML("<b> Per-visit patient costs </b>"), value=0, width="100%"),
-              numericInput(ns("cost_sys_low"), label=HTML("<b> Per-visit health system costs, low complexity </b>"), value=8.53, width="100%"),
-              numericInput(ns("cost_sys_high"), label=HTML("<b> Per-visit health system costs, high complexity </b>"), value=12.35, width="100%")
+              numericInput(ns("cost_visit"), label=strong(i18n$t("Per-visit patient costs")), value=0, width="100%"),
+              numericInput(ns("cost_sys_low"), label=strong(i18n$t("Per-visit health system costs, low complexity")), value=8.53, width="100%"),
+              numericInput(ns("cost_sys_high"), label=strong(i18n$t("Per-visit health system costs, high complexity")), value=12.35, width="100%")
             )
           )
      )

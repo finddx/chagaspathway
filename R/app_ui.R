@@ -9,16 +9,18 @@
 #' @importFrom shinyWidgets radioGroupButtons
 #' @importFrom shinyjs useShinyjs show hide hidden disable toggle
 #' @importFrom shinyBS bsCollapse bsCollapsePanel
-#' @importFrom shiny.i18n usei18n
+#' @importFrom shiny.i18n usei18n update_lang
 
 #' @noRd
 app_ui <- function(request) {
-  # i18n <- golem::get_golem_options(which = "translator")
-  # i18n$set_translation_language("en")
+  i18n <- golem::get_golem_options(which = "translator")
+  i18n$set_translation_language("English")
 
   tagList(
     # Leave this function for adding external resources
     useShinyjs(),
+    shiny.i18n::usei18n(i18n),
+
     golem_add_external_resources(),
     tags$style(HTML("body { margin-top: 50px !important; }")),
     page_navbar(
@@ -39,10 +41,10 @@ app_ui <- function(request) {
       position="fixed-top",
       nav_panel(
         "Pathways",icon = bs_icon("arrows-move"),
-        h3(strong("Introduction")),
-        # h3(strong(i18n$t("Introduction"))),
-        # selectInput("selected_language",label="Select language", choices=i18n$get_languages()),
-        p(HTML("This online applications will help you to estimate the effectiveness and cost of different diagnostic algorithms for Chagas disease. Further details are provided in the Information tab.<br>You can model one, two, or three algorithms at the same time. These algorithms must follow one of the general structures displayed below.")),
+        fluidRow(column(3, offset=9, selectInput("selected_language",label="Select language/Selecciona el idioma", choices=i18n$get_languages(),  selected=i18n$get_key_translation(), width="100%"))),
+        h3(strong(i18n$t("Introduction"))),
+        uiOutput("select_lang"),
+        p(i18n$t("This online applications will help you to estimate the effectiveness and cost of different diagnostic algorithms for Chagas disease. Further details are provided in the Information tab. You can model one, two, or three algorithms at the same time. These algorithms must follow one of the general structures displayed below.")),
         fluidRow(
         layout_column_wrap(
           card(
@@ -65,40 +67,34 @@ app_ui <- function(request) {
             )
         )
         ),
-        # fluidRow(
-        #   column(12, align="center", offset=0, img(src="www/img/model-diag.png", width="100%"))#, height="400vh"
-        # ),
-
-
-
         br(),
-        h3(strong("General information")),
-        p("Please begin by entering information on the general context of Chagas diagnosis in your setting. Please note that other default parameters, such as the proportion of individuals who are treated and the prevalance of Chagas in your population, can be modified in the Advanced Settings section."),
+        h3(strong(i18n$t("General information"))),
+        p(i18n$t("Please begin by entering information on the general context of Chagas diagnosis in your setting. Please note that other default parameters, such as the proportion of individuals who are treated and the prevalance of Chagas in your population, can be modified in the Advanced Settings section.")),
         fluidRow(
           column(width=12,
-                 mod_pathways_data_ui("pathways_data")
+                 mod_pathways_data_ui("pathways_data", i18n=i18n)
                  )
         ),
         fluidRow(
           column(width=4,
-                 actionButton("advance_toggle", label=div(style = "display: flex; align-items: center; justify-content: space-between;", tags$h3(tags$strong("Advance settings")), span(icon("caret-down"), style = "margin-left: 5px;")), style = "text-decoration: none; border: none; background: none; padding: 0; margin: 0; cursor: pointer; outline: none; color: inherit;", onmouseover ="this.style.color = '#491E5D';", onclick = "this.style.color = '#491E5D';", onmouseout = "this.style.color = 'inherit';")
+                 actionButton("advance_toggle", label=div(style = "display: flex; align-items: center; justify-content: space-between;", tags$h3(tags$strong(i18n$t("Advance settings"))), span(icon("caret-down"), style = "margin-left: 5px;")), style = "text-decoration: none; border: none; background: none; padding: 0; margin: 0; cursor: pointer; outline: none; color: inherit;", onmouseover ="this.style.color = '#491E5D';", onclick = "this.style.color = '#491E5D';", onmouseout = "this.style.color = 'inherit';")
                  )
         ),
         hidden(div(
           id="div_advance",
-          mod_advance_data_ui("advance_data")
+          mod_advance_data_ui("advance_data", i18n=i18n)
           )
         ),
-        h3(strong("Scenario specification")),
-        p("Please select how many scenarios (1-3) you would like to model. You will be asked to select which general pathway (parallel testing, serial testing with full confirmation, or serial testing with positive confirmation) you would like to model for each scenario, and to provide information on test performance and cost for each scenario."),
+        h3(strong(i18n$t("Scenario specification"))),
+        p(i18n$t("Please select how many scenarios (1-3) you would like to model. You will be asked to select which general pathway (parallel testing, serial testing with full confirmation, or serial testing with positive confirmation) you would like to model for each scenario, and to provide information on test performance and cost for each scenario.")),
         fluidRow(
             card(
               card_body(
                 layout_column_wrap(
                   style = "display: flex; align-items: flex-end;",
                   width = 1/3,
-                numericInput("out_num_scenarios", label=HTML("<b> Select the number of scenarios (up to 3) </b>"), min=1, max=3, value=1, width="100%"),
-                actionButton("add_num_scenarios", "Create scenarios", width="100%")
+                numericInput("out_num_scenarios", label=strong(i18n$t("Select the number of scenarios (up to 3)")), min=1, max=3, value=1, width="100%"),
+                actionButton("add_num_scenarios", i18n$t("Create scenarios"), width="100%")
               )
             )
           )
@@ -111,7 +107,7 @@ app_ui <- function(request) {
                 )
         )
       ),
-      nav_panel(title="Results", icon=bs_icon("bar-chart-line"),
+      nav_panel(value="results_tab",title=i18n$t("Results"), icon=bs_icon("bar-chart-line"),
         uiOutput("results_ui"),
         uiOutput("results_general_ui"),
         uiOutput("report_button")
@@ -129,6 +125,19 @@ app_ui <- function(request) {
                 htmlOutput("user_manual")
 
       )
+      # ,
+      # nav_spacer(),
+      # nav_item(
+      #   align = "right",
+      #     fluidRow(div(
+      #              style = "display: flex; align-items: center;",
+      #              tags$span("Select language/Selecciona el idioma", style = "margin-right: 10px;"),
+      #              selectInput("selected_lge", NULL, choices=i18n$get_languages(),selected=i18n$get_key_translation())
+      #            ))
+      # )
+
+
+
         # h4(strong("Acknowledgements")),
         # p("This application was built by the Impact Department and Data Science Unit at FIND. We gratefully acknowledge the support and contribution of our many partners. The multicentric prospective study in Argentina is being conducted by our partners, CONICET, sponsored by the National Institute of Health, INP (National Institute of Parasitology), Fatala within ANLIS, with the support of FIND and DNDi."),
         # h4(strong("User manual")),
