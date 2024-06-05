@@ -5,6 +5,6 @@ account: finddx
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 11922083
-bundleId: 8581858
+bundleId: 8705261
 url: https://finddx.shinyapps.io/chagaspathway/
 version: 1
