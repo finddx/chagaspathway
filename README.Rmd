@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-Chapathways is an user-friendly Shiny app for public health professionals offering cost-efficient diagnostic testing recommendations for Chagas disease and allowing maximize resources for both patient and healthcare systems. Future updates will expand its capabilities to include additional diseases.
+Chapathways is an easy-to-use Shiny app designed for public health professionals that provides cost-effective diagnostic test recommendations for Chagas disease, which allows them to maximize resources for both patients and health systems. Future updates will expand its capabilities to include additional diseases.
 
 Latest working version of the app can be found at https://finddx.shinyapps.io/chagaspathway/ 
 
